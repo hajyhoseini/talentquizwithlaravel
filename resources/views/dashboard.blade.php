@@ -1,27 +1,40 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight text-center">
-            {{ __('صفحه شما خانواده بنیاد ملل ') }}
+        <h2 class="text-xl text-center font-semibold text-gray-800">
+            {{ __('صفحه شما خانواده بنیاد ملل') }}
         </h2>
     </x-slot>
 
-    <div class="py-12 flex justify-center">
-        <div class="max-w-4xl w-full bg-white shadow-md rounded-lg p-6 text-center">
-            <p class="text-lg text-gray-700 font-semibold mb-6">
-                ❤️ به صفحه آزمون های بنیاد ملل خوش آمدید
-            </p>
+    <div class="min-h-screen flex justify-center items-center px-4 sm:px-6"
+         style="
+            background-image: url('/images/dried-leaves-gray-blank-background_53876-102451.avif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: right center;
+        ">
+        
+        <div class="bg-white/30 rounded-lg p-6 sm:p-8 text-center backdrop-blur-md w-full max-w-xl">
+            <p class="text-gray-700 mb-6 font-bold text-3xl">
+.                به صفحه آزمون‌های بنیاد ملل خوش آمدید
+</p>
 
             <!-- دکمه رفتن به آزمون‌ها -->
-            <a href="{{ route('exams.index') }}" 
-               class="bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-bold block w-1/3 mx-auto mb-6 transition transform hover:scale-105 hover:shadow-lg">
+            <a href="{{ route('exams.index') }}"
+               class="border-2 border-green-500 text-green-600 bg-transparent hover:bg-green-500 hover:text-white transition py-3 rounded-lg font-bold block w-full sm:w-1/2 mx-auto mb-4 text-2xl">
                 رفتن به آزمون‌ها
             </a>
+
+            <!-- دکمه ساخت آزمون جدید -->
+            <!-- <a href="{{ route('quiz.builder') }}"
+               class="border-2 border-blue-500 text-blue-600 bg-transparent hover:bg-blue-500 hover:text-white transition py-3 rounded-lg font-bold block w-full sm:w-1/2 mx-auto mb-4 text-2xl">
+                ساخت آزمون
+            </a> -->
 
             <!-- فرم خروج -->
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" 
-                        class="bg-red-500 text-white px-8 py-4 rounded-lg text-lg font-bold block w-1/3 mx-auto transition transform hover:scale-105 hover:shadow-lg">
+                <button type="submit"
+                        class="border-2 border-red-500 text-red-600 bg-transparent hover:bg-red-500 hover:text-white transition py-3 rounded-lg font-bold block w-full sm:w-1/2 mx-auto text-2xl">
                     خروج از حساب کاربری
                 </button>
             </form>

@@ -1,33 +1,57 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <!-- Fonts -->
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
-            <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    @isset($header)
-                        <h2 class="text-2xl font-semibold text-gray-800">{{ $header }}</h2>
-                    @endisset
-                </div>
-            </header>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }} <!-- محتوای اصلی صفحه -->
-            </main>
-        </div>
-    </body>
+        body, button, input, select, textarea {
+            font-family: 'Vazir', sans-serif !important;
+        }
+
+        .custom-page-bg {
+            background-image: url('/images/kids-bg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            z-index: 0;
+            min-height: 100%; /* ارتفاع کامل */
+        }
+
+        .custom-page-bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased custom-page-bg">
+    <div class="min-h-screen flex flex-col">
+        @include('layouts.navigation')
+
+        <!-- Page Content -->
+        <main class="flex-grow">
+            {{ $slot }}
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
 </html>

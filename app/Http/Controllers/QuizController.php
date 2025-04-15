@@ -1,98 +1,97 @@
 <?php
+
 namespace App\Http\Controllers;
-use App\Models\Question;
 
+use App\Models\AllQuestion;
+use App\Models\AllAnswer;
+use App\Models\TalentInsight;
 use Illuminate\Http\Request;
-use App\Models\Answer;
 use Illuminate\Support\Facades\Auth;
-
 
 class QuizController extends Controller
 {
-   
-
-    public function index() {
-        $questions = Question::all();
-        dd($questions); // این خط اطلاعات رو نمایش میده
-    }
-    
     public function showQuiz()
     {
-        $questions = Question::all()->groupBy('section'); // گروه‌بندی بر اساس بخش
-    
+        $questions = AllQuestion::all()->groupBy('section');
         return view('quiz.show', compact('questions'));
     }
-    
 
     public function submitAnswers(Request $request)
     {
         $userId = Auth::id();
-    
+
         if (!$request->has('answers') || empty($request->answers)) {
             return back()->withErrors(['error' => 'لطفاً حداقل به یک سوال پاسخ دهید.']);
         }
-    
-        // حذف پاسخ‌های قبلی
-        Answer::where('user_id', $userId)->delete();
-    
-        // ذخیره پاسخ‌های جدید
+
+        AllAnswer::where('user_id', $userId)->delete();
+
         foreach ($request->answers as $questionId => $answerValue) {
-            $question = Question::find($questionId);
-    
+            $question = AllQuestion::find($questionId);
+
             if (!$question) {
                 return back()->withErrors(['error' => "سوال با ID $questionId یافت نشد!"]);
             }
-    
-            Answer::create([
+
+            AllAnswer::create([
                 'user_id'      => $userId,
-                'section'      => $question->section, // مقداردهی `section`
+                'section'      => $question->section,
                 'question_id'  => $questionId,
                 'answer_value' => $answerValue,
             ]);
         }
-    
+
         return redirect()->route('quiz.results')->with('success', 'پاسخ‌ها با موفقیت ثبت شدند.');
     }
-    
 
-    
-    
+    public function showResults()
+    {
+        $userId = Auth::id();
+        $answers = AllAnswer::where('user_id', $userId)->get();
 
-    
+        $results = [];
 
-    // متد نمایش نتایج
-   // در کنترلر QuizController
+        foreach ($answers as $answer) {
+            $section = $answer->section;
+            if (!isset($results[$section])) {
+                $results[$section] = ['score' => 0];
+            }
+            $results[$section]['score'] += $answer->answer_value;
+        }
 
-   public function showResults()
-   {
-       // گرفتن پاسخ‌های کاربر جاری
-       $answers = Answer::where('user_id', Auth::id())->get();
-   
-       // پردازش امتیازات برای هر بخش
-       $results = [];
-       foreach ($answers as $answer) {
-           $section = $answer->section;
-           if (!isset($results[$section])) {
-               $results[$section] = ['score' => 0, 'result' => ''];
-           }
-           $results[$section]['score'] += $answer->answer_value;
-       }
-   
-       // تعیین سطح استعداد بر اساس امتیاز
-       foreach ($results as $section => &$data) {
-           if ($data['score'] >= 17) {
-               $data['result'] = "استعداد بالا";
-           } elseif ($data['score'] >= 12) {
-               $data['result'] = "استعداد متوسط، که با تقویت می‌تواند رشد کند";
-           } else {
-               $data['result'] = "استعداد کم، اما با تمرین می‌توان مهارت را بهبود بخشید";
-           }
-       }
-   
-       return view('quiz.results', compact('results'));
-   }
+        foreach ($results as $section => &$data) {
+            $score = $data['score'];
 
+            if ($score >= 17) {
+                $level = 'high';
+            } elseif ($score >= 12) {
+                $level = 'medium';
+            } else {
+                $level = 'low';
+            }
+
+            $insight = TalentInsight::where('section', $section)
+                                    ->where('level', $level)
+                                    ->first();
+
+            $data['level'] = $level; // 👈 این خط رو حتی اگه insight پیدا نشد باید ست کنی
+
+            if ($insight) {
+                $data['interpretation'] = $insight->interpretation ?? 'تفسیر یافت نشد.';
+                $data['suggestions'] = [];
+
+                if (!empty($insight->suggestions)) {
+                    $lines = preg_split('/\r\n|\r|\n/', trim($insight->suggestions));
+                    $data['suggestions'] = array_filter($lines, fn($line) => !empty(trim($line)));
+                }
+                
+            } else {
+                $data['interpretation'] = 'تفسیر یافت نشد.';
+                $data['suggestions'] = [];
+            }
+        }
+        \Log::info($results);
+
+        return view('quiz.results', compact('results'));
+    }
 }
-
-
-

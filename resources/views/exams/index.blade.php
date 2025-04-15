@@ -1,37 +1,28 @@
-<x-app-layout>
+<x-app-layout> 
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800 leading-tight text-center">
+        <h2 class="text-xl text-center font-bold py-4">
             🧪 {{ __('آزمون‌های موجود') }}
         </h2>
     </x-slot>
 
-    <div class="py-12 flex justify-center">
-        <div class="max-w-4xl w-full bg-white shadow-lg rounded-2xl p-8 text-center">
-            <h3 class="text-2xl font-bold text-purple-700 mb-10">📋 لیست آزمون‌ها</h3>
+    <div class="py-8 flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('/images/low-angle-view-plant-against-clear-sky_1048944-23925059.avif');">
+        <div class="w-full max-w-2xlbg-white bg-opacity-90 p-6 rounded-xl border text-center">
+            <h3 class="text-xl font-bold text-gray-800 mb-6 bg-white/50 py-3 rounded-md">📋 لیست آزمون‌ها</h3>
 
-            <!-- آزمون استعدادیابی کودکان -->
-            <div class="bg-gradient-to-r from-yellow-100 to-pink-100 border-l-8 border-yellow-400 p-6 mb-8 rounded-xl shadow-md hover:shadow-xl transition-all">
-                <h4 class="text-xl font-bold text-gray-800 mb-3">🎨 آزمون استعدادیابی کودکان</h4>
-                <p class="text-gray-700 mb-4 leading-relaxed">
-                    این آزمون به شناسایی استعدادهای مختلف کودکان در زمینه‌های موسیقیایی، حرکتی، تحلیلی و... کمک می‌کند.
-                </p>
-                <a href="{{ route('quiz.show') }}" 
-                   class="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-full text-lg font-bold transition transform hover:scale-105 shadow-md">
-                    🚀 شروع آزمون
-                </a>
-            </div>
-
-            <!-- آزمون MBTI -->
-            <div class="bg-gradient-to-r from-purple-100 to-indigo-100 border-l-8 border-purple-400 p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
-                <h4 class="text-xl font-bold text-gray-800 mb-3">🧠 آزمون MBTI</h4>
-                <p class="text-gray-700 mb-4 leading-relaxed">
-                    آزمونی برای شناسایی تیپ شخصیتی شما بر اساس مدل معروف MBTI شامل ۴ بعد اصلی شخصیت.
-                </p>
-                <a href="{{ route('mbti.quiz') }}" 
-                   class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-full text-lg font-bold transition transform hover:scale-105 shadow-md">
-                    🔍 شروع آزمون
-                </a>
-            </div>
+            @foreach ($exams as $exam)
+                <div class="border rounded-lg p-4 mb-6 text-right bg-gray-50/50">
+                    <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ $exam->title }}</h4>
+                    <p class="text-gray-700 mb-4 text-base leading-relaxed">
+                        {{ $exam->description }}
+                    </p>
+                    <div class="text-left">
+                        <a href="{{ route('exams.show', $exam->id) }}" 
+                           class="inline-block bg-gray-800 hover:bg-gray-900 text-white p-4 rounded-md text-sm font-semibold transition">
+                            🚀 شروع آزمون
+                        </a>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 </x-app-layout>
