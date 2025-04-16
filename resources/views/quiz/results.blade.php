@@ -8,24 +8,44 @@
         $percentage = round(($totalScore / 200) * 100);
     @endphp
 
-    <div class="min-h-screen flex flex-col justify-center items-center bg-cover bg-center" style="background-image: url('{{ asset('images/blank-document-with-paper-clip-toy-model-house_441362-1186.jpg') }}');">
+    <div class="min-h-screen flex flex-col justify-center items-center bg-cover bg-center" style="background-image: url('{{ asset('images/foggy-scene-with-steam-coming-out-it_1122354-17706.avif') }}');">
         <div class="rounded-2xl p-8 w-full max-w-5xl text-center">
 
             <!-- 🟧 توضیحات نمره‌دهی -->
-            <h3 class="text-3xl font-extrabold mb-6 text-white/80 text-center text-white p-3 rounded-lg bg-[#fb8c00]">📊 نتایج نهایی شما</h3>
-            <div class="p-5 text-right rounded-2xl bg-yellow-50/70 backdrop-blur-md shadow-md mb-10 text-gray-800 leading-relaxed space-y-4" style="direction: rtl;">
-                <p class="text-2xl font-extrabold text-black">برای هر بخش (۵ سؤال)، حداکثر نمره ۲۰ و حداقل نمره ۵ است. جمع کل امتیازات آزمون ۲۰۰ خواهد بود.</p>
-                <p class="text-xl font-bold text-amber-700">📌 تفسیر نمرات:</p>
-                <ul class="bg-white/60 p-5 rounded-xl text-lg font-semibold text-gray-800 space-y-3 border border-orange-100">
-                    <li>۱۷ تا ۲۰: استعداد بالا در این زمینه</li>
-                    <li>۱۲ تا ۱۶: استعداد متوسط که با تقویت رشد می‌کند</li>
-                    <li>۵ تا ۱۱: نیاز به تمرین و توجه بیشتر</li>
-                </ul>
-            </div>
+           
+            <div class="w-full max-w-5xl mx-auto px-4">
+    <!-- تیتر -->
+ <!-- 🎯 بخش نتایج نهایی -->
+<!-- 📊 نتایج نهایی شما -->
+<!-- 📊 نتایج نهایی شما -->
+<div id="final-results" class="w-full max-w-5xl mx-auto px-4 mt-16 opacity-0 translate-y-8 transition-all duration-1000 ease-out">
+    <h3 class="text-4xl font-extrabold mb-6 text-white text-center p-4 rounded-2xl bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1] shadow-lg">
+        📊 نتایج نهایی شما
+    </h3>
+
+    <div class="p-6 text-right rounded-3xl bg-yellow-50/80 backdrop-blur-xl shadow-2xl mb-12 text-gray-900 leading-relaxed space-y-6 border border-amber-200" style="direction: rtl;">
+        <p class="text-2xl font-extrabold text-black leading-loose tracking-tight">
+            برای هر بخش (۵ سؤال)، حداکثر نمره ۲۰ و حداقل نمره ۵ است. جمع کل امتیازات آزمون ۲۰۰ خواهد بود.
+        </p>
+
+        <p class="text-xl font-bold text-amber-700 flex items-center gap-2">
+            📌 <span>تفسیر نمرات:</span>
+        </p>
+
+        <ul class="bg-white/80 p-6 rounded-xl text-lg font-semibold text-gray-800 space-y-4 border border-orange-100 shadow-inner">
+            <li class="hover:text-green-600 transition duration-300">✅ ۱۷ تا ۲۰: استعداد بالا در این زمینه</li>
+            <li class="hover:text-yellow-600 transition duration-300">⚠️ ۱۲ تا ۱۶: استعداد متوسط که با تقویت رشد می‌کند</li>
+            <li class="hover:text-red-600 transition duration-300">🔻 ۵ تا ۱۱: نیاز به تمرین و توجه بیشتر</li>
+        </ul>
+    </div>
+</div>
+
+    <!-- توضیحات -->
+
 
             <!-- 🔍 تحلیل بخش‌ها -->
             <div class="mt-4 flex flex-col items-center" dir="rtl">
-                <h4 class="text-3xl font-bold text-white mb-8 bg-[#fb8c00] p-3 rounded-lg w-full text-center">🔍 تحلیل بخش‌ها</h4>
+                <h4 class="text-3xl font-bold text-white mb-8 bg-[#04CCCC] p-3 rounded-lg w-full text-center">🔍 تحلیل بخش‌ها</h4>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center w-full px-4">
                     @forelse ($results as $section => $data)
                         <div class="bg-white/50 section-box opacity-0 translate-y-8 transition-all duration-700 ease-out border border-orange-300 rounded-xl shadow-xl p-5 flex flex-col items-center w-full max-w-[280px] min-h-[300px] hover:scale-105">
@@ -74,7 +94,7 @@
 
             <!-- 📈 نمودار -->
             <div class="mt-12 w-full">
-                <h4 class="text-2xl font-extrabold text-white mb-8 p-3 rounded-lg bg-[#fb8c00] text-center">📈 نمایش گرافیکی امتیازات</h4>
+                <h4 class="text-2xl font-extrabold text-white mb-8 p-3 rounded-lg bg-[#04CCCC] text-center">📈 نمایش گرافیکی امتیازات</h4>
                 <canvas id="resultChart" height="100"></canvas>
             </div>
 
@@ -86,14 +106,17 @@
                 <p class="text-lg mt-2 text-yellow-600">درصد موفقیت کلی: <span class="font-semibold text-orange-900">{{ $percentage }}%</span></p>
 
                 <div class="relative mt-4 w-full h-6 bg-gray-300 rounded-full overflow-hidden shadow-inner">
-                    <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-400 to-[#fb8c00] rounded-full text-white font-extrabold flex items-center justify-center transition-all duration-[1500ms] ease-in-out" style="width: 0%;">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-500 to-yellow-300 rounded-full text-white font-extrabold flex items-center justify-center transition-all duration-[1500ms] ease-in-out" style="width: 0%;">
                         <span class="w-full text-center">{{ $percentage }}%</span>
                     </div>
                 </div>
 
-                <a href="{{ route('quiz.show') }}" class="text-center justify-center inline-block mt-8 px-6 py-3 bg-[#fb8c00] text-white rounded-lg hover:bg-orange-600 transition transform hover:scale-105 shadow-xl">
-                    بازگشت به تست
-                </a>
+                <div class="w-full flex justify-center">
+    <a href="{{ route('quiz.show') }}"
+       class="text-center inline-block mt-8 px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-orange-600 transition transform hover:scale-105 shadow-xl">
+        بازگشت به تست
+    </a>
+</div>
             </div>
         </div>
     </div>
@@ -102,145 +125,174 @@
 
     <!-- ✨ انیمیشن‌ها -->
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // ✅ نوار پیشرفت افقی
-        const progressBar = document.getElementById('progress-bar');
-        const finalPercentage = {{ $percentage }};
+document.addEventListener("DOMContentLoaded", function () {
+    // ✅ نوار پیشرفت افقی
+    const progressBar = document.getElementById('progress-bar');
+    const finalPercentage = {{ $percentage }};
+    setTimeout(() => {
+        progressBar.style.transition = "width 2s ease-in-out";
+        progressBar.style.width = finalPercentage + '%';
+    }, 100);
+
+    // ✅ حلقه‌های درصدی
+    const rings = document.querySelectorAll(".progress-ring");
+
+    const animateRing = (el) => {
+        const score = parseFloat(el.getAttribute("data-score")) || 0;
+        const offset = 314.16 * (1 - (score / 20));
+        el.style.transition = "none";
+        el.style.strokeDashoffset = 314.16;
         setTimeout(() => {
-            progressBar.style.transition = "width 2s ease-in-out";
-            progressBar.style.width = finalPercentage + '%';
-        }, 100);
+            el.style.transition = "stroke-dashoffset 2s ease-in-out";
+            el.style.strokeDashoffset = offset;
+        }, 50);
+    };
 
-        // ✅ حلقه‌های درصدی (دایره‌ای)
-        const rings = document.querySelectorAll(".progress-ring");
-        const animateRing = (el) => {
-            const score = parseFloat(el.getAttribute("data-score")) || 0;
-            const offset = 314.16 * (1 - (score / 20));
-            el.style.transition = "none";
-            el.style.strokeDashoffset = 314.16;
-            setTimeout(() => {
-                el.style.transition = "stroke-dashoffset 2s ease-in-out";
-                el.style.strokeDashoffset = offset;
-            }, 50);
-        };
+    const ringCooldowns = new WeakMap(); // برای کنترل انیمیشن تکراری
 
-        const ringObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
+    const ringObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const now = Date.now();
+                const lastTime = ringCooldowns.get(entry.target) || 0;
+
+                if (now - lastTime > 3000) {
                     animateRing(entry.target);
-                    // اجرای دوباره انیمیشن در ورود مجدد
-                    ringObserver.unobserve(entry.target);
-                    setTimeout(() => ringObserver.observe(entry.target), 3000);
+                    ringCooldowns.set(entry.target, now);
                 }
-            });
-        }, { threshold: 0.7 });
-
-        rings.forEach(ring => {
-            ringObserver.observe(ring);
+            }
         });
+    }, { threshold: 0.7 });
 
-        // ✅ باکس‌های تحلیل (با انیمیشن ظاهر شدن)
-        const sections = document.querySelectorAll(".section-box");
-        const sectionObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
+    rings.forEach(ring => ringObserver.observe(ring));
+
+    // ✅ باکس‌های تحلیل (با ظاهر شدن انیمیشن)
+    const sections = document.querySelectorAll(".section-box");
+    const sectionCooldowns = new WeakMap();
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const now = Date.now();
+            const lastTime = sectionCooldowns.get(entry.target) || 0;
+
+            if (entry.isIntersecting) {
+                if (now - lastTime > 3000) {
                     entry.target.classList.add("opacity-100", "translate-y-0");
                     entry.target.classList.remove("opacity-0", "translate-y-8");
-
-                    // اجرای مجدد انیمیشن در ورود مجدد
-                    sectionObserver.unobserve(entry.target);
-                    setTimeout(() => sectionObserver.observe(entry.target), 3000);
-                } else {
-                    entry.target.classList.remove("opacity-100", "translate-y-0");
-                    entry.target.classList.add("opacity-0", "translate-y-8");
+                    sectionCooldowns.set(entry.target, now);
                 }
-            });
-        }, { threshold: 0.3 });
-
-        sections.forEach(sec => {
-            sectionObserver.observe(sec);
-        });
-
-        // ✅ نمودار میله‌ای
-        const chartContainer = document.getElementById('resultChart');
-        let chartInstance = null;
-
-        const drawChart = () => {
-            const chartLabels = {!! json_encode(array_keys($results)) !!};
-            const chartScores = {!! json_encode(array_map(fn($r) => $r['score'], $results)) !!};
-            const ctx = chartContainer.getContext('2d');
-
-            if (chartInstance) {
-                chartInstance.destroy();
+            } else {
+                entry.target.classList.remove("opacity-100", "translate-y-0");
+                entry.target.classList.add("opacity-0", "translate-y-8");
             }
+        });
+    }, { threshold: 0.3 });
 
-            chartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: chartLabels,
-                    datasets: [{
-                        label: 'امتیاز',
-                        data: chartScores,
-                        backgroundColor: [
-                            '#ff6b6b', '#feca57', '#1dd1a1', '#54a0ff', '#5f27cd',
-                            '#00d2d3', '#ff9ff3', '#48dbfb', '#a29bfe', '#fd79a8'
-                        ],
-                        borderRadius: 12,
-                        borderWidth: 2,
-                        borderColor: '#fff',
-                        barThickness: 32,
-                    }]
+    sections.forEach(sec => sectionObserver.observe(sec));
+
+    // ✅ نمودار میله‌ای
+    const chartContainer = document.getElementById('resultChart');
+    let chartInstance = null;
+
+    const drawChart = () => {
+        const chartLabels = {!! json_encode(array_keys($results)) !!};
+        const chartScores = {!! json_encode(array_map(fn($r) => $r['score'], $results)) !!};
+        const ctx = chartContainer.getContext('2d');
+
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'امتیاز',
+                    data: chartScores,
+                    backgroundColor: [
+                        '#ff6b6b', '#feca57', '#1dd1a1', '#54a0ff', '#5f27cd',
+                        '#00d2d3', '#ff9ff3', '#48dbfb', '#a29bfe', '#fd79a8'
+                    ],
+                    borderRadius: 12,
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                    barThickness: 32,
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: {
+                    duration: 2000,
+                    easing: 'easeOutQuart'
                 },
-                options: {
-                    responsive: true,
-                    animation: {
-                        duration: 2000,
-                        easing: 'easeOutQuart'
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 20,
-                            ticks: {
-                                stepSize: 5,
-                                color: '#fff',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold',
-                                    family: 'Vazirmatn'
-                                }
-                            }
-                        },
-                        x: {
-                            ticks: {
-                                color: '#fff',
-                                font: {
-                                    size: 14,
-                                    weight: 'bold',
-                                    family: 'Vazirmatn'
-                                }
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 20,
+                        ticks: {
+                            stepSize: 5,
+                            color: '#fff',
+                            font: {
+                                size: 20,
+                                weight: 'bold',
+                                family: 'Vazirmatn'
                             }
                         }
                     },
-                    plugins: {
-                        legend: { display: false }
+                    x: {
+                        ticks: {
+                            color: '#fff',
+                            font: {
+                                size: 20,
+                                weight: 'bold',
+                                family: 'Vazirmatn'
+                            }
+                        }
                     }
+                },
+                plugins: {
+                    legend: { display: false }
                 }
-            });
-        };
+            }
+        });
+    };
 
-        const chartObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
+    let chartLastDrawn = 0;
+    const chartObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const now = Date.now();
+                if (now - chartLastDrawn > 5000) {
                     drawChart();
-                    chartObserver.unobserve(entry.target);
-                    setTimeout(() => chartObserver.observe(entry.target), 4000);
+                    chartLastDrawn = now;
                 }
-            });
-        }, { threshold: 0.5 });
+            }
+        });
+    }, { threshold: 0.5 });
 
-        chartObserver.observe(chartContainer);
+    chartObserver.observe(chartContainer);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const finalResults = document.getElementById('final-results');
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.remove("opacity-0", "translate-y-8");
+                entry.target.classList.add("opacity-100", "translate-y-0");
+                observer.unobserve(entry.target); // فقط یک بار اجرا بشه
+            }
+        });
+    }, {
+        threshold: 0.5,
     });
+
+    observer.observe(finalResults);
+});
+
 </script>
+
 
 </x-app-layout>
