@@ -10,7 +10,7 @@
     <h3 class="text-2xl bg-white/50 font-bold mb-4 text-black rounded-md py-2">سلام! آماده‌ای شروع کنیم؟</h3>
 
     <!-- 🔹 توضیحات آزمون -->
-    <div class="text-right bg-white/40 rounded-lg p-4 text-gray-800 mb-6 leading-relaxed shadow text-xl xl:text-3xl">
+    <div class="text-right bg-white/40 rounded-lg p-4 text-gray-800 mb-6 leading-relaxed shadow text-xl xl:text-2xl">
         <p class="text-xl font-bold text-indigo-800 mb-2">🧠 آزمون جامع استعدادیابی کودکان ۳ تا ۶ ساله</p>
         <p>این آزمون شامل <span class="font-semibold">۱۰ بخش</span> و <span class="font-semibold">۵۰ سؤال</span> است (۵ سؤال در هر بخش)</p> </p>
 
@@ -59,7 +59,7 @@
                         قبلی
                     </button>
 
-                    <span class="text-lg font-bold bg-white/50 text-black">
+                    <span class=" p-2 rounded-md text-lg font-bold bg-white/50 text-black">
                         پیشرفت: <span id="progress-percent">0%</span>
                     </span>
                 </div>

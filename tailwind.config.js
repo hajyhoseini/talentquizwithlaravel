@@ -11,6 +11,9 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
+                vazir: ['Vazirmatn', 'sans-serif']
+              },
+            fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
         },
