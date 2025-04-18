@@ -7,20 +7,20 @@
          style="background-image: url('/images/rear-view-boy-standing-against-wall-home_1048944-14881820 (1).jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
         <div class="w-full h-full max-w-2xl p-6 rounded-lg shadow" style="margin-top: -110px;">
         <div id="intro-screen" class="text-center">
-    <h3 class="text-2xl bg-white/50 font-bold mb-4 text-black rounded-md py-2">سلام! آماده‌ای شروع کنیم؟</h3>
+    <h3 class="text-3xl bg-white/50 font-bold mb-4 text-black rounded-md py-2">سلام! آماده‌ای شروع کنیم؟</h3>
 
     <!-- 🔹 توضیحات آزمون -->
     <div class="text-right bg-white/40 rounded-lg p-4 text-gray-800 mb-6 leading-relaxed shadow text-xl xl:text-2xl">
-        <p class="text-xl font-bold text-indigo-800 mb-2">🧠 آزمون جامع استعدادیابی کودکان ۳ تا ۶ ساله</p>
-        <p>این آزمون شامل <span class="font-semibold">۱۰ بخش</span> و <span class="font-semibold">۵۰ سؤال</span> است (۵ سؤال در هر بخش)</p> </p>
+        <p class="text-3xl font-bold text-indigo-800 mb-2">🧠 آزمون جامع استعدادیابی کودکان ۳ تا ۶ ساله</p>
+        <p class="text-3xl">این آزمون شامل <span class="font-semibold">۱۰ بخش</span> و <span class="font-semibold">۵۰ سؤال</span> است (۵ سؤال در هر بخش)</p> </p>
 
-        <p dir="rtl">آزمون به‌گونه‌ای طراحی شده که برای <span class="font-semibold">والدین و مربیان</span> قابل‌اجرا باشد و تمامی جنبه‌های استعداد کودک را بررسی کند.    </div>
+        <p class="text-3xl" dir="rtl">آزمون به‌گونه‌ای طراحی شده که برای <span class="font-semibold">والدین و مربیان</span> قابل‌اجرا باشد و تمامی جنبه‌های استعداد کودک را بررسی کند.    </div>
 
-    <button onclick="autoFillAnswers()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 mt-4">
+    <button onclick="autoFillAnswers()" class="bg-blue-600 text-2xl text-white px-6 py-2 rounded hover:bg-blue-700 mt-4">
         تست خودکار (خیلی زیاد)
     </button>
 
-    <button onclick="startQuiz()" class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800">
+    <button onclick="startQuiz()" class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800 text-2xl">
         شروع
     </button>
 </div>
@@ -32,14 +32,14 @@
                     @foreach ($questions->groupBy('section') as $section => $sectionQuestions)
                         <div class="pb-5 section {{ $loop->first ? '' : 'hidden' }}" data-section="{{ $loop->index }}">
                             <!-- نمایش عنوان بخش -->
-                            <h3 class="text-2xl font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
+                            <h3 class="text-3xl font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
 
                             @foreach ($sectionQuestions as $index => $question)
                                 <div class="question {{ $loop->first ? '' : 'hidden' }}" data-question="{{ $index }}">
-                                    <p class="font-semibold mt-4 rounded-md bg-white/50">{{ $question->question }}</p>
-                                    <div class="mt-10">
+                                    <p class="font-semibold mt-4 rounded-md text-3xl bg-white/50">{{ $question->question }}</p>
+                                    <div class="mt-10 text-3xl">
                                         @foreach ([4 => 'خیلی زیاد', 3 => 'خوب', 2 => 'گاهی', 1 => 'کم'] as $value => $label)
-                                            <label class="font-bold mt-6 block answer-option text-black text-xl">
+                                            <label class="font-bold mt-6 block answer-option text-3xl text-black ">
                                                 <input type="radio" name="answers[{{ $question->id }}]" value="{{ $value }}"
                                                        class="answer" onclick="handlePulse(this)">
                                                 {{ $label }}
@@ -55,19 +55,19 @@
                 <!-- دکمه‌ها و پیشرفت در یک ردیف -->
                 <div class="flex justify-between items-center mt-8">
                     <button type="button" onclick="prevStep()" id="prev-btn"
-                            class="hidden bg-yellow-200 px-6 py-2 rounded font-bold">
+                            class="hidden text-2xl bg-yellow-200 px-6 py-2 rounded font-bold">
                         قبلی
                     </button>
 
-                    <span class=" p-2 rounded-md text-lg font-bold bg-white/50 text-black">
-                        پیشرفت: <span id="progress-percent">0%</span>
+                    <span class=" p-2 rounded-md text-2xl  font-bold bg-white/50 text-black">
+                        پیشرفت: <span class="text-xl" id="progress-percent">0%</span>
                     </span>
                 </div>
 
                 <!-- دکمه ارسال -->
-                <div class="flex justify-end mt-4">
+                <div class="flex justify-center mt-4">
                     <button type="submit" id="submit-btn"
-                            class="hidden bg-green-500 text-white px-6 py-2 rounded">
+                            class="hidden text-2xl bg-green-500 text-white px-8 py-3 rounded-md">
                         ارسال
                     </button>
                 </div>
@@ -85,7 +85,7 @@
         }
 
         .white-border-animate {
-            animation: white-border-blink 1.5s ease;
+            animation: white-border-blink 0.5s ease;
             border-radius: 8px;
         }
 
@@ -161,10 +161,10 @@
                 form.classList.remove("hidden");
                 form.classList.add("fade-in");
 
-                setTimeout(() => form.classList.remove("fade-in"), 600);
+                setTimeout(() => form.classList.remove("fade-in"), 300);
 
                 updateButtons();
-            }, 600);
+            }, 300);
         }
 
         function nextStep() {
@@ -181,14 +181,14 @@
                     const next = questions[currentQuestion];
                     next.classList.remove("hidden");
                     next.classList.add("fade-in");
-                    setTimeout(() => next.classList.remove("fade-in"), 600);
+                    setTimeout(() => next.classList.remove("fade-in"), 300);
                 } else {
                     nextSection();
                 }
 
                 updateButtons();
                 updateProgress();
-            }, 600);
+            }, 300);
         }
 
         function prevStep() {
@@ -215,12 +215,12 @@
                     const last = prevList[currentQuestion];
                     last.classList.remove("hidden");
                     last.classList.add("fade-in");
-                    setTimeout(() => last.classList.remove("fade-in"), 600);
+                    setTimeout(() => last.classList.remove("fade-in"), 300);
                 }
 
                 updateButtons();
                 updateProgress();
-            }, 600);
+            }, 300);
         }
 
         function nextSection() {
@@ -232,7 +232,7 @@
                 const first = sections[currentSection].querySelector(".question");
                 first.classList.remove("hidden");
                 first.classList.add("fade-in");
-                setTimeout(() => first.classList.remove("fade-in"), 600);
+                setTimeout(() => first.classList.remove("fade-in"), 300);
             }
         }
 
@@ -256,7 +256,7 @@
             setTimeout(() => {
                 parent.classList.remove('white-border-animate');
                 nextStep();
-            }, 1200);
+            }, 600);
         }
     </script>
 </x-app-layout>

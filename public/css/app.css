@@ -809,6 +809,9 @@ select {
 .top-0 {
   top: 0px;
 }
+.-z-10 {
+  z-index: -10;
+}
 .z-0 {
   z-index: 0;
 }
@@ -969,11 +972,17 @@ select {
 .w-4 {
   width: 1rem;
 }
+.w-4\/6 {
+  width: 66.666667%;
+}
 .w-48 {
   width: 12rem;
 }
 .w-5 {
   width: 1.25rem;
+}
+.w-5\/6 {
+  width: 83.333333%;
 }
 .w-6 {
   width: 1.5rem;
@@ -1261,9 +1270,6 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
 }
-.bg-gray-50\/50 {
-  background-color: rgb(249 250 251 / 0.5);
-}
 .bg-gray-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
@@ -1323,6 +1329,9 @@ select {
 }
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
+}
+.bg-white\/70 {
+  background-color: rgb(255 255 255 / 0.7);
 }
 .bg-white\/80 {
   background-color: rgb(255 255 255 / 0.8);
@@ -1477,6 +1486,10 @@ select {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -1492,6 +1505,10 @@ select {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 .py-6 {
   padding-top: 1.5rem;
@@ -1560,9 +1577,6 @@ select {
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
-}
-.text-\[13px\] {
-  font-size: 13px;
 }
 .text-base {
   font-size: 1rem;

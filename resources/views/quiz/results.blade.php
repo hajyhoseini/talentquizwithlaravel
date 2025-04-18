@@ -8,40 +8,36 @@
         $percentage = round(($totalScore / 200) * 100);
     @endphp
 
-    <div class="min-h-screen flex flex-col justify-center items-center bg-cover bg-center" style="background-image: url('{{ asset('images/foggy-scene-with-steam-coming-out-it_1122354-17706.avif') }}');">
+
+        <!-- 🔳 بک‌گراند ثابت -->
+        <div class="fixed inset-0 -z-10 bg-cover bg-center"
+         style="background-image: url('{{ asset('images/top-view-desk-with-apple-paper-clips.jpg') }}');">
+    </div>
+
+    <!-- 🔳 محتوای اصلی روی بک‌گراند -->
+    <div class="relative z-10 flex flex-col items-center min-h-screen px-4 py-10">
         <div class="rounded-2xl p-8 w-full max-w-5xl text-center">
 
-            <!-- 🟧 توضیحات نمره‌دهی -->
-           
-            <div class="w-full max-w-5xl mx-auto px-4">
-    <!-- تیتر -->
- <!-- 🎯 بخش نتایج نهایی -->
-<!-- 📊 نتایج نهایی شما -->
-<!-- 📊 نتایج نهایی شما -->
-<div id="final-results" class="w-full max-w-5xl mx-auto px-4 mt-16 opacity-0 translate-y-8 transition-all duration-1000 ease-out">
-    <h3 class="text-4xl font-extrabold mb-6 text-white text-center p-4 rounded-2xl bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1] shadow-lg">
-        📊 نتایج نهایی شما
-    </h3>
+            <!-- 🔸 نتایج نهایی -->
+            <div id="final-results" class="w-full max-w-5xl mx-auto px-4 mt-16 opacity-0 translate-y-8 transition-all duration-1000 ease-out">
+                <h3 class="text-4xl font-extrabold mb-6 text-white text-center p-4 rounded-2xl bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1] shadow-lg">
+                    📊 نتایج نهایی شما
+                </h3>
 
-    <div class="p-6 text-right rounded-3xl bg-yellow-50/80 backdrop-blur-xl shadow-2xl mb-12 text-gray-900 leading-relaxed space-y-6 border border-amber-200" style="direction: rtl;">
-        <p class="text-2xl font-extrabold text-black leading-loose tracking-tight">
-            برای هر بخش (۵ سؤال)، حداکثر نمره ۲۰ و حداقل نمره ۵ است. جمع کل امتیازات آزمون ۲۰۰ خواهد بود.
-        </p>
-
-        <p class="text-xl font-bold text-amber-700 flex items-center gap-2">
-            📌 <span>تفسیر نمرات:</span>
-        </p>
-
-        <ul class="bg-white/80 p-6 rounded-xl text-lg font-semibold text-gray-800 space-y-4 border border-orange-100 shadow-inner">
-            <li class="hover:text-green-600 transition duration-300">✅ ۱۷ تا ۲۰: استعداد بالا در این زمینه</li>
-            <li class="hover:text-yellow-600 transition duration-300">⚠️ ۱۲ تا ۱۶: استعداد متوسط که با تقویت رشد می‌کند</li>
-            <li class="hover:text-red-600 transition duration-300">🔻 ۵ تا ۱۱: نیاز به تمرین و توجه بیشتر</li>
-        </ul>
-    </div>
-</div>
-
-    <!-- توضیحات -->
-
+                <div class="p-6 text-right rounded-3xl bg-yellow-50/80 backdrop-blur-xl shadow-2xl mb-12 text-gray-900 leading-relaxed space-y-6 border border-amber-200" style="direction: rtl;">
+                    <p class="text-3xl font-extrabold text-black leading-loose tracking-tight">
+                        برای هر بخش (۵ سؤال)، حداکثر نمره ۲۰ و حداقل نمره ۵ است. جمع کل امتیازات آزمون ۲۰۰ خواهد بود.
+                    </p>
+                    <p class="text-3xl font-bold text-amber-700 flex items-center gap-2">
+                        📌 <span>تفسیر نمرات:</span>
+                    </p>
+                    <ul class="bg-white/80 p-6 rounded-xl text-xl font-semibold text-gray-800 space-y-4 border border-orange-100 shadow-inner">
+                        <li class="hover:text-green-600 transition duration-300">✅ ۱۷ تا ۲۰: استعداد بالا در این زمینه</li>
+                        <li class="hover:text-yellow-600 transition duration-300">⚠️ ۱۲ تا ۱۶: استعداد متوسط که با تقویت رشد می‌کند</li>
+                        <li class="hover:text-red-600 transition duration-300">🔻 ۵ تا ۱۱: نیاز به تمرین و توجه بیشتر</li>
+                    </ul>
+                </div>
+            </div>
 
             <!-- 🔍 تحلیل بخش‌ها -->
             <div class="mt-4 flex flex-col items-center" dir="rtl">
@@ -49,8 +45,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center w-full px-4">
                     @forelse ($results as $section => $data)
                         <div class="bg-white/50 section-box opacity-0 translate-y-8 transition-all duration-700 ease-out border border-orange-300 rounded-xl shadow-xl p-5 flex flex-col items-center w-full max-w-[280px] min-h-[300px] hover:scale-105">
-                            <p class="text-lg font-bold text-orange-800 mb-2">{{ $section }}</p>
-
+                            <p class="text-2xl font-bold text-orange-800 mb-2">{{ $section }}</p>
                             <div class="relative w-24 h-24 mb-4">
                                 <svg width="100" height="100" viewBox="0 0 120 120" class="rotate-90 drop-shadow-md">
                                     <defs>
@@ -62,23 +57,21 @@
                                     <circle cx="60" cy="60" r="50" stroke="#f3f4f6" stroke-width="8" fill="none" />
                                     <circle class="progress-ring" data-score="{{ $data['score'] }}" cx="60" cy="60" r="50" stroke="url(#progressGradient)" stroke-width="8" fill="none" stroke-dasharray="314.16" stroke-dashoffset="314.16" stroke-linecap="round" />
                                 </svg>
-                                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center text-xl font-extrabold text-orange-700">
+                                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center text-2xl font-extrabold text-orange-700">
                                     {{ round(($data['score'] / 20) * 100) }}%
                                 </div>
                             </div>
-
                             <div class="text-sm font-medium text-gray-800 space-y-2 text-center">
-                                <p class="text-lg">امتیاز: <span class="text-base font-bold text-orange-700">{{ $data['score'] }}</span></p>
+                                <p class="text-2xl">امتیاز: <span class="text-2xl font-bold text-orange-700">{{ $data['score'] }}</span></p>
                                 @if (!empty($data['interpretation']))
-                                    <p class="font-semibold text-lg text-red-600">تفسیر:</p>
-                                    <p class="text-sm text-gray-700 leading-relaxed">{{ $data['interpretation'] }}</p>
+                                    <p class="font-semibold text-2xl text-red-600">تفسیر:</p>
+                                    <p class="text-lg text-gray-700 leading-relaxed">{{ $data['interpretation'] }}</p>
                                 @endif
                             </div>
-
                             @if (!empty($data['suggestions']))
                                 <div class="mt-3 text-sm text-gray-700 text-right w-full">
-                                    <p class="font-semibold text-orange-600 mb-1 text-lg">💡 راهکارها:</p>
-                                    <ul class="list-disc pr-4 space-y-1 text-[13px] leading-snug">
+                                    <p class="font-semibold text-orange-600 mb-1 text-2xl">💡 راهکارها:</p>
+                                    <ul class="list-disc pr-4 space-y-1 text-xl leading-snug">
                                         @foreach ($data['suggestions'] as $tip)
                                             <li>{{ $tip }}</li>
                                         @endforeach
@@ -98,26 +91,27 @@
                 <canvas id="resultChart" height="100"></canvas>
             </div>
 
-            <!-- ✅ جمع نهایی با نوار پیشرفت -->
+            <!-- ✅ جمع نهایی -->
             <div class="mt-10 p-6 bg-white/50 border border-orange-300 rounded-lg text-right shadow-xl transition transform hover:scale-105 w-full max-w-xl mx-auto">
                 <p class="text-2xl font-semibold text-orange-800">✅ جمع کل امتیازات شما:
                     <span class="text-orange-900">{{ $totalScore }}</span> از 200
                 </p>
-                <p class="text-lg mt-2 text-yellow-600">درصد موفقیت کلی: <span class="font-semibold text-orange-900">{{ $percentage }}%</span></p>
+                <p class="text-2xl mt-2 text-yellow-600" dir="rtl">درصد موفقیت کلی: <span class="font-semibold text-orange-900">{{ $percentage }}%</span></p>
 
                 <div class="relative mt-4 w-full h-6 bg-gray-300 rounded-full overflow-hidden shadow-inner">
-                    <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-500 to-yellow-300 rounded-full text-white font-extrabold flex items-center justify-center transition-all duration-[1500ms] ease-in-out" style="width: 0%;">
-                        <span class="w-full text-center">{{ $percentage }}%</span>
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-500 to-yellow-300 rounded-full text-white font-extrabold flex items-center justify-center transition-all duration-[1500ms] ease-in-out p-3" style="width: 0%;">
+                        <span class="w-full text-center p-3 text-xl" dir="rtl">{{ $percentage }}%</span>
                     </div>
                 </div>
 
-                <div class="w-full flex justify-center">
-    <a href="{{ route('quiz.show') }}"
-       class="text-center inline-block mt-8 px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-orange-600 transition transform hover:scale-105 shadow-xl">
-        بازگشت به تست
-    </a>
-</div>
+                <div class="w-full flex justify-center align-center">
+                    <a href="{{ route('quiz.show') }}"
+                        class="text-center text-lg inline-block mt-8 px-6 py-4 bg-gray-500 text-white rounded-lg hover:bg-orange-600 transition transform hover:scale-105 shadow-xl">
+                        بازگشت به تست
+                    </a>
+                </div>
             </div>
+
         </div>
     </div>
     <!-- 📦 Chart.js -->
@@ -130,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const progressBar = document.getElementById('progress-bar');
     const finalPercentage = {{ $percentage }};
     setTimeout(() => {
-        progressBar.style.transition = "width 2s ease-in-out";
+        progressBar.style.transition = "width s ease-in-out";
         progressBar.style.width = finalPercentage + '%';
     }, 100);
 
@@ -232,9 +226,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         max: 20,
                         ticks: {
                             stepSize: 5,
-                            color: '#fff',
+                            color: '#111',
                             font: {
-                                size: 20,
+                                size: 24,
                                 weight: 'bold',
                                 family: 'Vazirmatn'
                             }
@@ -242,9 +236,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
                     x: {
                         ticks: {
-                            color: '#fff',
+                            color: '#111',
                             font: {
-                                size: 20,
+                                size: 24,
                                 weight: 'bold',
                                 family: 'Vazirmatn'
                             }
