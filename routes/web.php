@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\QuizBuilderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         Route::get('/exams', [ExamController::class, 'index'])->name('exams.index');
         Route::get('/exams/start/{id}', [ExamController::class, 'start'])->name('exams.start');
     });
-    
+
     use App\Http\Controllers\QuizController;
 
     Route::get('/quiz', [QuizController::class, 'showQuiz'])->name('quiz.show');
@@ -65,8 +66,13 @@ Route::get('/mbti-quiz/start', [MBTIQuizController::class, 'showQuestions'])->na
 Route::get('/quiz-builder', function () {
     return view('quiz-builder');
 })->name('quiz.builder');
-use App\Http\Controllers\QuizBuilderController;
 
-// فرم ذخیره مرحله‌ای آزمون
-Route::post('/quiz-builder/store', [QuizBuilderController::class, 'storeStepByStep'])
-    ->name('quizzes.storeStepByStep');
+
+Route::post('/quiz-builder/store', [QuizBuilderController::class,'storeStepByStep'])->name('quizzes.storeStepByStep');
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('home');
+
+
+Route::get('/test', [MBTIQuizController::class, 'test'])->name('test');
+Route::get('/test2', [MBTIQuizController::class, 'test2'])->name('test2');

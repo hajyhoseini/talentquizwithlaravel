@@ -3,24 +3,24 @@
         <h2 class="text-xl text-center font-bold py-4">🎯 تست علاقه‌مندی‌های کودکان</h2>
     </x-slot>
 
-    <div class="min-h-screen py-6 flex justify-center items-center bg-gray-100 bg-mobile"
+    <div class="min-h-screen  pt-22 flex justify-center items-center bg-gray-100 bg-mobile"
          style="background-image: url('/images/rear-view-boy-standing-against-wall-home_1048944-14881820 (1).jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
-        <div class="w-full h-full max-w-2xl p-6 rounded-lg shadow" style="margin-top: -110px;">
+        <div class="w-full h-full max-w-2xl p-4 rounded-lg shadow" style="margin-top: -110px;">
         <div id="intro-screen" class="text-center">
     <h3 class="text-3xl bg-white/50 font-bold mb-4 text-black rounded-md py-2">سلام! آماده‌ای شروع کنیم؟</h3>
 
     <!-- 🔹 توضیحات آزمون -->
-    <div class="text-right bg-white/40 rounded-lg p-4 text-gray-800 mb-6 leading-relaxed shadow text-xl xl:text-2xl">
-        <p class="text-3xl font-bold text-indigo-800 mb-2">🧠 آزمون جامع استعدادیابی کودکان ۳ تا ۶ ساله</p>
-        <p class="text-3xl">این آزمون شامل <span class="font-semibold">۱۰ بخش</span> و <span class="font-semibold">۵۰ سؤال</span> است (۵ سؤال در هر بخش)</p> </p>
+    <div class="text-left bg-white/40 rounded-lg p-4 text-gray-800 mb-6 leading-relaxed shadow xl:text-2xl text-sm">
+        <p class="text-xl xl:text-3xl font-bold text-indigo-800 mb-2">🧠 آزمون جامع استعدادیابی کودکان ۳ تا ۶ ساله</p>
+        <p class="text-xl xl:text-3xl font-bold">این آزمون شامل <span class="font-semibold">۱۰ بخش</span> و <span class="font-semibold">۵۰ سؤال</span> است (۵ سؤال در هر بخش)</p> </p>
 
-        <p class="text-3xl" dir="rtl">آزمون به‌گونه‌ای طراحی شده که برای <span class="font-semibold">والدین و مربیان</span> قابل‌اجرا باشد و تمامی جنبه‌های استعداد کودک را بررسی کند.    </div>
+        <p class="text-xl xl:text-3xl font-bold" dir="rtl">آزمون به‌گونه‌ای طراحی شده که برای <span class="font-semibold">والدین و مربیان</span> قابل‌اجرا باشد و تمامی جنبه‌های استعداد کودک را بررسی کند.    </div>
 
-    <button onclick="autoFillAnswers()" class="bg-blue-600 text-2xl text-white px-6 py-2 rounded hover:bg-blue-700 mt-4">
+    <button onclick="autoFillAnswers()" class="bg-blue-600 text-xl xl:text-3xl font-bold text-white px-6 py-2 rounded hover:bg-blue-700 mt-4">
         تست خودکار (خیلی زیاد)
     </button>
 
-    <button onclick="startQuiz()" class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800 text-2xl">
+    <button onclick="startQuiz()" class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800 text-xl xl:text-3xl font-bold">
         شروع
     </button>
 </div>
@@ -32,14 +32,14 @@
                     @foreach ($questions->groupBy('section') as $section => $sectionQuestions)
                         <div class="pb-5 section {{ $loop->first ? '' : 'hidden' }}" data-section="{{ $loop->index }}">
                             <!-- نمایش عنوان بخش -->
-                            <h3 class="text-3xl font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
+                            <h3 class="text-xl xl:text-3xl  font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
 
                             @foreach ($sectionQuestions as $index => $question)
                                 <div class="question {{ $loop->first ? '' : 'hidden' }}" data-question="{{ $index }}">
-                                    <p class="font-semibold mt-4 rounded-md text-3xl bg-white/50">{{ $question->question }}</p>
-                                    <div class="mt-10 text-3xl">
+                                    <p class="font-semibold mt-4 rounded-md text-xl xl:text-3xl  bg-white/50">{{ $question->question }}</p>
+                                    <div class="mt-10 text-lg xl:text-3xl font-bold">
                                         @foreach ([4 => 'خیلی زیاد', 3 => 'خوب', 2 => 'گاهی', 1 => 'کم'] as $value => $label)
-                                            <label class="font-bold mt-6 block answer-option text-3xl text-black ">
+                                            <label class="font-bold mt-6 block answer-option text-xl xl:text-3xl font-bold text-black ">
                                                 <input type="radio" name="answers[{{ $question->id }}]" value="{{ $value }}"
                                                        class="answer" onclick="handlePulse(this)">
                                                 {{ $label }}
@@ -65,12 +65,14 @@
                 </div>
 
                 <!-- دکمه ارسال -->
-                <div class="flex justify-center mt-4">
-                    <button type="submit" id="submit-btn"
-                            class="hidden text-2xl bg-green-500 text-white px-8 py-3 rounded-md">
-                        ارسال
-                    </button>
-                </div>
+<div class="flex justify-center mt-4">
+    <button type="submit" id="submit-btn"
+            class="hidden text-xl bg-green-500 text-white px-8 py-3 rounded-md flex items-center gap-3 justify-center transition-all"
+           >
+        <span class="submit-text">ارسال</span>
+        <span class="spinner hidden"></span>
+    </button>
+</div>
             </form>
 
         </div>
@@ -78,6 +80,22 @@
 
     <!-- 🎨 استایل‌ها -->
     <style>
+        .pt-22{
+            padding-top: 35px;
+        }
+    .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        width: 1.5rem;
+        height: 1.5rem;
+        animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
         @keyframes white-border-blink {
             0%, 100% { border: 2px solid transparent; }
             25%, 75% { border: 2px solid white; }
@@ -124,6 +142,27 @@
 
     <!-- ⚙️ اسکریپت‌ها -->
     <script>
+         // لودینگ هنگام ارسال فرم
+    document.getElementById("quiz-form").addEventListener("submit", function (e) {
+        const button = document.getElementById("submit-btn");
+        const text = button.querySelector('.submit-text');
+        const spinner = button.querySelector('.spinner');
+
+        text.classList.add('hidden');
+        spinner.classList.remove('hidden');
+        button.disabled = true;
+    });
+            function handleSubmitLoading(button) {
+        const text = button.querySelector('.submit-text');
+        const spinner = button.querySelector('.spinner');
+
+        text.classList.add('hidden');
+        spinner.classList.remove('hidden');
+
+        button.disabled = true;
+
+        return true; // اجازه ارسال فرم
+    }
         function autoFillAnswers() {
             // انتخاب همه inputهای radio با مقدار 4 (خیلی زیاد)
             const allQuestions = document.querySelectorAll('.question');

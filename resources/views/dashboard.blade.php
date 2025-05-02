@@ -1,11 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
+   
         <h2 class="text-xl text-center font-semibold text-gray-800">
             {{ __('صفحه شما خانواده بنیاد ملل') }}
         </h2>
     </x-slot>
 
-    <div class="min-h-screen flex justify-center items-center px-4 sm:px-6"
+     <div class="min-h-screen flex justify-center items-center px-4 sm:px-6"
          style="
             background-image: url('/images/dried-leaves-gray-blank-background_53876-102451.avif');
             background-size: cover;
@@ -14,8 +15,8 @@
         ">
         
         <div class="bg-white/30 rounded-lg p-6 sm:p-8 text-center backdrop-blur-md w-full max-w-xl">
-            <p class="text-gray-700 mb-6 font-bold text-3xl">
-.                به صفحه آزمون‌های بنیاد ملل خوش آمدید
+            <p class="text-gray-700 mb-6 font-bold text-3xl text-center">
+                به صفحه آزمون‌های بنیاد ملل خوش آمدید.
 </p>
 
             <!-- دکمه رفتن به آزمون‌ها -->

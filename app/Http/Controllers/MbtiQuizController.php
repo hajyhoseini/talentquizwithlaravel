@@ -16,10 +16,10 @@ class MbtiQuizController extends Controller
     {
         // دریافت پاسخ‌های کاربر از دیتابیس
         $answers = MbtiAnswer::where('user_id', auth()->id())->get();
-    
+
         // تعریف متغیرهای امتیاز
         $scoreE = $scoreI = $scoreS = $scoreN = $scoreT = $scoreF = $scoreJ = $scoreP = 0;
-    
+
         foreach ($answers as $answer) {
             if ($answer->answer_value == 'yes') {
                 if ($answer->section == 'شیوه تعامل با دنیا: برون‌گرایی (E) / درون‌گرایی (I)') $scoreE++;
@@ -33,7 +33,7 @@ class MbtiQuizController extends Controller
                 elseif ($answer->section == 'قضاوتی (J) / ادراکی (P)') $scoreP++;
             }
         }
-    
+
         // تعیین تیپ شخصیتی
         $result = [
             'E_I' => $scoreE > $scoreI ? 'برون‌گرا (E)' : 'درون‌گرا (I)',
@@ -41,13 +41,13 @@ class MbtiQuizController extends Controller
             'T_F' => $scoreT > $scoreF ? 'تفکری (T)' : 'احساسی (F)',
             'J_P' => $scoreJ > $scoreP ? 'قضاوتی (J)' : 'ادراکی (P)',
         ];
-    
+
         return view('quiz.results_mbti', compact('result'));
     }
     public function start() {
         return view('quiz.mbti_questions'); // یا مسیر صحیح فایل بلید
     }
-    
+
     public function questions()
 {
     return view('quiz.mbti_questions');
@@ -90,5 +90,16 @@ public function storeAnswers(Request $request)
 
     return redirect()->route('mbti.results')->with('success', 'پاسخ‌های شما ذخیره شد!');
 }
+
+    public function test()
+    {
+        return view('layouts.Master');
+    }
+
+    public function test2()
+    {
+        return view('layouts.index2');
+    }
+
 }
 
