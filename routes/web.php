@@ -13,10 +13,10 @@ use App\Http\Controllers\QuizBuilderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -68,10 +68,7 @@ Route::get('/quiz-builder', function () {
 })->name('quiz.builder');
 
 
-Route::post('/quiz-builder/store', [QuizBuilderController::class,'storeStepByStep'])->name('quizzes.storeStepByStep');
-    Route::get('/', function () {
-        return view('welcome');
-    })->name('home');
+
 
 
 Route::get('/test', [MBTIQuizController::class, 'test'])->name('test');

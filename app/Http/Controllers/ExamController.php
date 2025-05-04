@@ -8,6 +8,7 @@ use App\Models\Quiz;
 
 class ExamController extends Controller
 {
+   
     public function show($id)
 {
     // دریافت اطلاعات آزمون بر اساس ID

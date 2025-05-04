@@ -9,28 +9,38 @@
         $percentage = round(($totalScore / 200) * 100);
     @endphp
 
-    <div id="main-wrapper">
-    </div>
+     <!-- Includes -->
+  <div id="main-wrapper">
+  </div>
+
 
     <div class="fixed inset-0 bg-cover bg-center"
          style="background-image: url('{{ asset('images/top-view-desk-with-apple-paper-clips.jpg') }}');">
     </div>
 
     {{-- 🔳 محتوای اصلی --}}
-    <div class="relative flex flex-col items-center min-h-screen px-4 sm:px-6 lg:px-8 py-10">
+    <div class=" container-fluid relative flex flex-col items-center min-h-screen px-4 sm:px-6 lg:px-8 py-10">
         <div class="rounded-2xl p-6 sm:p-2 w-full max-w-7xl text-center">
             {{-- 🔸 بخش نتایج نهایی --}}
-            <div id="final-results" class="w-full max-w-7xl mx-auto px-4 mt-16 opacity-0 translate-y-8 transition-all duration-1000 ease-out">
+            
+            {{-- 📈 نمودار میله‌ای --}}
+            <div class="mt-12 w-3/5 mx-auto">
+    <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-8 p-3 rounded-lg bg-[#04CCCC] text-center">
+        📈 نمودار گرافیکی استعدادها
+    </h4>
+    <canvas id="resultChart" height="100"></canvas>
+</div>
+            <div id="final-results" class="lg:w-3/5 mx-auto px-4 mt-16 opacity-0 translate-y-8 transition-all duration-1000 ease-out">
                 <h3 class="text-xl sm:text-2xl md:text-3xl font-extrabold mb-6 text-white text-center p-4 rounded-2xl bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1] shadow-lg">
                     📊 نتایج نهایی شما
                 </h3>
 
-                <div class="p-2 text-right rounded-3xl bg-yellow-50/80 backdrop-blur-xl shadow-2xl mb-12 text-gray-900 leading-relaxed space-y-6 border border-amber-200" style="direction: rtl;">
+                <div class="p-2 text-left rounded-3xl bg-yellow-50/80 backdrop-blur-xl shadow-2xl mb-12 text-gray-900 leading-relaxed space-y-6 border border-amber-200" >
                     <p class="text-base sm:text-lg md:text-xl font-extrabold text-black">برای هر بخش (۵ سؤال)، حداکثر نمره ۲۰ و حداقل نمره ۵ است. جمع کل امتیازات آزمون ۲۰۰ خواهد بود.</p>
                     <p class="text-base sm:text-lg md:text-xl font-bold text-amber-700 flex items-center gap-2">
                         📌 <span>تفسیر نمرات:</span>
                     </p>
-                    <ul class="bg-white/80 p-6 text-right rounded-xl text-base sm:text-lg md:text-xl font-semibold text-gray-800 space-y-4 border border-orange-100 shadow-inner">
+                    <ul class="bg-white/80 p-6 text-left rounded-xl text-base sm:text-lg md:text-xl font-semibold text-gray-800 space-y-4 border border-orange-100 shadow-inner">
                         <li class="hover:text-green-600">✅ ۱۷ تا ۲۰: استعداد بالا در این زمینه</li>
                         <li class="hover:text-yellow-600">⚠️ ۱۲ تا ۱۶: استعداد متوسط که با تقویت رشد می‌کند</li>
                         <li class="hover:text-red-600">🔻 ۵ تا ۱۱: نیاز به تمرین و توجه بیشتر</li>
@@ -40,100 +50,45 @@
 
             {{-- 🔍 تحلیل بخش‌ها --}}
             <div class="mt-4 flex flex-col items-center" dir="rtl">
-                <h4 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-8 bg-[#04CCCC] p-3 rounded-lg w-full text-center">🔍 تحلیل بخش‌ها</h4>
-                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-1 sm:gap-2 justify-items-center w-full ">
-                    @forelse ($results as $section => $data)
-                    <div class="bg-white/70 section-box pt-4 opacity-0 translate-y-8 transition-all duration-700 ease-out border border-orange-300 rounded-xl shadow-xl  flex flex-col items-center w-full max-w-[280px] min-h-[260px] hover:scale-105">
-    <p class="text-xs sm:text-base md:text-base font-bold text-orange-800 mb-1">{{ $section }}</p>
+                <h4 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-8 bg-[#04CCCC] p-3 rounded-lg w-3/4 text-center">🔍 تحلیل بخش‌ها</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 justify-items-center w-6/7 gap-3 lg:gap-4" >
+                @forelse ($results as $section => $data)
+    <x-score-card :section="$section" :data="$data" />
+@empty
+    <p class="col-span-full text-red-600 font-bold text-center text-base sm:text-lg md:text-xl">هیچ نتیجه‌ای یافت نشد.</p>
+@endforelse
 
-    <div class="relative w-16 h-16 sm:w-20 sm:h-20">
-        <svg width="70" height="70" viewBox="0 0 120 120" class="rotate-90 drop-shadow-md">
-            <defs>
-                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#fbbf24" />
-                    <stop offset="100%" stop-color="#f97316" />
-                </linearGradient>
-            </defs>
-            <circle cx="60" cy="60" r="50" stroke="#f3f4f6" stroke-width="8" fill="none" />
-            <circle class="progress-ring" data-score="{{ $data['score'] }}" cx="60" cy="60" r="50" stroke="url(#progressGradient)" stroke-width="8" fill="none" stroke-dasharray="314.16" stroke-dashoffset="314.16" stroke-linecap="round" />
-        </svg>
-        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center text-[10px] sm:text-sm md:text-base font-extrabold text-orange-700">
-            {{ round(($data['score'] / 20) * 100) }}%
-        </div>
-    </div>
-
-    <div class="text-xs sm:text-sm md:text-base font-medium text-gray-800 text-center space-y-1 mt-1">
-        <p class="text-xs sm:text-sm md:text-base">امتیاز: <span class="font-bold text-orange-700">{{ $data['score'] }}</span></p>
-
-        @if (!empty($data['interpretation']))
-            <p class="font-semibold text-xs sm:text-sm md:text-base text-red-600">تفسیر:</p>
-            <p class="text-xs sm:text-sm text-gray-700">{{ $data['interpretation'] }}</p>
-        @endif
-    </div>
-
-    @php
-        $modalId = 'solutionsModal_' . md5($section);
-        $buttonId = 'showSolutionsButton_' . md5($section);
-        $closeId = 'closeModalButton_' . md5($section);
-    @endphp
-
-    @if (!empty($data['suggestions']))
-        <button id="{{ $buttonId }}" class="mt-4 px-4 py-  bg-orange-500 text-white text-xs sm:text-sm rounded-lg hover:bg-orange-600 focus:outline-none transition">
-            💡 مشاهده راهکارها
-        </button>
-
-        <div id="{{ $modalId }}" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex z-[999999] items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
-            <div class="bg-white rounded-lg w-11/12 sm:w-2/3 md:w-3/4 p-2 max-h-[70vh] overflow-y-auto">
-                <h3 class="text-sm md:text-base font-semibold text-orange-600 mb-2">💡 راهکارها:</h3>
-                <ul class="list-disc text-left space-y-1 text-xs sm:text-sm md:text-base leading-snug">
-                    @foreach ($data['suggestions'] as $tip)
-                        <li>{{ $tip }}</li>
-                    @endforeach
-                </ul>
-                <button id="{{ $closeId }}" class="mt-3 px-3 py-1 text-sm bg-gray-500 text-white rounded-lg hover:bg-gray-600">
-                    بستن
-                </button>
-            </div>
-        </div>
-    @endif
-</div>
-
-                    @empty
-                        <p class="col-span-full text-red-600 font-bold text-center text-base sm:text-lg md:text-xl">هیچ نتیجه‌ای یافت نشد.</p>
-                    @endforelse
                 </div>
             </div>
 
-            {{-- 📈 نمودار میله‌ای --}}
-            <div class="mt-12 w-full">
-                <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-8 p-3 rounded-lg bg-[#04CCCC] text-center">📈 نمایش گرافیکی امتیازات</h4>
-                <canvas id="resultChart" height="100"></canvas>
-            </div>
 
             {{-- ✅ امتیاز نهایی --}}
-            <div class="mt-10 p-6 bg-white/50 border border-orange-300 rounded-lg text-right shadow-xl hover:scale-105 w-full max-w-7xl mx-auto">
-                <p class="text-base sm:text-lg md:text-xl font-semibold text-orange-800">✅ جمع کل امتیازات شما:
-                    <span class="text-orange-900">{{ $totalScore }}</span> از 200
-                </p>
-                <p class="text-base sm:text-lg md:text-xl mt-2 text-yellow-600">درصد موفقیت کلی: <span class="font-semibold text-orange-900">{{ $percentage }}%</span></p>
+<div class="mt-10 p-6 bg-white/60 border border-orange-400 rounded-2xl text-right shadow-2xl hover:scale-105 w-11/12 md:w-3/5 mx-auto transition-all duration-300">
 
-                <div class="relative mt-4 w-full h-6 bg-gray-300 rounded-full overflow-hidden shadow-inner">
-                    <div id="progress-bar" class="h-full bg-gradient-to-r from-yellow-500 to-yellow-300 rounded-full text-white font-extrabold flex items-center justify-center transition-all duration-[1500ms] ease-in-out p-3" style="width: 0%;">
-                        <span class="w-full text-center p-3 text-sm sm:text-base md:text-lg">{{ $percentage }}%</span>
-                    </div>
-                </div>
+  <!-- انیمیشن لوتی نتیجه -->
+  <div class="flex justify-center ">
+    <div id="success-lottie" class="w-1/3 h-1/3 "></div>
+  </div>
 
-                <div class="w-full flex justify-center mt-8">
-                    <a href="{{ route('home') }}"
-                       class="text-sm sm:text-base md:text-lg px-6 py-4 bg-gray-500 text-white rounded-lg hover:bg-orange-600 transition transform hover:scale-105 shadow-xl">
-                        بازگشت به تست
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+  <!-- متن نتیجه -->
+  <div class="text-center text-gray-800 text-lg sm:text-xl font-semibold leading-relaxed mb-6">
+    <p>🎉 تبریک! آزمون شما با موفقیت به پایان رسید.</p>
+    <p class="mt-2 text-gray-600">شما یک قدم به پیشرفت نزدیک‌تر شدید!</p>
+    <p class="text-gray-600">برای ادامه مسیر یادگیری، به سراغ آزمون‌های بعدی بروید.</p>
+  </div>
+
+  <!-- دکمه بازگشت -->
+  <div class="w-full flex justify-center mt-8">
+    <a href="/"
+       class="text-sm sm:text-base md:text-lg px-6 py-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-orange-600 transition transform hover:scale-105 shadow-lg font-medium">
+       🚀 بازگشت به صفحه آزمون‌ها
+    </a>
+  </div>
+</div>
+
 
     {{-- 📦 اسکریپت‌ها و انیمیشن‌ها --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.10/lottie.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/global.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
@@ -141,6 +96,29 @@
     <script src="js/deznav-init.js"></script>
     {{-- 💫 انیمیشن‌ها و تعامل‌ها --}}
     <script>
+     document.addEventListener("DOMContentLoaded", function () {
+    let hasPlayed = false;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasPlayed) {
+          hasPlayed = true;
+
+          lottie.loadAnimation({
+            container: document.getElementById('success-lottie'),
+            renderer: 'svg',
+            loop: false,
+            autoplay: true,
+            path: 'https://assets5.lottiefiles.com/packages/lf20_jbrw3hcz.json'
+          });
+
+          observer.disconnect(); // دیگه نیازی به نظارت نیست
+        }
+      });
+    }, { threshold: 0.6 });
+
+    observer.observe(document.getElementById('success-lottie'));
+  });
  document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll('[id^="showSolutionsButton_"]');
     const modals = document.querySelectorAll('[id^="solutionsModal_"]');
@@ -287,7 +265,7 @@
                             borderRadius: 12,
                             borderWidth: 2,
                             borderColor: '#fff',
-                            barThickness: 32,
+                            barThickness: 20,
                         }]
                     },
                     options: {
@@ -304,7 +282,7 @@
                                     stepSize: 5,
                                     color: '#111',
                                     font: {
-                                        size: window.innerWidth < 640 ? 16 : window.innerWidth < 1024 ? 20 : 24,
+                                        size: window.innerWidth < 640 ? 8 : window.innerWidth < 1024 ? 10 :12 ,
                                         weight: 'bold',
                                         family: 'Vazirmatn'
                                     }
@@ -314,7 +292,7 @@
                                 ticks: {
                                     color: '#111',
                                     font: {
-                                        size: window.innerWidth < 640 ? 16 : window.innerWidth < 1024 ? 20 : 24,
+                                        size: window.innerWidth < 640 ? 6 : window.innerWidth < 1024 ? 10 : 12,
                                         weight: 'bold',
                                         family: 'Vazirmatn'
                                     }

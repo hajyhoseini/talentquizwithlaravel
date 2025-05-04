@@ -1,78 +1,75 @@
-<div class="header" style="background: linear-gradient(to right, #e0f7fa, #b2ebf2); color: #333;">
+<!-- هدر -->
+<div class="header" style="background: linear-gradient(to right, #fff, #fff); color: #333;">
   <div class="header-content">
     <nav class="navbar navbar-expand">
-      <div class="collapse navbar-collapse justify-content-between">
-        <div class="header-left">
-          <div class="nav-item">
-            <div class="input-group search-area">
-              <input type="text" class="form-control" placeholder="اینجا چیزی پیدا کن......" style="color: #333; background-color: #fff;">
-              <span class="input-group-text" style="background-color: #fff; border-color: #ddd;">
-                <a href="javascript:void(0)">
-                  <i class="flaticon-381-search-2" style="color: #4dd0e1;"></i>
-                </a>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- آیتم‌های منو -->
     </nav>
   </div>
 </div>
 
-<div class="deznav z-10" style="background: linear-gradient(to right, #e0f7fa, #b2ebf2); color: #333;">
+<!-- سایدبار -->
+<div class="deznav z-10" style="background: linear-gradient(to right, #e0f7fa, #e0f7fa, #C0F8F8);">
   <div class="deznav-scroll">
     <div class="dropdown header-profile">
-      <a class="nav-link flex items-center p-3" href="javascript:void(0);" role="button" data-bs-toggle="dropdown" style="color: #333;">
-        <img src="images/avatar/1.png" width="32" class="rounded-full" alt="">
-        <div class="header-info ms-3">
-          <span class="font-w600" style="color: #333;">ابوالفضل <b>حاجی حسینی</b></span>
-          <small class="text-center font-w400 block" style="color: #777;">hajy3843@gmail.com</small>
+      <div class="nav-link flex items-center p-3" style="color: #333;">
+        <img src="/images/avatar/1.png" width="32" class="rounded-full" alt="">
+        <div class="header-info ms-3 flex flex-col items-center justify-center text-center">
+          @auth
+            <span class="font-w600" style="color: #333;">{{ Auth::user()->name }} <b>{{ Auth::user()->last_name }}</b></span>
+            <small class="font-w400 block" style="color: #777;">{{ Auth::user()->email }}</small>
+          @else
+            <span class="font-w600" style="color: #333;">کاربر مهمان</span>
+            <div class="mt-2 flex flex-col items-center gap-2">
+              <button type="button" class="login-btn bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-all duration-300 text-sm font-medium">
+                لطفا وارد شوید
+              </button>
+            </div>
+          @endauth
         </div>
-      </a>
+      </div>
+
       <div class="dropdown-menu dropdown-menu-end">
-        <a href="./app-profile.html" class="dropdown-item ai-icon" style="color: #333;">
-          <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          <span class="ms-2">مشخصات</span>
-        </a>
-        <a href="./email-inbox.html" class="dropdown-item ai-icon" style="color: #333;">
-          <svg id="icon-inbox" xmlns="http://www.w3.org/2000/svg" class="text-success" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
-          <span class="ms-2">صندوق ورودی</span>
-        </a>
-        <a href="./login.html" class="dropdown-item ai-icon" style="color: #333;">
-          <svg id="icon-logout" xmlns="http://www.w3.org/2000/svg" class="text-danger" width="18" height="18" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          <span class="ms-2">خروج</span>
-        </a>
+        @auth
+          <a href="./app-profile.html" class="dropdown-item ai-icon" style="color: #333;">
+            <span class="ms-2">ویرایش اطلاعات</span>
+          </a>
+          <a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();" class="dropdown-item ai-icon" style="color: #333;">
+            <span class="ms-2">خروج</span>
+          </a>
+        @else
+          <a href="javascript:void(0);" class="dropdown-item ai-icon login-btn" style="color: #333;">
+            <span class="ms-2">ورود</span>
+          </a>
+        @endauth
       </div>
     </div>
 
+    <!-- منوی اصلی -->
     <ul class="metismenu hidden" id="menu">
       <li>
-        <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false" style="color: #333;">
+        <a class="has-arrow ai-icon" href="javascript:void(0)" style="color: #333;">
           <i class="flaticon-025-dashboard"></i>
           <span class="nav-text">داشبورد</span>
         </a>
-        <ul aria-expanded="false">
-          <li><a href="index.html" style="color: #777;">ورود کاربر</a></li>
-          <li><a href="index-2.html" style="color: #777;">خروج</a></li>
+        <ul>
+          @auth
+            <li><a href="index.html" style="color: #777;">ویرایش اطلاعات</a></li>
+            <li>
+              <a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();" style="color: #777;">خروج</a>
+              <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">@csrf</form>
+            </li>
+          @else
+            <li><a href="javascript:void(0);" class="login-btn" style="color: #777;">ورود</a></li>
+          @endauth
         </ul>
       </li>
 
       <li>
-        <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false" style="color: #333;">
+        <a class="has-arrow ai-icon" href="javascript:void(0)" style="color: #333;">
           <i class="flaticon-050-info"></i>
-          <span class="nav-text">آزمون ها</span>
+          <span class="nav-text">آزمون‌ها</span>
         </a>
-        <ul aria-expanded="false">
+        <ul>
           <li><a href="./app-profile.html" style="color: #777;">آزمون‌های انجام شده</a></li>
           <li><a href="./post-details.html" style="color: #777;">آزمون‌های انجام نشده</a></li>
           <li><a href="{{ route('exams.index') }}" style="color: #777;">همه آزمون‌ها</a></li>
@@ -81,3 +78,153 @@
     </ul>
   </div>
 </div>
+
+<!-- مدال لاگین -->
+<div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg max-w-lg w-full mx-4 text-right">
+    <div class="flex justify-between items-center">
+      <h2 class="text-lg font-bold">ورود به حساب</h2>
+      <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700">&times;</button>
+    </div>
+
+    <!-- انیمیشن لوتی بالای ایمیل -->
+    <div id="lottie-container" class="text-center mt-4 mb-2" style="max-width: 100px; margin: 0 auto; display: none;">
+      <div id="lottie-animation" style="width: 100%; height: 100px;"></div>
+    </div>
+
+    <form method="POST" action="{{ route('login') }}" class="space-y-6 mt-2">
+      @csrf
+      <div>
+        <x-label for="email" :value="__('ایمیل')" class="text-gray-700 font-medium block text-left" />
+        <x-input id="email" type="email" name="email" :value="old('email')" required autofocus
+          class="block mt-1 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 text-left" />
+      </div>
+
+      <div class="mt-4">
+        <x-label for="password" :value="__('رمز عبور')" class="text-gray-700 font-medium block text-left" />
+        <x-input id="password" type="password" name="password" required
+          class="block mt-1 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 text-left" />
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 gap-4 sm:gap-0">
+        <div class="flex items-center">
+          <x-checkbox id="remember_me" name="remember" class="text-indigo-600" />
+          <x-label for="remember_me" :value="__('مرا به خاطر بسپار')" class="mr-2 text-gray-700" />
+        </div>
+
+        <div>
+          <a href="{{ route('password.request') }}" class="text-indigo-600 hover:text-indigo-800">رمز عبور را فراموش کرده‌اید؟</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center justify-center mt-6 gap-4">
+        <x-button class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 px-6 py-3 rounded-md text-lg transition-all duration-300">
+          {{ __('ورود') }}
+        </x-button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- کتابخانه لوتی -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.10/lottie.min.js"></script>
+
+<!-- استایل‌ها -->
+<style>
+  #login-modal {
+    display: none;
+  }
+
+  #login-modal.show {
+    display: flex;
+  }
+
+  #close-modal-btn {
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  #lottie-container {
+    display: none;
+  }
+  #lottie-container {
+    display: none;
+    max-width: 100px;
+    height: 100px;
+  }
+
+  #lottie-animation {
+    width: 100%;
+    height: 100%;
+  }
+
+</style>
+
+<!-- اسکریپت مربوط به مدال و لوتی -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loginButtons = document.querySelectorAll(".login-btn");
+    const loginModal = document.getElementById("login-modal");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+    const lottieContainer = document.getElementById('lottie-container');
+    const lottieAnimationContainer = document.getElementById('lottie-animation');
+    let typingTimer;
+    let animation;
+
+    loginButtons.forEach(btn => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        loginModal.classList.add("show");
+
+        if (!animation) {
+          animation = lottie.loadAnimation({
+            container: lottieAnimationContainer,
+            renderer: 'svg',
+            loop: true,
+            autoplay: false,
+            path: '/animations/login-loader.json'
+          });
+        }
+      });
+    });
+
+    closeModalBtn.addEventListener("click", function () {
+      loginModal.classList.remove("show");
+      hideLottie();
+    });
+
+    window.addEventListener("click", function (event) {
+      if (event.target === loginModal) {
+        loginModal.classList.remove("show");
+        hideLottie();
+      }
+    });
+
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    [emailInput, passwordInput].forEach(input => {
+      input.addEventListener('input', function () {
+        showLottie();
+
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(() => {
+          hideLottie();
+        }, 1500); // توقف 0.4 ثانیه‌ای بعد از تایپ
+      });
+    });
+
+    function showLottie() {
+      lottieContainer.style.display = 'block';
+      if (animation && !animation.isPlaying) {
+        animation.play();
+      }
+    }
+
+    function hideLottie() {
+      if (animation) animation.stop();
+      lottieContainer.style.display = 'none';
+    }
+  });
+</script>
+

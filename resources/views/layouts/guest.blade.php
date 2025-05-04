@@ -12,11 +12,13 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
+            <!-- اینجا از یک container استفاده می‌کنیم تا اندازه صفحه برای دستگاه‌های مختلف تغییر کند -->
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                {{ $slot }}
+            </div>
         </div>
     </body>
 </html>

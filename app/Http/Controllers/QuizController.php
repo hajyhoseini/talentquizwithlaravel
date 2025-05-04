@@ -90,7 +90,7 @@ class QuizController extends Controller
                 $data['suggestions'] = [];
             }
         }
-        \Log::info($results);
+       ;
 
         return view('quiz.results', compact('results'));
     }

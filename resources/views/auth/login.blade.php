@@ -1,39 +1,87 @@
 <x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-indigo-600" />
-            </a>
-        </x-slot>
+    <!-- بکگراند کامل -->
+    <div class="min-h-screen bg-fixed bg-cover bg-center overflow-auto"
+    style="background-image: url('{{ asset('images/foggy-scene-with-steam-coming-out-it_1122354-17706.avif') }}');"
+    >
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <div class="flex items-center justify-center min-h-screen bg-white bg-opacity-80 backdrop-blur-sm p-4">
+            <x-auth-card>
+                <x-slot name="logo">
+                    <a href="/">
+                        <!-- آیکون جدید -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11.5l-7 7-7-7" />
+                        </svg>
+                    </a>
+                </x-slot>
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+                <!-- نمایش خطاها -->
+                <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" class="text-gray-700 font-medium" />
+                <form method="POST" action="{{ route('login') }}" class="space-y-6 text-right">
+                    @csrf
 
-                <x-input id="email" class="block mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
+                    <!-- آدرس ایمیل -->
+                    <div>
+                        <x-label for="email" :value="__('ایمیل')" class="text-gray-700 font-medium" />
+                        <x-input id="email" class="block mt-1 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                                 type="email" name="email" :value="old('email')" required autofocus />
+                    </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" class="text-gray-700 font-medium" />
+                    <!-- رمز عبور -->
+                    <div class="mt-4">
+                        <x-label for="password" :value="__('رمز عبور')" class="text-gray-700 font-medium" />
+                        <x-input id="password" class="block mt-1 w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                                 type="password" name="password" required autocomplete="current-password" />
+                    </div>
 
-                <x-input id="password" class="block mt-1 w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
+                    <!-- مرا به خاطر بسپار -->
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center">
+                            <x-checkbox id="remember_me" name="remember" class="text-indigo-600" />
+                            <x-label for="remember_me" :value="__('مرا به خاطر بسپار')" class="mr-2 text-gray-700" />
+                        </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button class="ml-4 bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 px-4 py-2 rounded-md">
-                    {{ __('Login') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
+                        <div>
+                            <a href="{{ route('password.request') }}" class="text-indigo-600 hover:text-indigo-800">
+                                {{ __('رمز عبور خود را فراموش کرده‌اید؟') }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-center mt-6">
+                        <x-button class="bg-indigo-600 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 px-6 py-3 rounded-md text-lg transition-all duration-300">
+                            {{ __('ورود') }}
+                        </x-button>
+                    </div>
+                </form>
+            </x-auth-card>
+        </div>
+    </div>
+
+    <!-- استایل اختصاصی -->
+    <style>
+        .space-y-6 > * + * {
+            margin-top: 1.5rem;
+        }
+
+        .x-input, .x-button {
+            transition: all 0.3s ease;
+        }
+
+        .x-input:focus, .x-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(75, 85, 99, 0.2);
+        }
+
+        @media (max-width: 640px) {
+            .x-input, .x-button {
+                padding: 1rem;
+            }
+        }
+
+        .text-indigo-600:hover {
+            text-decoration: underline;
+        }
+    </style>
 </x-guest-layout>

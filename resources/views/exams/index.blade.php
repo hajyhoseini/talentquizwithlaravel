@@ -42,8 +42,8 @@
     @include('layouts.components.sidebar')
     </div>
     <div class="py-8 flex justify-center items-center min-h-screen bg-cover bg-center bg-no-repeat" style="background-image: url('/images/top-view-keyboard-desk-with-succulent-plant-sticky-notes.jpg');" dir="rtl">
-        <div class="w-full max-w-4xl mx-auto bg-opacity-90 p-6 rounded-xl border text-center">
-            <h3 class="font-bold text-gray-800 mb-6 bg-white/70 py-5 rounded-md text-2xl">📋 لیست آزمون‌ها</h3>
+        <div class="w-full max-w-4xl  mx-auto bg-opacity-90 p-6 rounded-xl border text-center">
+            <h3 class="font-bold text-gray-800 mb-3 bg-white/70 mt-10 py-3 rounded-md text-2xl">📋 لیست آزمون‌ها</h3>
             @include('test')
 
 
@@ -83,6 +83,31 @@
             button.disabled = true;
 
             return true; // اجازه ارسال فرم
+        
+        } 
+        function handleLoading(form) {
+        const button = form.querySelector('.start-btn');
+        const text = button.querySelector('.btn-text');
+        const spinner = button.querySelector('.spinner');
+
+        text.classList.add('hidden');
+        spinner.classList.remove('hidden');
+        button.disabled = true;
+
+        return true;
+    }
+
+    // وقتی کاربر با back برگشت، spinner رو ریست کن
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            document.querySelectorAll('.start-btn').forEach(button => {
+                const text = button.querySelector('.btn-text');
+                const spinner = button.querySelector('.spinner');
+                text.classList.remove('hidden');
+                spinner.classList.add('hidden');
+                button.disabled = false;
+            });
         }
+    });
     </script>
 </x-app-layout>

@@ -28,15 +28,15 @@
 
             <form method="POST" action="{{ route('quiz.submit') }}" id="quiz-form" class="hidden pt-10">
                 @csrf
-                <div class="text-center pb-5 pr-8 space-y-6 text-2xl text-black">
+                <div class="text-left  pr-8 space-y-3 text-2xl text-black">
                     @foreach ($questions->groupBy('section') as $section => $sectionQuestions)
-                        <div class="pb-5 section {{ $loop->first ? '' : 'hidden' }}" data-section="{{ $loop->index }}">
+                        <div class="pb-5 mt-4 section {{ $loop->first ? '' : 'hidden' }}" data-section="{{ $loop->index }}">
                             <!-- نمایش عنوان بخش -->
-                            <h3 class="text-xl xl:text-3xl  font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
+                            <h3 class=" text-center text-xl xl:text-3xl  font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
 
                             @foreach ($sectionQuestions as $index => $question)
                                 <div class="question {{ $loop->first ? '' : 'hidden' }}" data-question="{{ $index }}">
-                                    <p class="font-semibold mt-4 rounded-md text-xl xl:text-3xl  bg-white/50">{{ $question->question }}</p>
+                                    <p class="font-semibold mt-4 rounded-md text-xl xl:text-3xl  ">{{ $question->question }}</p>
                                     <div class="mt-10 text-lg xl:text-3xl font-bold">
                                         @foreach ([4 => 'خیلی زیاد', 3 => 'خوب', 2 => 'گاهی', 1 => 'کم'] as $value => $label)
                                             <label class="font-bold mt-6 block answer-option text-xl xl:text-3xl font-bold text-black ">
@@ -55,7 +55,7 @@
                 <!-- دکمه‌ها و پیشرفت در یک ردیف -->
                 <div class="flex justify-between items-center mt-8">
                     <button type="button" onclick="prevStep()" id="prev-btn"
-                            class="hidden text-2xl bg-yellow-200 px-6 py-2 rounded font-bold">
+                            class="hidden text-2xl bg-yellow-300 px-6 py-2 rounded font-bold text-black">
                         قبلی
                     </button>
 
@@ -65,9 +65,9 @@
                 </div>
 
                 <!-- دکمه ارسال -->
-<div class="flex justify-center mt-4">
+<div class="flex justify-center ">
     <button type="submit" id="submit-btn"
-            class="hidden text-xl bg-green-500 text-white px-8 py-3 rounded-md flex items-center gap-3 justify-center transition-all"
+            class="hidden text-xl mb-4 bg-green-500 text-white px-6 py-2 rounded-md flex items-center gap-3 justify-center transition-all"
            >
         <span class="submit-text">ارسال</span>
         <span class="spinner hidden"></span>
@@ -295,7 +295,7 @@
             setTimeout(() => {
                 parent.classList.remove('white-border-animate');
                 nextStep();
-            }, 600);
+            }, 300);
         }
     </script>
 </x-app-layout>
