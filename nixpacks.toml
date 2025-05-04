@@ -1,0 +1,10 @@
+[phases.setup]
+nixPkgs = ["php", "composer", "mysql", "php-cli", "php-pdo", "php-mbstring", "php-tokenizer", "php-xml", "php-curl", "php-zip"]
+
+[phases.build]
+cmds = [
+  "composer install --no-dev --optimize-autoloader"
+]
+
+[phases.start]
+cmd = "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
