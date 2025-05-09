@@ -4,14 +4,23 @@
             📜 نتایج آزمون
         </h2>
     </x-slot>
-
+<style>
+       body {
+      margin: 0;
+      font-family: 'Vazirmatn', sans-serif;
+      background: linear-gradient(135deg, #e0f8f7, #f5ffff);
+      min-height: 100vh;
+      color: #333;
+    }
+</style>
     <div class="flex">
         <div id="main-wrapper">
+            
             @include('layouts.components.imageHeader')
             @include('layouts.components.sidebar')
-        </div>
-
-        <div class="flex-1 lg:pr-[280px] pt-10 px-6 w-full">
+            <div class="content-body">
+    <div class="container-fluid">
+                  <div class="flex-1  pt-10 px-6 w-full">
             <div class="text-center bg-gradient-to-br from-white/70 to-teal-50/60 backdrop-blur-xl border border-teal-300 rounded-3xl p-6 sm:p-7 shadow-xl relative overflow-hidden transition duration-300 hover:shadow-2xl text-sm sm:text-base">
                 <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-teal-800 mb-4 sm:mb-6">
                     📜 نتایج شما
@@ -25,7 +34,7 @@
                         <!-- نمایش سطح به فارسی -->
                         <p class="text-gray-600">سطح: 
                             @if ($data['level'] == 'high')
-                                زیاد
+                                عالی
                             @elseif ($data['level'] == 'medium')
                                 متوسط
                             @else
@@ -46,6 +55,23 @@
                     </div>
                 @endforeach
             </div>
+             <div class="w-full flex justify-center">
+    <button id="downloadPdfBtn" class="mt-2 mb-4 px-4 py-3 bg-[#1dd1a1] text-white text-xs sm:text-sm rounded-lg hover:bg-[#54a0ff] focus:outline-none transition">
+        دانلود PDF
+    </button>
+</div>
         </div>
     </div>
+            </div>
+            </div>
+        </div>
+
+  
+       
+
+<script>
+  document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+    window.print();
+  });
+</script>
 </x-app-layout>

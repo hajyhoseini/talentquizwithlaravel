@@ -1444,10 +1444,6 @@ select {
 .bg-black\/50 {
   background-color: rgb(0 0 0 / 0.5);
 }
-.bg-blue-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(147 197 253 / var(--tw-bg-opacity, 1));
-}
 .bg-blue-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
@@ -1755,6 +1751,9 @@ select {
 }
 .pl-3 {
   padding-left: 0.75rem;
+}
+.pl-6 {
+  padding-left: 1.5rem;
 }
 .pr-4 {
   padding-right: 1rem;
@@ -2728,10 +2727,6 @@ select {
     order: 3;
   }
 
-  .md\:mr-\[250px\] {
-    margin-right: 250px;
-  }
-
   .md\:w-1\/2 {
     width: 50%;
   }
@@ -2826,10 +2821,6 @@ select {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
-  }
-
-  .lg\:pr-\[280px\] {
-    padding-right: 280px;
   }
 
   .lg\:text-lg {

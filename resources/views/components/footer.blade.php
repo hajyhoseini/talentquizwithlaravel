@@ -1,5 +1,5 @@
 <footer id="footer" dir="rtl"
-  class="bg-white text-white py-10 mt-10 opacity-0 transform translate-y-20 transition-all duration-1000 font-vazir text-base md:mr-[250px]">
+  class="bg-white text-white py-10 mt-10 opacity-0 transform translate-y-20 transition-all duration-1000 font-vazir text-base ">
   <div class="max-w-6xl mx-auto px-4">
 
     <!-- Main Footer -->

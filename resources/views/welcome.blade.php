@@ -260,7 +260,7 @@
   <div id="main-wrapper">
     @include('layouts.components.imageHeader')
     @include('layouts.components.sidebar')
-  </div>
+  
 
   <div class="content-body">
     <div class="container-fluid">
@@ -347,14 +347,17 @@
 
 
 @include('layouts.components.faq')
-
-
-    </div>
-  </div>
- 
   <div class="footer">
     A.H.H@81 تمامی حقوق محفوظ است © سامانه استعدادیابی
   </div>
+<footer>
+<x-footer/>
+</footer>
+    </div>
+  </div>
+  </div>
+ 
+
 
   <script src="js/global.min.js"></script>
   <script src="js/jquery.nice-select.min.js"></script>
@@ -454,8 +457,6 @@
 </div>
 
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-<footer>
-<x-footer/>
-</footer>
+
 </body>
 </html>

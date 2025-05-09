@@ -7,15 +7,16 @@
     </x-slot>
 
     {{-- 🔳 محتوای اصلی با فاصله از سایدبار راست --}}
-    <div class="flex">
+   
         {{-- ✅ سایدبار (در سمت راست و fixed) --}}
         <div id="main-wrapper">
             @include('layouts.components.imageHeader')
             @include('layouts.components.sidebar')
-        </div>
-
+        
+ <div class="content-body">
+    <div class="container-fluid">
         {{-- ✅ محتوای اصلی با فاصله از راست (به چپ رانده شده) --}}
-        <div class="flex-1 lg:pr-[280px] pt-10 px-6 w-full">
+    <div class="mx-auto w-full mt-10 mb-8 text-center bg-gradient-to-br from-white/70 to-teal-50/60 backdrop-blur-xl border border-teal-200 rounded-3xl shadow-xl relative overflow-hidden transition duration-300 hover:shadow-2xl text-sm sm:text-base">
             @if ($completedExams)
                 <div class="mx-auto max-w-4xl mt-10 mb-8 text-center bg-gradient-to-br from-white/70 to-teal-50/60 backdrop-blur-xl border border-teal-300 rounded-3xl p-6 sm:p-7 shadow-xl relative overflow-hidden transition duration-300 hover:shadow-2xl text-sm sm:text-base">
                     <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-teal-800 mb-4 sm:mb-6">
@@ -68,9 +69,13 @@
             @endif
 
             @include('layouts.components.faq')
+             <footer>
+        <x-footer/>
+    </footer>
         </div>
     </div>
-
+    </div>
+    </div>
     <script>
         document.querySelectorAll('.contact-button').forEach((button) => {
             button.addEventListener('click', () => {
@@ -86,8 +91,15 @@
             });
         });
     </script>
+<style>
+        body {
+      margin: 0;
+      font-family: 'Vazirmatn', sans-serif;
+      background: linear-gradient(135deg, #e0f8f7, #f5ffff);
+      min-height: 100vh;
+      color: #333;
+    }
 
-    <footer>
-        <x-footer/>
-    </footer>
+</style>
+   
 </x-app-layout>
