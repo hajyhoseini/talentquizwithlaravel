@@ -85,3 +85,5 @@ Route::middleware(['auth'])->get('/completed-tests', [ExamController::class, 'co
 
 
 
+Route::get('/user/results', [QuizController::class, 'showResults2'])->name('user.results');
+

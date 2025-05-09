@@ -3,45 +3,24 @@
   <div class="max-w-6xl mx-auto px-4">
 
     <!-- Main Footer -->
-    <div
-      class="flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-right space-y-10 md:space-y-0">
-
- <!-- Social Buttons -->
-<div class="w-full md:w-1/3 flex flex-col items-center space-y-10">
-  <a href="https://www.instagram.com/bonyad_melal_kids" target="_blank"
-    class="bg-white text-[#E1306C] w-40 flex items-center justify-center gap-2 py-2 px-4 rounded-full shadow-[0_10px_30px_rgba(225,48,108,0.3)] transition-all duration-300 hover:scale-105 hover:bg-[#E1306C] hover:text-black">
-    <img src="/images/instagram.png" alt="Instagram" class="w-5 h-5" />
-    <span class="text-lg font-semibold">اینستاگرام</span>
-  </a>
-  <a href="https://t.me/bonyad_melal_kids" target="_blank"
-    class="bg-white text-[#0088cc] w-40 flex items-center justify-center gap-2 py-2 px-4 rounded-full shadow-[0_10px_30px_rgba(0,136,204,0.3)] transition-all duration-300 hover:scale-105 hover:bg-[#0088cc] hover:text-black">
-    <img src="/images/telegram.png" alt="Telegram" class="w-5 h-5" />
-    <span class="text-lg font-semibold">تلگرام</span>
-  </a>
-  <a href="https://wa.me" target="_blank"
-    class="bg-white text-[#25D366] w-40 flex items-center justify-center gap-2 py-2 px-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.3)] transition-all duration-300 hover:scale-105 hover:bg-[#25D366] hover:text-black">
-    <img src="/images/whatsapp.png" alt="WhatsApp" class="w-5 h-5" />
-    <span class="text-lg font-semibold">واتساپ</span>
-  </a>
-</div>
-
+    <div class="flex flex-col md:flex-row justify-between md:items-start text-center md:text-right space-y-10 md:space-y-0">
 
       <!-- Newsletter Section -->
-      <div class="w-full md:w-1/3 flex flex-col items-center text-center md:items-start md:text-right space-y-3">
+      <div class="w-full md:w-1/3 flex flex-col items-center text-center md:items-center md:text-center space-y-3 order-1 md:order-2">
         <img src="/images/3.png" alt="Newsletter Image"
           class="w-32 h-auto rounded-md shadow-sm border-none mx-auto" />
         <h3 class="text-xl font-bold mx-auto text-black">خبرنامه بنیاد ملل</h3>
         <p class="text-base mb-2 text-black">با عضویت در خبرنامه از جدیدترین تست‌ها و تخفیف‌ها مطلع شوید.</p>
-        <form class="w-full max-w-xs flex flex-col sm:flex-row gap-2 items-center md:items-start">
+        <form class="w-full max-w-xs flex flex-col sm:flex-row gap-2 items-center md:items-center">
           <input type="email" placeholder="ایمیل خود را وارد کنید..."
-            class="w-full  l text-sm text-black rounded focus:outline-none border-2" />
+            class="w-full text-sm text-black rounded focus:outline-none border-2" />
           <button
-            class="bg-gray-700  hover:bg-[#02aaaa] transition-colors text-white px-4 py-2 rounded text-sm">ثبت</button>
+            class="bg-gray-700 hover:bg-[#02aaaa] transition-colors text-white px-4 py-2 rounded text-sm">ثبت</button>
         </form>
       </div>
 
       <!-- Useful Links -->
-      <div class="w-full md:w-1/3">
+      <div class="w-full md:w-1/3 order-2 md:order-3">
         <h3 class="text-xl font-bold mb-4">لینک‌های مفید</h3>
         <ul class="space-y-6 text-sm">
           <li><a href="/about" class="hover:underline text-black font-bold">درباره ما</a></li>
@@ -49,6 +28,25 @@
           <li><a href="/privacy" class="hover:underline text-black font-bold">حریم خصوصی</a></li>
           <li><a href="/terms" class="hover:underline text-black font-bold">شرایط استفاده</a></li>
         </ul>
+      </div>
+
+      <!-- Social Buttons -->
+      <div class="w-full md:w-1/3 flex flex-col items-center space-y-10 order-3 md:order-1">
+        <a href="https://www.instagram.com/bonyad_melal_kids" target="_blank"
+          class="bg-white text-[#E1306C] w-40 flex items-center justify-center gap-2 py-2 px-4 rounded-full shadow-[0_10px_30px_rgba(225,48,108,0.3)] transition-all duration-300 hover:scale-105 hover:bg-[#E1306C] hover:text-black">
+          <img src="/images/instagram.png" alt="Instagram" class="w-5 h-5" />
+          <span class="text-lg font-semibold">اینستاگرام</span>
+        </a>
+        <a href="https://t.me/bonyad_melal_kids" target="_blank"
+          class="bg-white text-[#0088cc] w-40 flex items-center justify-center gap-2 py-2 px-4 rounded-full shadow-[0_10px_30px_rgba(0,136,204,0.3)] transition-all duration-300 hover:scale-105 hover:bg-[#0088cc] hover:text-black">
+          <img src="/images/telegram.png" alt="Telegram" class="w-5 h-5" />
+          <span class="text-lg font-semibold">تلگرام</span>
+        </a>
+        <a href="https://wa.me" target="_blank"
+          class="bg-white text-[#25D366] w-40 flex items-center justify-center gap-2 py-2 px-4 rounded-full shadow-[0_10px_30px_rgba(37,211,102,0.3)] transition-all duration-300 hover:scale-105 hover:bg-[#25D366] hover:text-black">
+          <img src="/images/whatsapp.png" alt="WhatsApp" class="w-5 h-5" />
+          <span class="text-lg font-semibold">واتساپ</span>
+        </a>
       </div>
 
     </div>

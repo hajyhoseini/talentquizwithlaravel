@@ -1,11 +1,4 @@
 <!-- هدر -->
-<div class="header" style="background: linear-gradient(to right, #fff, #fff); color: #333;">
-  <div class="header-content">
-    <nav class="navbar navbar-expand">
-      <!-- آیتم‌های منو -->
-    </nav>
-  </div>
-</div>
 
 <!-- سایدبار -->
 <div class="deznav z-10" style="background: linear-gradient(to right, #e0f7fa, #e0f7fa, #C0F8F8);">
