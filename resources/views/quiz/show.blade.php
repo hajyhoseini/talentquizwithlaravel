@@ -26,54 +26,55 @@
 </div>
 
 
-            <form method="POST" action="{{ route('quiz.submit') }}" id="quiz-form" class="hidden pt-10">
-                @csrf
-                <div class="text-left  pr-8 space-y-3 text-2xl text-black">
-                    @foreach ($questions->groupBy('section') as $section => $sectionQuestions)
-                        <div class="pb-5 mt-4 section {{ $loop->first ? '' : 'hidden' }}" data-section="{{ $loop->index }}">
-                            <!-- نمایش عنوان بخش -->
-                            <h3 class=" text-center text-xl xl:text-3xl  font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
+          <form method="POST" action="{{ route('quiz.submit') }}" id="quiz-form" class="hidden pt-10">
+          <input type="hidden" name="quiz_id" value="{{ $quiz->id }}">
 
-                            @foreach ($sectionQuestions as $index => $question)
-                                <div class="question {{ $loop->first ? '' : 'hidden' }}" data-question="{{ $index }}">
-                                    <p class="font-semibold mt-4 rounded-md text-xl xl:text-3xl  ">{{ $question->question }}</p>
-                                    <div class="mt-10 text-lg xl:text-3xl font-bold">
-                                        @foreach ([4 => 'خیلی زیاد', 3 => 'خوب', 2 => 'گاهی', 1 => 'کم'] as $value => $label)
-                                            <label class="font-bold mt-6 block answer-option text-xl xl:text-3xl font-bold text-black ">
-                                                <input type="radio" name="answers[{{ $question->id }}]" value="{{ $value }}"
-                                                       class="answer" onclick="handlePulse(this)">
-                                                {{ $label }}
-                                            </label>
-                                        @endforeach
-                                    </div>
-                                </div>
+    @csrf
+
+    <div class="text-left pr-8 space-y-3 text-2xl text-black">
+        @foreach ($questions->groupBy('section') as $section => $sectionQuestions)
+            <div class="pb-5 mt-4 section {{ $loop->first ? '' : 'hidden' }}" data-section="{{ $loop->index }}">
+                <h3 class="text-center text-xl xl:text-3xl font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
+
+                @foreach ($sectionQuestions as $index => $question)
+                    <div class="question {{ $loop->first ? '' : 'hidden' }}" data-question="{{ $index }}">
+                        <p class="font-semibold mt-4 rounded-md text-xl xl:text-3xl">{{ $question->question }}</p>
+                        <div class="mt-10 text-lg xl:text-3xl font-bold">
+                            @foreach ([4 => 'خیلی زیاد', 3 => 'خوب', 2 => 'گاهی', 1 => 'کم'] as $value => $label)
+                                <label class="font-bold mt-6 block answer-option text-xl xl:text-3xl font-bold text-black">
+                                    <input type="radio" name="answers[{{ $question->id }}]" value="{{ $value }}"
+                                           class="answer" onclick="handlePulse(this)">
+                                    {{ $label }}
+                                </label>
                             @endforeach
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
+            </div>
+        @endforeach
+    </div>
 
-                <!-- دکمه‌ها و پیشرفت در یک ردیف -->
-                <div class="flex justify-between items-center mt-8">
-                    <button type="button" onclick="prevStep()" id="prev-btn"
-                            class="hidden text-2xl bg-yellow-300 px-6 py-2 rounded font-bold text-black">
-                        قبلی
-                    </button>
+    <!-- دکمه‌ها و پیشرفت -->
+    <div class="flex justify-between items-center mt-8">
+        <button type="button" onclick="prevStep()" id="prev-btn" class="hidden text-2xl bg-yellow-300 px-6 py-2 rounded font-bold text-black">
+            قبلی
+        </button>
 
-                    <span class=" p-2 rounded-md text-2xl  font-bold bg-white/50 text-black">
-                        پیشرفت: <span class="text-xl" id="progress-percent">0%</span>
-                    </span>
-                </div>
+        <span class="p-2 rounded-md text-2xl font-bold bg-white/50 text-black">
+            پیشرفت: <span class="text-xl" id="progress-percent">0%</span>
+        </span>
+    </div>
 
-                <!-- دکمه ارسال -->
-<div class="flex justify-center ">
-    <button type="submit" id="submit-btn"
-            class="hidden text-xl mb-4 bg-green-500 text-white px-6 py-2 rounded-md flex items-center gap-3 justify-center transition-all"
-           >
-        <span class="submit-text">ارسال</span>
-        <span class="spinner hidden"></span>
-    </button>
-</div>
-            </form>
+    <!-- دکمه ارسال -->
+    <div class="flex justify-center">
+        <button type="submit" id="submit-btn"
+                class="hidden text-xl mb-4 bg-green-500 text-white px-6 py-2 rounded-md flex items-center gap-3 justify-center transition-all">
+            <span class="submit-text">ارسال</span>
+            <span class="spinner hidden"></span>
+        </button>
+    </div>
+</form>
+
 
         </div>
     </div>
@@ -112,6 +113,35 @@
             padding: 4px;
             border-radius: 8px;
         }
+/* هاله سفید با انیمیشن دودی */
+@keyframes smokyGlow {
+    0% {
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+    50% {
+        box-shadow: 0 0 25px 10px rgba(255, 255, 255, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+.smoky-glow {
+    animation: smokyGlow 0.6s ease-out;
+    border-radius: 12px;
+}
+.answer-option {
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 2px solid white; /* بوردر سفید ثابت */
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1); /* برای دید بهتر در بک‌گراند تیره */
+}
+.answer-option:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* افکت هاور ملایم */
+}
+
 
         .fade-in {
             animation: fadeIn 0.6s ease forwards;
@@ -290,12 +320,13 @@
         }
 
         function handlePulse(input) {
-            const parent = input.closest('.answer-option');
-            parent.classList.add('white-border-animate');
-            setTimeout(() => {
-                parent.classList.remove('white-border-animate');
-                nextStep();
-            }, 300);
-        }
+    const parent = input.closest('.answer-option');
+    parent.classList.add('smoky-glow');
+    setTimeout(() => {
+        parent.classList.remove('smoky-glow');
+        nextStep();
+    }, 600); // زمان انیمیشن
+}
+
     </script>
 </x-app-layout>

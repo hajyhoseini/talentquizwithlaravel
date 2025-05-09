@@ -73,3 +73,15 @@ Route::get('/quiz-builder', function () {
 
 Route::get('/test', [MBTIQuizController::class, 'test'])->name('test');
 Route::get('/test2', [MBTIQuizController::class, 'test2'])->name('test2');
+Route::get('/exams/{id}/interpretation', [ExamController::class, 'interpretation'])->name('exams.interpretation');
+
+use App\Http\Controllers\ProfileController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+});
+Route::middleware(['auth'])->get('/completed-tests', [ExamController::class, 'completedExams'])->name('exams.completed');
+
+
+

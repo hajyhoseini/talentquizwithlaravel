@@ -31,7 +31,6 @@
         }
 
         .custom-page-bg {
-            background-image: url('/images/kids-bg.jpeg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;

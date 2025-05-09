@@ -52,16 +52,23 @@
           <span class="nav-text">داشبورد</span>
         </a>
         <ul>
-          @auth
-            <li><a href="index.html" style="color: #777;">ویرایش اطلاعات</a></li>
-            <li>
-              <a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();" style="color: #777;">خروج</a>
-              <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">@csrf</form>
-            </li>
-          @else
-            <li><a href="javascript:void(0);" class="login-btn" style="color: #777;">ورود</a></li>
-          @endauth
-        </ul>
+  @auth
+    <li>
+      <a href="{{ route('profile.edit') }}" style="color: #777;">ویرایش اطلاعات</a>
+    </li>
+    <li>
+      <a href="javascript:void(0);" onclick="document.getElementById('logout-form').submit();" style="color: #777;">خروج</a>
+      <form id="logout-form" method="POST" action="{{ route('logout') }}" style="display: none;">
+        @csrf
+      </form>
+    </li>
+  @else
+    <li>
+      <a href="javascript:void(0);" class="login-btn" style="color: #777;">ورود</a>
+    </li>
+  @endauth
+</ul>
+
       </li>
 
       <li>
@@ -70,7 +77,9 @@
           <span class="nav-text">آزمون‌ها</span>
         </a>
         <ul>
-          <li><a href="./app-profile.html" style="color: #777;">آزمون‌های انجام شده</a></li>
+<li>
+<li><a href="{{ route('exams.completed') }}" style="color: #777;"> آزمون های انجام شده</a></li>
+
           <li><a href="./post-details.html" style="color: #777;">آزمون‌های انجام نشده</a></li>
           <li><a href="{{ route('exams.index') }}" style="color: #777;">همه آزمون‌ها</a></li>
         </ul>

@@ -16,20 +16,16 @@
 
     <div class="fixed inset-0 bg-cover bg-center"
          style="background-image: url('{{ asset('images/top-view-desk-with-apple-paper-clips.jpg') }}');">
+         
     </div>
 
     {{-- 🔳 محتوای اصلی --}}
     <div class=" container-fluid relative flex flex-col items-center min-h-screen px-4 sm:px-6 lg:px-8 py-10">
         <div class="rounded-2xl p-6 sm:p-2 w-full max-w-7xl text-center">
             {{-- 🔸 بخش نتایج نهایی --}}
-            
+            <div id="pdf-content">
             {{-- 📈 نمودار میله‌ای --}}
-            <div class="mt-12 w-3/5 mx-auto">
-    <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-8 p-3 rounded-lg bg-[#04CCCC] text-center">
-        📈 نمودار گرافیکی استعدادها
-    </h4>
-    <canvas id="resultChart" height="100"></canvas>
-</div>
+        <x-chart-component :results="$results" />
             <div id="final-results" class="lg:w-3/5 mx-auto px-4 mt-16 opacity-0 translate-y-8 transition-all duration-1000 ease-out">
                 <h3 class="text-xl sm:text-2xl md:text-3xl font-extrabold mb-6 text-white text-center p-4 rounded-2xl bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1] shadow-lg">
                     📊 نتایج نهایی شما
@@ -76,15 +72,33 @@
     <p class="mt-2 text-gray-600">شما یک قدم به پیشرفت نزدیک‌تر شدید!</p>
     <p class="text-gray-600">برای ادامه مسیر یادگیری، به سراغ آزمون‌های بعدی بروید.</p>
   </div>
-
+</div>
   <!-- دکمه بازگشت -->
   <div class="w-full flex justify-center mt-8">
     <a href="/"
-       class="text-sm sm:text-base md:text-lg px-6 py-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-orange-600 transition transform hover:scale-105 shadow-lg font-medium">
+       class="text-sm sm:text-base md:text-lg px-6 py-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-[#54a0ff] transition transform hover:scale-105 shadow-lg font-medium">
        🚀 بازگشت به صفحه آزمون‌ها
     </a>
+    <a href="{{ route('exams.interpretation', $quiz->id) }}" class="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded">
+    تفسیر بیشتر نتایج
+</a>
+
   </div>
 </div>
+<button id="downloadPdfBtn" class="mt-2 mb-4 px-4 py-3 bg-[#1dd1a1] text-white text-xs sm:text-sm rounded-lg hover:bg-[#54a0ff] focus:outline-none transition">
+    دانلود PDF
+</button>
+<x-share-buttons :url="route('quiz.results')" :title="'📊 نتیجه آزمون من رو ببین!'" />
+
+
+<script>
+  document.getElementById('downloadPdfBtn').addEventListener('click', () => {
+    window.print();
+  });
+</script>
+
+
+
 
 
     {{-- 📦 اسکریپت‌ها و انیمیشن‌ها --}}
@@ -96,6 +110,23 @@
     <script src="js/deznav-init.js"></script>
     {{-- 💫 انیمیشن‌ها و تعامل‌ها --}}
     <script>
+            document.getElementById("downloadPdfBtn").addEventListener("click", function() {
+        // بارگذاری jsPDF
+        const { jsPDF } = window.jspdf;
+
+        // ایجاد یک شیء جدید jsPDF
+        const doc = new jsPDF();
+
+        // انتخاب محتوای کد که می‌خواهیم به PDF تبدیل شود
+        const codeContent = document.getElementById("codeContent").innerText;
+
+        // اضافه کردن کدها به PDF
+        doc.text(codeContent, 10, 10); // 10,10 مختصات شروع متن
+
+        // ذخیره کردن PDF
+        doc.save("code_output.pdf");
+    });
+    
      document.addEventListener("DOMContentLoaded", function () {
     let hasPlayed = false;
 
@@ -216,27 +247,17 @@
 
             // ✅ باکس‌های تحلیل (با ظاهر شدن انیمیشن)
             const sections = document.querySelectorAll(".section-box");
-            const sectionCooldowns = new WeakMap();
+const sectionObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("opacity-100", "translate-y-0");
+            entry.target.classList.remove("opacity-0", "translate-y-8");
+            observer.unobserve(entry.target); // 🔥 فقط یه‌بار انیمیشن اجرا بشه
+        }
+    });
+}, { threshold: 0.3 });
 
-            const sectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const now = Date.now();
-                    const lastTime = sectionCooldowns.get(entry.target) || 0;
-
-                    if (entry.isIntersecting) {
-                        if (now - lastTime > 3000) {
-                            entry.target.classList.add("opacity-100", "translate-y-0");
-                            entry.target.classList.remove("opacity-0", "translate-y-8");
-                            sectionCooldowns.set(entry.target, now);
-                        }
-                    } else {
-                        entry.target.classList.remove("opacity-100", "translate-y-0");
-                        entry.target.classList.add("opacity-0", "translate-y-8");
-                    }
-                });
-            }, { threshold: 0.3 });
-
-            sections.forEach(sec => sectionObserver.observe(sec));
+sections.forEach(sec => sectionObserver.observe(sec));
 
             // ✅ نمودار میله‌ای
             const chartContainer = document.getElementById('resultChart');
@@ -336,5 +357,8 @@
 
             observer.observe(finalResults);
         });
+        
     </script>
+
+
 </x-app-layout>

@@ -345,67 +345,9 @@
   <span class="block mt-2 text-teal-800 font-semibold">یادگیری مستمر، تنها تفاوت پایدار میان افراد موفق و متوسط است.</span>
 </section>
 
-<section class="mt-16 max-w-3xl mx-auto bg-white/60 backdrop-blur-md p-6 rounded-2xl shadow-md text-left">
-  <h3 class="text-xl font-bold text-teal-800 mb-4">📞 تماس با پشتیبانی یا گفت‌وگو با مشاور</h3>
-  <div class="contact-support">
-    <div class="contact-item">
-      <button class="contact-button text-teal-800 w-full text-left py-3 px-4 border-b-2 border-teal-200 focus:outline-none hover:bg-teal-50 transition-all">
-        راه‌های ارتباطی با پشتیبانی
-      </button>
-      <div class="contact-answer px-4 py-2 text-gray-700 hidden">
-        شما می‌توانید از طریق ایمیل یا شماره تماس زیر با تیم پشتیبانی ما در ارتباط باشید:
-        <ul class="mt-2 list-disc list-inside">
-          <li>ایمیل: hajy3843@gmail.com</li>
-          <li>تلفن: 09388780198</li>
-        </ul>
-      </div>
-    </div>
 
-    <div class="contact-item">
-      <button class="contact-button text-teal-800 w-full text-left py-3 px-4 border-b-2 border-teal-200 focus:outline-none hover:bg-teal-50 transition-all">
-        گفت‌وگو با مشاور
-      </button>
-      <div class="contact-answer px-4 py-2 text-gray-700 hidden">
-        برای مشاوره و راهنمایی، می‌توانید از طریق دکمه زیر به بخش گفت‌وگو آنلاین با مشاور ما دسترسی پیدا کنید.
-        <br>
-        <a href="https://example.com/chat" class="text-teal-700 font-semibold hover:text-teal-900 mt-3 inline-block">
-          گفت‌وگو آنلاین با مشاور
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="mt-16 max-w-3xl mx-auto bg-white/60 backdrop-blur-md p-6 rounded-2xl shadow-md text-left">
-  <h3 class="text-xl font-bold text-teal-800 mb-4">❓ سوالات متداول</h3>
-  <div class="faq">
-    <div class="faq-item">
-      <button class="faq-question text-teal-800 w-full text-left py-3 px-4 border-b-2 border-teal-200 focus:outline-none hover:bg-teal-50 transition-all">
-        چگونه می‌توانم یک آزمون جدید شروع کنم؟
-      </button>
-      <div class="faq-answer px-4 py-2 text-gray-700 hidden">
-        شما می‌توانید از صفحه اصلی به لیست آزمون‌های موجود دسترسی پیدا کرده و با انتخاب یکی از آن‌ها، آزمون را شروع کنید.
-      </div>
-    </div>
+@include('layouts.components.faq')
 
-    <div class="faq-item">
-      <button class="faq-question text-teal-800 w-full text-left py-3 px-4 border-b-2 border-teal-200 focus:outline-none hover:bg-teal-50 transition-all">
-        آیا امکان مشاهده نتایج آزمون‌ها وجود دارد؟
-      </button>
-      <div class="faq-answer px-4 py-2 text-gray-700 hidden">
-        بله، شما می‌توانید بعد از انجام هر آزمون، نتایج آن را در قسمت "نتایج آزمون‌ها" مشاهده کنید.
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-question text-teal-800 w-full text-left py-3 px-4 border-b-2 border-teal-200 focus:outline-none hover:bg-teal-50 transition-all">
-        چگونه می‌توانم بسته‌های آموزشی خود را مدیریت کنم؟
-      </button>
-      <div class="faq-answer px-4 py-2 text-gray-700 hidden">
-        شما می‌توانید بسته‌های آموزشی خود را از بخش "بسته‌های آموزشی" در داشبورد خود مدیریت کنید.
-      </div>
-    </div>
-  </div>
-</section>
 
     </div>
   </div>
@@ -460,7 +402,60 @@
         });
       }, 2000); // ۲ ثانیه صبر
     });
-</script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('welcomeModal');
+    const closeBtn = document.getElementById('closeWelcomeModal');
 
+    // بررسی اینکه آیا قبلاً مدال نمایش داده شده یا نه
+    const hasSeenModal = localStorage.getItem('welcomeModalSeen');
+
+    if (!hasSeenModal) {
+      // نمایش مدال پس از کمی تاخیر
+      setTimeout(() => {
+        modal.classList.remove('hidden');
+      }, 1000);
+    }
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      // ذخیره اینکه کاربر مدال رو دیده
+      localStorage.setItem('welcomeModalSeen', 'true');
+    });
+  });
+
+</script>
+<!-- Modal خوش‌آمدگویی با Lottie -->
+<div id="welcomeModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+  <div class="bg-white rounded-2xl shadow-xl p-6 max-w-md w-1/2 text-center">
+    
+    <!-- انیمیشن Lottie -->
+    <lottie-player
+      src="https://assets9.lottiefiles.com/packages/lf20_myejiggj.json"
+      background="transparent"
+      speed="1"
+      style="width: 150px; height: 150px; margin: 0 auto;"
+      loop
+      autoplay
+    ></lottie-player>
+
+    <!-- متن خوش آمدگویی -->
+    <h2 class="text-xl font-bold text-teal-800 mt-4 mb-2">👋 به سامانه استعدادیابی ملل خوش آمدید</h2>
+    <p class="text-gray-700 text-sm leading-relaxed">
+      اینجا جایی برای کشف و شکوفایی استعدادهای شماست. <br>
+      با ما همراه باشید تا مسیر رشدتان را باهم بسازیم. <br>
+      از همراهی‌تان خوشحالیم!
+    </p>
+
+    <!-- دکمه بستن -->
+    <button id="closeWelcomeModal" class="mt-4 px-6 py-2 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition-all">
+      شروع کنید
+    </button>
+  </div>
+</div>
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<footer>
+<x-footer/>
+</footer>
 </body>
 </html>
