@@ -11,6 +11,9 @@ use Morilog\Jalali\Jalalian;
 use Illuminate\Http\Request;
 use App\Models\Quiz;
  use App\Models\AllQuestion;
+ use App\Services\QuizEvaluationContext;
+use App\Strategies\DefaultEvaluationStrategy;
+
 class ExamController extends Controller
 {
     // نمایش اطلاعات آخرین آزمون تکمیل شده توسط کاربر
@@ -33,57 +36,7 @@ class ExamController extends Controller
         return view('completed_exams', compact('completedExams'));
     }
     
-    // نمایش تفسیر نتایج آزمون برای یک کاربر خاص
-    public function showInterpretation($quiz_id, $user_id)
-    {
-        // بررسی اینکه آیا کاربر فعلی به این داده‌ها دسترسی دارد یا خیر
-        if (auth()->id() !== (int) $user_id) {
-            abort(403, 'شما اجازه دسترسی به این صفحه را ندارید.');
-        }
-    
-        // دریافت تمام جواب‌های مربوط به این آزمون و کاربر
-        $answers = DB::table('all_answers')
-            ->where('user_id', $user_id)
-            ->where('quiz_id', $quiz_id)
-            ->get();
-    
-        // اگر جواب‌ها پیدا نشدند، بازگشت به صفحه قبلی با پیغام خطا
-        if ($answers->isEmpty()) {
-            return redirect()->back()->with('error', 'نتیجه‌ای یافت نشد.');
-        }
-    
-        // ایجاد آرایه‌ای برای ذخیره نتایج تحلیل
-        $results = [];
-    
-        // پردازش جواب‌ها و محاسبه نتایج بر اساس بخش‌های مختلف
-        foreach ($answers as $answer) {
-            $section = $answer->section;
-    
-            if (!isset($results[$section])) {
-                $results[$section] = [
-                    'score' => 0,
-                    'count' => 0,
-                    'suggestions' => [],
-                ];
-            }
-    
-            $results[$section]['score'] += (int) $answer->answer_value;
-            $results[$section]['count'] += 1;
-        }
-    
-        // محاسبه میانگین امتیاز و تحلیل نتایج هر بخش
-        foreach ($results as $section => &$data) {
-            $averageScore = $data['score'] / $data['count'];
-            $data['score'] = round($averageScore, 2); // میانگین امتیاز با دو رقم اعشار
-    
-            // دریافت تفسیر و پیشنهادات
-            $data['interpretation'] = $this->getInterpretation($section, $data['score']);
-            $data['suggestions'] = $this->getSuggestions($section, $data['score']);
-        }
-    
-        // نمایش نتایج در ویو
-        return view('exams.interpretation', compact('results'));
-    }
+  
     
     // نمایش اطلاعات جزئیات یک آزمون بر اساس شناسه آن
     public function show($id)
@@ -113,60 +66,20 @@ $questions = AllQuestion::with('options')
     }
 
     // تفسیر نتایج آزمون برای یک آزمون خاص
-    public function interpretation($id)
-    {
-        // دریافت اطلاعات آزمون و شناسه کاربر فعلی
-        $quiz = Quiz::findOrFail($id);
-        $userId = Auth::id();
-    
-        // دریافت جواب‌های مربوط به این آزمون برای کاربر فعلی
-        $answers = AllAnswer::where('user_id', $userId)
-        ->where('quiz_id', $quiz->id)
-        ->get();
 
-        // ایجاد آرایه برای ذخیره نتایج
-        $results = [];
-    
-        // پردازش جواب‌ها و محاسبه نمرات
-        foreach ($answers as $answer) {
-            $section = $answer->section;
-            if (!isset($results[$section])) {
-                $results[$section] = ['score' => 0];
-            }
-            $results[$section]['score'] += $answer->answer_value;
-        }
-    
-        // تفسیر نتایج بر اساس نمره‌های هر بخش
-        foreach ($results as $section => &$data) {
-            $score = $data['score'];
-    
-            if ($score >= 17) {
-                $level = 'high'; // نمره بالا
-            } elseif ($score >= 12) {
-                $level = 'medium'; // نمره متوسط
-            } else {
-                $level = 'low'; // نمره پایین
-            }
-    
-            // دریافت تفسیر و پیشنهادات از مدل TalentInsight
-            $insight = TalentInsight::where('section', $section)
-                                    ->where('level', $level)
-                                    ->first();
-    
-            $data['level'] = $level;
-            $data['interpretation'] = $insight ? $insight->interpretation : 'تفسیر یافت نشد.'; // تفسیر
-            $data['suggestions'] = [];
-    
-            // اگر پیشنهادات وجود داشتند، آن‌ها را پردازش می‌کنیم
-            if ($insight && !empty($insight->suggestions)) {
-                $lines = preg_split('/\r\n|\r|\n/', trim($insight->suggestions));
-                $data['suggestions'] = array_filter($lines, fn($line) => !empty(trim($line))); // تمیز کردن پیشنهادات
-            }
-        }
-    
-        // ارسال نتایج به ویو
-        return view('exams.interpretation', compact('quiz', 'results'));
-    }
+public function interpretation($id)
+{
+    $quiz = Quiz::findOrFail($id);
+    $userId = Auth::id();
+
+    // انتخاب استراتژی مناسب - فعلاً فقط یکی داریم
+    $strategy = new DefaultEvaluationStrategy();
+    $context = new QuizEvaluationContext($strategy);
+
+    $results = $context->evaluate($quiz->id, $userId);
+
+    return view('exams.interpretation', compact('quiz', 'results'));
+}
 
     // شروع یک آزمون جدید بر اساس شناسه
     public function start($id)

@@ -6,8 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quiz extends Model
 {
-    // اگر نام جدول متفاوت باشد
-    protected $table = 'quizzes'; // نام جدول را به طور دستی وارد کنید
+    protected $table = 'quizzes';
 
-    protected $fillable = ['title', 'description', 'slug', 'image'];
+    protected $fillable = [
+        'title',
+        'description',
+        'description_min',
+        'slug',
+        'image',
+        'image_main',  // ← اضافه کردن ستون جدید
+    ];
 }

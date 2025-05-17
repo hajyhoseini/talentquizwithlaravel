@@ -1,4 +1,4 @@
-<x-app-layout>
+<!-- <x-app-layout>
     <div class="py-6 px-4">
         <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">نتایج تفسیر آزمون</h1>
 
@@ -95,4 +95,4 @@
             requestAnimationFrame(animate);
         }
     </script>
-</x-app-layout>
+</x-app-layout> -->
