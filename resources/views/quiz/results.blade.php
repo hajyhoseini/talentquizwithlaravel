@@ -76,19 +76,18 @@
   <!-- دکمه بازگشت -->
   <div class="w-full flex justify-center mt-8">
     <a href="/"
-       class="text-sm sm:text-base md:text-lg px-6 py-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-[#54a0ff] transition transform hover:scale-105 shadow-lg font-medium">
+       class="text-sm sm:text-base md:text-lg px-3 py-3 mx-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-[#54a0ff] transition transform hover:scale-105 shadow-lg font-medium">
        🚀 بازگشت به صفحه آزمون‌ها
     </a>
-    <a href="{{ route('exams.interpretation', $quiz->id) }}" class="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded">
-    تفسیر بیشتر نتایج
-</a>
+  <a class="text-sm mx-3 sm:text-base md:text-lg px-3 py-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-[#54a0ff] transition transform hover:scale-105 shadow-lg font-medium" href="{{ route('user.results', ['quizId' => $quizId]) }}">صفحه دانلود PDF</a>
+
 
   </div>
 </div>
-<button id="downloadPdfBtn" class="mt-2 mb-4 px-4 py-3 bg-[#1dd1a1] text-white text-xs sm:text-sm rounded-lg hover:bg-[#54a0ff] focus:outline-none transition">
+<button id="downloadPdfBtn" class="mt-2 mb-4 hidden px-4 py-3 bg-[#1dd1a1] text-white text-xs sm:text-sm rounded-lg hover:bg-[#54a0ff] focus:outline-none transition">
     دانلود PDF
 </button>
-<x-share-buttons :url="route('quiz.results')" :title="'📊 نتیجه آزمون من رو ببین!'" />
+<x-share-buttons :url="route('quiz.results', ['userId' => $userId, 'quizId' => $quizId])" :title="'📊 نتیجه آزمون من رو ببین!'" />
 
 
 <script>
@@ -103,7 +102,7 @@
 
     {{-- 📦 اسکریپت‌ها و انیمیشن‌ها --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.10/lottie.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
     <script src="js/global.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
     <script src="js/custom.min.js"></script>

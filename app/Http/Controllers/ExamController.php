@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Morilog\Jalali\Jalalian;
 use Illuminate\Http\Request;
 use App\Models\Quiz;
-
+ use App\Models\AllQuestion;
 class ExamController extends Controller
 {
     // نمایش اطلاعات آخرین آزمون تکمیل شده توسط کاربر
@@ -92,10 +92,12 @@ class ExamController extends Controller
         $quiz = Quiz::findOrFail($id);
     
         // دریافت سوالات مربوط به این آزمون
-        $questions = DB::table('all_questions')
-                       ->where('quiz_id', $quiz->id)
-                       ->get();
-    
+
+
+$questions = AllQuestion::with('options')
+               ->where('quiz_id', $quiz->id)
+               ->get();
+
         // ارسال اطلاعات آزمون و سوالات به ویو
         return view('quiz.show', compact('quiz', 'questions'));
     }

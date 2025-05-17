@@ -10,11 +10,10 @@
     <h3 class="text-3xl bg-white/50 font-bold mb-4 text-black rounded-md py-2">سلام! آماده‌ای شروع کنیم؟</h3>
 
     <!-- 🔹 توضیحات آزمون -->
-    <div class="text-left bg-white/40 rounded-lg p-4 text-gray-800 mb-6 leading-relaxed shadow xl:text-2xl text-sm">
-        <p class="text-xl xl:text-3xl font-bold text-indigo-800 mb-2">🧠 آزمون جامع استعدادیابی کودکان ۳ تا ۶ ساله</p>
-        <p class="text-xl xl:text-3xl font-bold">این آزمون شامل <span class="font-semibold">۱۰ بخش</span> و <span class="font-semibold">۵۰ سؤال</span> است (۵ سؤال در هر بخش)</p> </p>
-
-        <p class="text-xl xl:text-3xl font-bold" dir="rtl">آزمون به‌گونه‌ای طراحی شده که برای <span class="font-semibold">والدین و مربیان</span> قابل‌اجرا باشد و تمامی جنبه‌های استعداد کودک را بررسی کند.    </div>
+  <!-- 🔹 توضیحات آزمون -->
+<div class="text-left bg-white/40 rounded-lg p-4 text-gray-800 mb-6 leading-relaxed shadow xl:text-2xl text-sm">
+    {!! $quiz->description_min !!}
+</div>
 
     <button onclick="autoFillAnswers()" class="bg-blue-600 text-xl xl:text-3xl font-bold text-white px-6 py-2 rounded hover:bg-blue-700 mt-4">
         تست خودکار (خیلی زیاد)
@@ -26,9 +25,8 @@
 </div>
 
 
-          <form method="POST" action="{{ route('quiz.submit') }}" id="quiz-form" class="hidden pt-10">
-          <input type="hidden" name="quiz_id" value="{{ $quiz->id }}">
-
+<form method="POST" action="{{ route('quiz.submit') }}" id="quiz-form" class="hidden pt-10">
+    <input type="hidden" name="quiz_id" value="{{ $quiz->id }}">
     @csrf
 
     <div class="text-left pr-8 space-y-3 text-2xl text-black">
@@ -40,12 +38,11 @@
                     <div class="question {{ $loop->first ? '' : 'hidden' }}" data-question="{{ $index }}">
                         <p class="font-semibold mt-4 rounded-md text-xl xl:text-3xl">{{ $question->question }}</p>
                         <div class="mt-10 text-lg xl:text-3xl font-bold">
-                            @foreach ([4 => 'خیلی زیاد', 3 => 'خوب', 2 => 'گاهی', 1 => 'کم'] as $value => $label)
-                                <label class="font-bold mt-6 block answer-option text-xl xl:text-3xl font-bold text-black">
-                                    <input type="radio" name="answers[{{ $question->id }}]" value="{{ $value }}"
-                                           class="answer" onclick="handlePulse(this)">
-                                    {{ $label }}
-                                </label>
+                            @foreach ($question->options as $option)
+                                <div class="answer-option ">
+                                    <input type="radio" name="question_{{ $question->id }}" value="{{ $option->value }}">
+                                    <span>{{ $option->label }}</span>
+                                </div>
                             @endforeach
                         </div>
                     </div>
@@ -74,6 +71,7 @@
         </button>
     </div>
 </form>
+    
 
 
         </div>
@@ -108,11 +106,16 @@
             border-radius: 8px;
         }
 
-        .answer-option {
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 8px;
-        }
+     .answer-option {
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 12px; /* ✅ فاصله عمودی بین گزینه‌ها */
+}
+
 /* هاله سفید با انیمیشن دودی */
 @keyframes smokyGlow {
     0% {
@@ -305,19 +308,20 @@
             }
         }
 
-        function updateButtons() {
-            prevBtn.classList.toggle("hidden", currentSection === 0 && currentQuestion === 0);
-            let totalQuestions = document.querySelectorAll(".question").length;
-            let answered = document.querySelectorAll(".answer:checked").length;
-            submitBtn.classList.toggle("hidden", answered < totalQuestions);
-        }
+     function updateButtons() {
+    prevBtn.classList.toggle("hidden", currentSection === 0 && currentQuestion === 0);
+    let totalQuestions = document.querySelectorAll(".question").length;
+    let answered = document.querySelectorAll('input[type="radio"]:checked').length;  // اصلاح این خط
+    submitBtn.classList.toggle("hidden", answered < totalQuestions);
+}
 
-        function updateProgress() {
-            let total = document.querySelectorAll(".question").length;
-            let answered = document.querySelectorAll(".answer:checked").length;
-            let percent = Math.round((answered / total) * 100);
-            document.getElementById("progress-percent").textContent = percent + "%";
-        }
+function updateProgress() {
+    let total = document.querySelectorAll(".question").length;
+    let answered = document.querySelectorAll('input[type="radio"]:checked').length;  // اصلاح این خط
+    let percent = Math.round((answered / total) * 100);
+    document.getElementById("progress-percent").textContent = percent + "%";
+}
+
 
         function handlePulse(input) {
     const parent = input.closest('.answer-option');
@@ -327,6 +331,21 @@
         nextStep();
     }, 600); // زمان انیمیشن
 }
+document.querySelectorAll('input[type="radio"]').forEach(input => {
+    input.addEventListener('change', function() {
+        handlePulse(this);
+    });
+});
+
+document.querySelectorAll('.answer-option').forEach(option => {
+    option.addEventListener('click', function () {
+        const input = this.querySelector('input[type="radio"]');
+        if (input) {
+            input.checked = true;
+            input.dispatchEvent(new Event('change')); // برای اجرای انیمیشن و nextStep
+        }
+    });
+});
 
     </script>
 </x-app-layout>

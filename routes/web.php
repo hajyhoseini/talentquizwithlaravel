@@ -43,7 +43,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 
     Route::get('/quiz', [QuizController::class, 'showQuiz'])->name('quiz.show');
     Route::post('/quiz', [QuizController::class, 'submitAnswers'])->name('quiz.submit');
-    Route::get('/quiz/results', [QuizController::class, 'showResults'])->name('quiz.results');
+Route::get('/quiz/results/{userId}/{quizId}', [QuizController::class, 'showResults'])->name('quiz.results');
 
     use App\Http\Controllers\MbtiQuizController;
 
@@ -85,5 +85,5 @@ Route::middleware(['auth'])->get('/completed-tests', [ExamController::class, 'co
 
 
 
-Route::get('/user/results', [QuizController::class, 'showResults2'])->name('user.results');
+Route::get('/user/results/{quizId}', [QuizController::class, 'showResults2'])->name('user.results');
 

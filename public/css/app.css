@@ -854,6 +854,10 @@ select {
 .col-span-full {
   grid-column: 1 / -1;
 }
+.mx-3 {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem;
@@ -989,6 +993,9 @@ select {
 .h-16 {
   height: 4rem;
 }
+.h-2\/3 {
+  height: 66.666667%;
+}
 .h-20 {
   height: 5rem;
 }
@@ -1015,10 +1022,6 @@ select {
 }
 .h-auto {
   height: auto;
-}
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
 }
 .h-full {
   height: 100%;
@@ -1094,10 +1097,6 @@ select {
 }
 .w-auto {
   width: auto;
-}
-.w-fit {
-  width: -moz-fit-content;
-  width: fit-content;
 }
 .w-full {
   width: 100%;

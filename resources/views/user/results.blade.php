@@ -14,12 +14,10 @@
     }
 </style>
     <div class="flex">
-        <div id="main-wrapper">
+       
+           
             
-            @include('layouts.components.imageHeader')
-            @include('layouts.components.sidebar')
-            <div class="content-body">
-    <div class="container-fluid">
+  
                   <div class="flex-1  pt-10 px-6 w-full">
             <div class="text-center bg-gradient-to-br from-white/70 to-teal-50/60 backdrop-blur-xl border border-teal-300 rounded-3xl p-6 sm:p-7 shadow-xl relative overflow-hidden transition duration-300 hover:shadow-2xl text-sm sm:text-base">
                 <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-teal-800 mb-4 sm:mb-6">
@@ -60,10 +58,8 @@
         دانلود PDF
     </button>
 </div>
-        </div>
-    </div>
             </div>
-            </div>
+           
         </div>
 
   
