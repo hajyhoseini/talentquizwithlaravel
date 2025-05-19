@@ -296,7 +296,7 @@
 
                 updateButtons();
                 updateProgress();
-            }, 300);
+            }, 200);
         }
 
         function nextSection() {
@@ -308,7 +308,7 @@
                 const first = sections[currentSection].querySelector(".question");
                 first.classList.remove("hidden");
                 first.classList.add("fade-in");
-                setTimeout(() => first.classList.remove("fade-in"), 300);
+                setTimeout(() => first.classList.remove("fade-in"), 200);
             }
         }
 
@@ -333,7 +333,7 @@ function updateProgress() {
     setTimeout(() => {
         parent.classList.remove('smoky-glow');
         nextStep();
-    }, 600); // زمان انیمیشن
+    }, 400); // زمان انیمیشن
 }
 document.querySelectorAll('input[type="radio"]').forEach(input => {
     input.addEventListener('change', function() {

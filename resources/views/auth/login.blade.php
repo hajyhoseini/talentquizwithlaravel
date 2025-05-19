@@ -37,10 +37,13 @@
 
                     <!-- مرا به خاطر بسپار -->
                     <div class="flex items-center justify-between mt-4">
-                        <div class="flex items-center">
-                            <x-checkbox id="remember_me" name="remember" class="text-indigo-600" />
-                            <x-label for="remember_me" :value="__('مرا به خاطر بسپار')" class="mr-2 text-gray-700" />
-                        </div>
+                       <div class="flex items-center">
+    <x-checkbox id="remember_me" name="remember" class="text-indigo-600" />
+    <a href="/register" class="mr-2 text-gray-700 hover:text-indigo-600 transition-colors duration-200">
+     ثبت نام 
+    </a>
+</div>
+
 
                         <div>
                             <a href="{{ route('password.request') }}" class="text-indigo-600 hover:text-indigo-800">

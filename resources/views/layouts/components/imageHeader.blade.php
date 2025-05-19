@@ -29,11 +29,17 @@
   .nav-buttons {
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;           /* یک ردیف باشن همیشه */
+    justify-content: center;
+    max-width: 700px;            /* کمی بزرگتر برای لپ‌تاپ */
+    margin: 0 auto;
+    overflow-x: auto;            /* اسکرول افقی اگر فضا کم بود */
+    padding: 0 10px;
   }
 
   .nav-button {
-    padding: 10px 20px;
+    flex: 0 0 180px;             /* عرض ثابت برای همه دکمه‌ها */
+    padding: 12px 20px;
     text-decoration: none;
     border-radius: 8px;
     font-size: 16px;
@@ -42,9 +48,12 @@
     color: #2c3e50;
     background-color: white;
     border: 1px solid #ccc;
+    text-align: center;
+    box-sizing: border-box;
+    white-space: nowrap;         /* جلوگیری از شکستن متن */
   }
 
-  /* حالت هاور */
+  /* حالت هاور و فعال */
   .nav-button.home:hover,
   .nav-button.home.active {
     background-color: #1abc9c;
@@ -63,15 +72,17 @@
     color: white;
   }
 
-  @media (max-width: 600px) {
+  /* حالت ریسپانسیو برای گوشی: دکمه‌ها کنار هم، کوچکتر و فونت کوچکتر */
+  @media (max-width: 800px) {
     .nav-buttons {
-      flex-direction: column;
-      align-items: center;
+      gap: 2px;
+      margin-right:15px;
     }
 
     .nav-button {
-      width: 100%;
-      text-align: center;
+      flex: 0 0 90px;            /* عرض کوچکتر */
+      padding: 8px 10px;
+      font-size: 12px;           /* فونت کوچکتر */
     }
   }
 </style>
