@@ -1,8 +1,8 @@
-<div class="mt-12 w-3/5 mx-auto">
+<div class="mt-12 w-4/5 lg:w-3/5 mx-auto">
     <h4 class="text-lg sm:text-xl md:text-2xl font-extrabold text-white mb-8 p-3 rounded-lg bg-[#04CCCC] text-center">
         📈 نمودار گرافیکی استعدادها
     </h4>
-    <canvas id="resultChart" height="100"></canvas>
+    <canvas id="resultChart" class=" h-3/6  w-full "></canvas>
 </div>
 
 <x-slot name="scripts">

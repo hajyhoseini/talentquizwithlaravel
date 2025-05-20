@@ -25,14 +25,16 @@
             {{-- 🔸 بخش نتایج نهایی --}}
             <div id="pdf-content">
             {{-- 📈 نمودار میله‌ای --}}
-        <x-chart-component :results="$results" />
+        
             <div id="final-results" class="lg:w-3/5 mx-auto px-4 mt-16 opacity-0 translate-y-8 transition-all duration-1000 ease-out">
                 <h3 class="text-xl sm:text-2xl md:text-3xl font-extrabold mb-6 text-white text-center p-4 rounded-2xl bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1] shadow-lg">
                     📊 نتایج نهایی شما
                 </h3>
 
                 <div class="p-2 text-left rounded-3xl bg-yellow-50/80 backdrop-blur-xl shadow-2xl mb-12 text-gray-900 leading-relaxed space-y-6 border border-amber-200" >
-                    <p class="text-base sm:text-lg md:text-xl font-extrabold text-black">برای هر بخش (۵ سؤال)، حداکثر نمره ۲۰ و حداقل نمره ۵ است. جمع کل امتیازات آزمون ۲۰۰ خواهد بود.</p>
+                    <p class="text-base sm:text-lg md:text-xl font-extrabold text-black">
+    {!! $desResults !!}
+                    </p>
                     <p class="text-base sm:text-lg md:text-xl font-bold text-amber-700 flex items-center gap-2">
                         📌 <span>تفسیر نمرات:</span>
                     </p>
@@ -43,13 +45,13 @@
                     </ul>
                 </div>
             </div>
-
+<x-chart-component :results="$results" />
             {{-- 🔍 تحلیل بخش‌ها --}}
             <div class="mt-4 flex flex-col items-center" dir="rtl">
                 <h4 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-8 bg-[#04CCCC] p-3 rounded-lg w-3/4 text-center">🔍 تحلیل بخش‌ها</h4>
                 <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 justify-items-center w-6/7 gap-3 lg:gap-4" >
                 @forelse ($results as $section => $data)
-    <x-score-card :section="$section" :data="$data" />
+    <x-score-card :section="$section" :data="$data" :max-scores="$maxScores" />
 @empty
     <p class="col-span-full text-red-600 font-bold text-center text-base sm:text-lg md:text-xl">هیچ نتیجه‌ای یافت نشد.</p>
 @endforelse
@@ -297,9 +299,9 @@ sections.forEach(sec => sectionObserver.observe(sec));
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                max: 20,
+                                max: 60,
                                 ticks: {
-                                    stepSize: 5,
+                                    stepSize: 10,
                                     color: '#111',
                                     font: {
                                         size: window.innerWidth < 640 ? 8 : window.innerWidth < 1024 ? 10 :12 ,

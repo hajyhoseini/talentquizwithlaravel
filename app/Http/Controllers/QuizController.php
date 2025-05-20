@@ -86,13 +86,23 @@ return redirect()->route('quiz.results', ['userId' => $userId, 'quizId' => $quiz
 public function showResults($userId, $quizId)
 {
     $results = $this->quizService->getQuizResults($userId, $quizId);
+    $maxScores = $this->quizService->getMaxScoresBySection($quizId);
+    
+    // گرفتن مدل کوییز از دیتابیس
+    $quiz = \App\Models\Quiz::find($quizId);
+
+    $desResults = $quiz ? $quiz->des_results : null;
 
     return view('quiz.results', [
         'results' => $results,
-        'userId' => $userId,   // 👈 این دو خط اضافه کن
+        'desResults' => $desResults, // مقدار صحیح داده می‌شود
+        'maxScores' => $maxScores,
+        'userId' => $userId,
         'quizId' => $quizId,
     ]);
 }
+
+
 
 
 

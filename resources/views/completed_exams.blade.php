@@ -46,9 +46,10 @@
 
                         {{-- دکمه ادامه در پایین کارت --}}
                         <div class="flex justify-center mt-6">
-                         <a href="{{ route('user.results') }}" id="next-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition duration-300">
+            <a href="{{ route('user.results', ['quizId' => $completedExams->id]) }}" id="next-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transition duration-300">
     دیدن کارنامه 
 </a>
+
 
                         </div>
                     </div>

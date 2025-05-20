@@ -4,9 +4,9 @@ namespace App\Services;
 use App\Models\AllAnswer;
 use App\Models\AllQuestion;
 use App\Models\Quiz;
-use App\Models\TalentInsight;
 use Illuminate\Support\Facades\DB;
-use App\Services\Strategies\InterpretationStrategyInterface;
+use App\Services\Strategies\InterpretationStrategyFactory;
+use App\Models\QuizColumn;
 class QuizService
 {
     /**
@@ -15,19 +15,16 @@ class QuizService
      * @param int|null $quizId
      * @return \Illuminate\Support\Collection
      */
-public function getGroupedQuestions($quizId)
-{
-    // بارگذاری سوالات همراه با گزینه‌ها فقط برای کوییز مشخص
-    $questions = AllQuestion::with('options')
-        ->where('quiz_id', $quizId)
-        ->orderBy('section')
-        ->orderBy('id')
-        ->get();
+    public function getGroupedQuestions($quizId)
+    {
+        $questions = AllQuestion::with('options')
+            ->where('quiz_id', $quizId)
+            ->orderBy('section')
+            ->orderBy('id')
+            ->get();
 
-    return $questions->groupBy('section');
-}
-
-
+        return $questions->groupBy('section');
+    }
 
     /**
      * گرفتن جدیدترین کوییز
@@ -38,7 +35,12 @@ public function getGroupedQuestions($quizId)
     {
         return Quiz::latest()->first();
     }
-
+public function getMaxScoresBySection(int $quizId): array
+{
+    return QuizColumn::where('quiz_id', $quizId)
+                     ->pluck('max_score', 'column_name')
+                     ->toArray();
+}
     /**
      * ذخیره پاسخ‌ها برای یک کوییز توسط کاربر
      *
@@ -50,7 +52,6 @@ public function getGroupedQuestions($quizId)
      */
     public function saveAnswers(array $answers, int $quizId, int $userId)
     {
-        // حذف پاسخ‌های قبلی کاربر برای این کوییز
         AllAnswer::where('user_id', $userId)
                  ->where('quiz_id', $quizId)
                  ->delete();
@@ -87,20 +88,18 @@ public function getGroupedQuestions($quizId)
             ->orderByDesc('taken_at')
             ->get();
     }
+public function getQuizById($quizId)
+{
+    return Quiz::find($quizId);
+}
 
     /**
      * گرفتن نتایج کوییز برای یک کاربر شامل نمره، سطح و تفسیر
      *
      * @param int $userId
+     * @param int $quizId
      * @return array
      */
-  protected InterpretationStrategyInterface $strategy;
-
-    public function __construct(InterpretationStrategyInterface $strategy)
-    {
-        $this->strategy = $strategy;
-    }
-
     public function getQuizResults(int $userId, int $quizId): array
     {
         $answers = AllAnswer::where('user_id', $userId)
@@ -108,7 +107,9 @@ public function getGroupedQuestions($quizId)
                             ->get()
                             ->all();
 
-        return $this->strategy->analyze($answers);
-    }
+        // انتخاب استراتژی با استفاده از Factory
+        $strategy = InterpretationStrategyFactory::make($quizId);
 
+        return $strategy->analyze($answers);
+    }
 }

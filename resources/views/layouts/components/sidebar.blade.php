@@ -71,7 +71,9 @@
         </a>
         <ul>
 <li>
-<li><a href="{{ route('exams.completed') }}" style="color: #777;"> آزمون های انجام شده</a></li>
+<li>
+  <a href="{{ route('exams.completed') }}" style="color: #777;"> آزمون های انجام شده</a>
+</li>
 
           <li><a href="{{ route('exams.index') }}" style="color: #777;">همه آزمون‌ها</a></li>
         </ul>

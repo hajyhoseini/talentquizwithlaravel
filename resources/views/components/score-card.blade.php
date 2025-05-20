@@ -1,10 +1,13 @@
-@props(['section', 'data'])
+@props(['section', 'data', 'maxScores'])
 
 @php
     $modalId = 'solutionsModal_' . md5($section);
     $buttonId = 'showSolutionsButton_' . md5($section);
     $closeId = 'closeModalButton_' . md5($section);
+    $max = $maxScores[$section] ?? 20;
+    $percent = round(($data['score'] / $max) * 100);
 @endphp
+
 
 <div x-data="{ loaded: false, percent: 0, showShimmer: true }" x-init="
         const observer = new IntersectionObserver((entries, observer) => {
@@ -12,7 +15,7 @@
                 if (entry.isIntersecting && !loaded) {
                     loaded = true;
                     showShimmer = false; // Hide shimmer after 2 seconds
-                    percent = {{ round(($data['score'] / 20) * 100) }};
+percent = {{ $percent }};
                     $nextTick(() => {
                         fillProgress('{{ md5($section) }}', percent);
                     });
@@ -60,8 +63,7 @@
 
         <!-- درصد -->
         <div class="absolute inset-0 flex items-center justify-center text-[12px] sm:text-md md:text-lg font-extrabold text-[#54a0ff]">
-            {{ round(($data['score'] / 20) * 100) }}%
-        </div>
+ {{ $percent }}%        </div>
     </div>
 </template>
 

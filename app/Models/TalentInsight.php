@@ -5,13 +5,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class TalentInsight extends Model
 {
-    protected $table = 'talent_insights'; // مطمئن شو جدول درسته
+    protected $table = 'talent_insights';
 
     protected $fillable = [
-        'section', 'level', 'interpretation', 'suggestions'
+        'quiz_id',        // 👈 اضافه شده
+        'section',
+        'level',
+        'interpretation',
+        'suggestions',
     ];
 
     protected $casts = [
-        'suggestions' => 'string', // 👈 این مهمه: اگه اشتباهی 'array' باشه، خراب می‌کنه
+        'suggestions' => 'string',
     ];
 }

@@ -14,6 +14,7 @@ class Quiz extends Model
         'description_min',
         'slug',
         'image',
-        'image_main',  // ← اضافه کردن ستون جدید
+        'image_main',   // ستون جدید که قبلا اضافه کردی
+        'des_results',  // ← اضافه کردن این خط برای ستون جدید
     ];
 }
