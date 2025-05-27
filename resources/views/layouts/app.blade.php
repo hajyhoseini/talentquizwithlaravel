@@ -8,6 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts & Styles -->
+
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -94,6 +95,7 @@
     <script src="{{ asset('js/custom.min.js') }}"></script>
     <script src="{{ asset('js/deznav-init.js') }}"></script>
     <script src="{{ asset('js/loop.js') }}" defer></script>
+     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- 📊 Progress Circle Animation -->
     <script>

@@ -8,6 +8,9 @@
         $totalScore = collect($results)->sum('score');
         $percentage = round(($totalScore / 200) * 100);
     @endphp
+@php
+$featuredPeople = $featuredPeople ?? collect();
+@endphp
 
      <!-- Includes -->
   <div id="main-wrapper">
@@ -20,13 +23,24 @@
     </div>
 
     {{-- 🔳 محتوای اصلی --}}
-    <div class=" container-fluid relative flex flex-col items-center min-h-screen px-4 sm:px-6 lg:px-8 py-10">
+    <div class=" container-fluid relative flex flex-col items-center min-h-screen px-4 sm:px-6 lg:px-8 py-5">
         <div class="rounded-2xl p-6 sm:p-2 w-full max-w-7xl text-center">
             {{-- 🔸 بخش نتایج نهایی --}}
             <div id="pdf-content">
             {{-- 📈 نمودار میله‌ای --}}
         
-            <div id="final-results" class="lg:w-3/5 mx-auto px-4 mt-16 opacity-0 translate-y-8 transition-all duration-1000 ease-out">
+            <div id="final-results" class="lg:w-3/5 mx-auto   opacity-0 translate-y-8 transition-all duration-1000 ease-out">
+        <div
+  class="mb-6 text-center text-white font-extrabold text-lg sm:text-2xl md:text-xl max-w-7xl mx-auto px-4 sm:px-6 bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1]  rounded-3xl shadow-lg py-4 animate-pulse"
+  style="animation-duration: 3s; animation-iteration-count: infinite;">
+  <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-12">
+    <span>نام کاربر: {{ $user->name }}</span>
+    <span class="hidden sm:inline-block">|</span>
+    <span>کد ملی: {{ $user->national_code }}</span>
+  </div>
+</div>
+
+
                 <h3 class="text-xl sm:text-2xl md:text-3xl font-extrabold mb-6 text-white text-center p-4 rounded-2xl bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1] shadow-lg">
                     📊 نتایج نهایی شما
                 </h3>
@@ -51,7 +65,22 @@
                 <h4 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-8 bg-[#04CCCC] p-3 rounded-lg w-3/4 text-center">🔍 تحلیل بخش‌ها</h4>
                 <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 justify-items-center w-6/7 gap-3 lg:gap-4" >
                 @forelse ($results as $section => $data)
-    <x-score-card :section="$section" :data="$data" :max-scores="$maxScores" />
+@php
+    $peopleForSection = $featuredPeople->filter(function($person) use ($section) {
+        return strtolower($person->related_talent) === strtolower($section);
+    })->values();
+@endphp
+
+<x-score-card
+    :section="$section"
+    :data="$data"
+    :max-scores="$maxScores"
+    :description="$data['description'] ?? ''"
+    :featured-people="$featuredPeople"
+/>
+
+
+
 @empty
     <p class="col-span-full text-red-600 font-bold text-center text-base sm:text-lg md:text-xl">هیچ نتیجه‌ای یافت نشد.</p>
 @endforelse
@@ -77,7 +106,7 @@
 </div>
   <!-- دکمه بازگشت -->
   <div class="w-full flex justify-center mt-8">
-    <a href="/"
+    <a href="https://bonyadmelal.com"
        class="text-sm sm:text-base md:text-lg px-3 py-3 mx-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-[#54a0ff] transition transform hover:scale-105 shadow-lg font-medium">
        🚀 بازگشت به صفحه آزمون‌ها
     </a>
@@ -299,7 +328,7 @@ sections.forEach(sec => sectionObserver.observe(sec));
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                max: 60,
+                                max: 50,
                                 ticks: {
                                     stepSize: 10,
                                     color: '#111',

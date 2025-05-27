@@ -9,46 +9,51 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
-     *
-     * @return \Illuminate\View\View
+     * نمایش فرم ثبت‌نام
      */
     public function create()
     {
-        return view('auth.register');
+        return view('auth.register'); // مسیر ویو فرم ثبت‌نام
     }
 
     /**
-     * Handle an incoming registration request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * ذخیره کاربر جدید در دیتابیس
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+public function store(Request $request)
+{
+    // اعتبارسنجی (phone اختیاری است)
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'national_code' => ['required', 'digits:10'],
+        'phone' => ['nullable', 'regex:/^09\d{9}$/'],
+    ]);
 
+    // ابتدا کاربر رو بر اساس national_code جستجو می‌کنیم
+    $user = User::where('national_code', $request->national_code)->first();
+
+    if ($user) {
+        // اگر کاربر قبلا وجود داشت، فقط لاگینش می‌کنیم
+        Auth::login($user);
+    } else {
+        // اگر نبود، جدید می‌سازیم
         $user = User::create([
             'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'national_code' => $request->national_code,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->national_code), // رمز به صورت هش شده
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME);
     }
+
+    // هدایت به صفحه نتایج آزمون یا داشبورد
+return redirect()->route('quiz.show', ['quizId' => 1, 'userId' => $user->id]);
+}
+
 }

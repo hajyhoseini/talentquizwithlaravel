@@ -7,6 +7,8 @@ use App\Models\Quiz;
 use Illuminate\Support\Facades\DB;
 use App\Services\Strategies\InterpretationStrategyFactory;
 use App\Models\QuizColumn;
+use Illuminate\Support\Facades\Log;
+
 class QuizService
 {
     /**
@@ -50,28 +52,34 @@ public function getMaxScoresBySection(int $quizId): array
      *
      * @throws \Exception
      */
-    public function saveAnswers(array $answers, int $quizId, int $userId)
-    {
-        AllAnswer::where('user_id', $userId)
-                 ->where('quiz_id', $quizId)
-                 ->delete();
 
-        foreach ($answers as $questionId => $answerValue) {
-            $question = AllQuestion::find($questionId);
+public function saveAnswers(array $answers, int $quizId, int $userId)
+{
+    Log::info('شروع ذخیره پاسخ‌ها', compact('userId', 'quizId', 'answers'));
 
-            if (!$question) {
-                throw new \Exception("سوال با ID $questionId یافت نشد!");
-            }
+    AllAnswer::where('user_id', $userId)
+             ->where('quiz_id', $quizId)
+             ->delete();
+    foreach ($answers as $questionId => $answerValue) {
+        $question = AllQuestion::find($questionId);
 
-            AllAnswer::create([
-                'user_id'      => $userId,
-                'section'      => $question->section,
-                'question_id'  => $questionId,
-                'answer_value' => $answerValue,
-                'quiz_id'      => $quizId,
-            ]);
+        if (!$question) {
+            Log::error("سوال با ID $questionId یافت نشد!");
+            throw new \Exception("سوال با ID $questionId یافت نشد!");
         }
+
+        AllAnswer::create([
+            'user_id' => $userId,
+            'section' => $question->section,
+            'question_id' => $questionId,
+            'answer_value' => $answerValue,
+            'quiz_id' => $quizId,  // حتما مقدار متغیر رو بگذار
+        ]);
     }
+
+    Log::info('ذخیره پاسخ‌ها با موفقیت انجام شد');
+}
+
 
     /**
      * دریافت کوییزهای گرفته شده توسط کاربر به ترتیب جدیدترین

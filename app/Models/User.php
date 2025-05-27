@@ -8,44 +8,31 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-
-
 class User extends Authenticatable
-
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * فیلدهایی که قابل درج گروهی (mass assignable) هستند
      */
     protected $fillable = [
-        'name', 
-        'email',
-        'password',
-        'first_name',
-        'last_name',
+        'name',
+        'national_code',
         'phone',
-    ];
-    
-
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * فیلدهایی که در زمان تبدیل به JSON یا آرایه پنهان می‌شن
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+  
+
+    /**
+     * تبدیل نوع فیلدها (کستینگ)
+     */
+ public function answers()
+{
+    return $this->hasMany(AllAnswer::class, 'user_id');
+}
+
 }

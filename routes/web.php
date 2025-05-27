@@ -87,3 +87,13 @@ Route::middleware(['auth'])->get('/completed-tests', [ExamController::class, 'co
 
 Route::get('/user/results/{quizId}', [QuizController::class, 'showResults2'])->name('user.results');
 
+Route::get('/login', function () {
+    return redirect()->route('register');
+})->name('login');
+use App\Http\Controllers\AdminResultController;
+
+// لیست کاربران آزمون‌داده
+Route::get('/admin/results', [AdminResultController::class, 'index'])->name('admin.results.index');
+
+// نمایش نتایج یک کاربر خاص
+Route::get('/admin/results/{userId}/{quizId}', [AdminResultController::class, 'show'])->name('admin.results.show');

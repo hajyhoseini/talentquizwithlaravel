@@ -48,8 +48,10 @@ class ExamController extends Controller
 
 
 $questions = AllQuestion::with('options')
-               ->where('quiz_id', $quiz->id)
-               ->get();
+           ->where('quiz_id', $quiz->id)
+           ->get()
+           ->groupBy('section');
+
 
         // ارسال اطلاعات آزمون و سوالات به ویو
         return view('quiz.show', compact('quiz', 'questions'));

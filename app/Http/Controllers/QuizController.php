@@ -34,38 +34,36 @@ class QuizController extends Controller
     /**
      * ثبت پاسخ‌ها
      */
-  public function submitAnswers(Request $request)
+public function submitAnswers(Request $request)
 {
-    $userId = Auth::id();
+    $data = $request->all();
 
-    // جمع آوری پاسخ‌ها به شکل question_*
+    // گرفتن quiz_id
+    $quizId = $data['quiz_id'];
+    $userId = auth()->id(); // یا هر روش گرفتن یوزر
+
+    // آماده کردن آرایه پاسخ‌ها
     $answers = [];
-  foreach ($request->all() as $key => $value) {
-    if (str_starts_with($key, 'question_')) {
-        $questionId = str_replace('question_', '', $key);
-        $answers[$questionId] = $value;
+
+    foreach ($data as $key => $value) {
+        if (str_starts_with($key, 'question_')) {
+            $questionId = intval(str_replace('question_', '', $key));
+            $answers[$questionId] = $value;
+        }
     }
+
+    // دیباگ جواب‌ها
+    // dd($answers);
+
+    // ذخیره پاسخ‌ها
+    app(\App\Services\QuizService::class)->saveAnswers($answers, $quizId, $userId);
+
+return redirect()->route('quiz.results', ['userId' => $userId, 'quizId' => $quizId])
+                 ->with('success', 'پاسخ‌ها ثبت شدند');
 }
 
-    if (empty($answers)) {
-        return back()->withErrors(['error' => 'لطفاً حداقل به یک سوال پاسخ دهید.']);
-    }
 
-    $quizId = $request->input('quiz_id');
-    if (!$quizId) {
-        return back()->withErrors(['error' => 'آیدی کوییز معتبر نیست.']);
-    }
 
-    try {
-        $this->quizService->saveAnswers($answers, $quizId, $userId);
-    } catch (\Exception $e) {
-        \Log::error("Error saving answers: " . $e->getMessage());
-        return back()->withErrors(['error' => $e->getMessage()]);
-    }
-
-    // ریدایرکت با پاس دادن userId
-return redirect()->route('quiz.results', ['userId' => $userId, 'quizId' => $quizId]);
-}
 
 
     /**
@@ -82,25 +80,46 @@ return redirect()->route('quiz.results', ['userId' => $userId, 'quizId' => $quiz
     /**
      * نمایش نتایج کوییز اخیر کاربر
      */
-   
-public function showResults($userId, $quizId)
+ public function showResults($userId, $quizId)
 {
+    $user = \App\Models\User::findOrFail($userId);
+
     $results = $this->quizService->getQuizResults($userId, $quizId);
     $maxScores = $this->quizService->getMaxScoresBySection($quizId);
-    
-    // گرفتن مدل کوییز از دیتابیس
-    $quiz = \App\Models\Quiz::find($quizId);
 
+    $quiz = \App\Models\Quiz::find($quizId);
     $desResults = $quiz ? $quiz->des_results : null;
 
+    // گرفتن ستون‌ها و کلیدگذاری روی نام ستون (column_name)
+    $columns = \App\Models\QuizColumn::where('quiz_id', $quizId)->get()->keyBy('column_name');
+
+    // اضافه کردن توضیحات هر بخش به نتایج
+    foreach ($results as $section => &$data) {
+        $data['description'] = $columns[$section]->talent_description ?? null;
+    }
+    unset($data); // جلوگیری از مرجع باقی‌مانده
+
+    // واکشی سطح‌بندی نتایج
+    $resultLevels = \App\Models\QuizResultLevel::where('quiz_id', $quizId)
+                        ->orderBy('min_score', 'desc')
+                        ->get();
+
+    // واکشی افراد برجسته مرتبط با این آزمون
+    $featuredPeople = \App\Models\FeaturedPerson::where('quiz_id', $quizId)->get();
+
     return view('quiz.results', [
+        'user' => $user,
         'results' => $results,
-        'desResults' => $desResults, // مقدار صحیح داده می‌شود
+        'desResults' => $desResults,
         'maxScores' => $maxScores,
         'userId' => $userId,
         'quizId' => $quizId,
+        'resultLevels' => $resultLevels,
+        'columns' => $columns,
+    'featuredPeople' => $featuredPeople, // ✅ این خط مهمه
     ]);
 }
+
 
 
 
@@ -109,11 +128,20 @@ public function showResults($userId, $quizId)
     /**
      * نمایش نتایج کوییز (نمایش متفاوت)
      */
- public function showResults2($quizId)
+public function showResults2($quizId)
 {
-    $userId = Auth::id();
-    $results = $this->quizService->getQuizResults($userId, $quizId);
-    return view('user.results', compact('results'));
+    $userId = Auth::id(); // گرفتن آیدی از کاربر لاگین‌شده
+    $results = $this->quizService->getQuizResults((int)$userId, (int)$quizId);
+
+    // واکشی افراد برجسته مرتبط با این آزمون
+    $featuredPeople = \App\Models\FeaturedPerson::where('quiz_id', $quizId)->get();
+
+    return view('user.results', [
+        'results' => $results,
+        'featuredPeople' => $featuredPeople, // ✅ اضافه شد
+    ]);
 }
+
+
 
 }

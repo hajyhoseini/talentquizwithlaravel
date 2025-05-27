@@ -18,10 +18,10 @@
 
 
 
-    <button onclick="autoFillAnswers()" class="bg-blue-600 text-xl xl:text-3xl font-bold text-white px-6 py-2 rounded hover:bg-blue-700 mt-4">
+
+ <button onclick="autoFillAnswers()" class="bg-blue-600 text-xl xl:text-3xl font-bold text-white px-6 py-2 rounded hover:bg-blue-700 mt-4">
         تست خودکار (خیلی زیاد)
     </button>
-
     <button onclick="startQuiz()" class="bg-gray-700 text-white px-6 py-2 rounded hover:bg-gray-800 text-xl xl:text-3xl font-bold">
         شروع
     </button>
@@ -33,7 +33,7 @@
     @csrf
 
     <div class="text-left pr-8 space-y-3 text-2xl text-black">
-        @foreach ($questions->groupBy('section') as $section => $sectionQuestions)
+        @foreach ($questions as $section => $sectionQuestions)
             <div class="pb-5 mt-4 section {{ $loop->first ? '' : 'hidden' }}" data-section="{{ $loop->index }}">
                 <h3 class="text-center text-xl xl:text-3xl font-bold py-4 bg-black/50 rounded-md text-white">{{ $section }}</h3>
 
@@ -42,7 +42,7 @@
                         <p class="font-semibold mt-4 rounded-md text-xl xl:text-3xl">{{ $question->question }}</p>
                         <div class="mt-10 text-lg xl:text-3xl font-bold">
                             @foreach ($question->options as $option)
-                                <div class="answer-option ">
+                                <div class="answer-option">
                                     <input type="radio" name="question_{{ $question->id }}" value="{{ $option->value }}">
                                     <span>{{ $option->label }}</span>
                                 </div>
@@ -55,7 +55,7 @@
     </div>
 
     <!-- دکمه‌ها و پیشرفت -->
-    <div class="flex justify-between items-center ">
+    <div class="flex justify-between items-center">
         <button type="button" onclick="prevStep()" id="prev-btn" class="hidden text-2xl bg-yellow-300 px-6 py-2 rounded font-bold text-black">
             قبلی
         </button>
@@ -74,7 +74,7 @@
         </button>
     </div>
 </form>
-    
+
 
 
         </div>
@@ -179,177 +179,150 @@
 
     <!-- ⚙️ اسکریپت‌ها -->
     <script>
-         // لودینگ هنگام ارسال فرم
+    // هنگام ارسال فرم: نمایش لودینگ
     document.getElementById("quiz-form").addEventListener("submit", function (e) {
         const button = document.getElementById("submit-btn");
-        const text = button.querySelector('.submit-text');
-        const spinner = button.querySelector('.spinner');
-
-        text.classList.add('hidden');
-        spinner.classList.remove('hidden');
+        button.querySelector('.submit-text').classList.add('hidden');
+        button.querySelector('.spinner').classList.remove('hidden');
         button.disabled = true;
     });
-            function handleSubmitLoading(button) {
-        const text = button.querySelector('.submit-text');
-        const spinner = button.querySelector('.spinner');
 
-        text.classList.add('hidden');
-        spinner.classList.remove('hidden');
+    let currentSection = 0;
+    let currentQuestion = 0;
 
-        button.disabled = true;
+    const sections = document.querySelectorAll(".section");
+    const submitBtn = document.getElementById("submit-btn");
+    const prevBtn = document.getElementById("prev-btn");
 
-        return true; // اجازه ارسال فرم
-    }
-        function autoFillAnswers() {
-            // انتخاب همه inputهای radio با مقدار 4 (خیلی زیاد)
-            const allQuestions = document.querySelectorAll('.question');
-            
-            allQuestions.forEach(question => {
-                const input = question.querySelector('input[value="4"]');
-                if (input) {
-                    input.checked = true;
-                }
-            });
-
-            updateButtons();
-            updateProgress();
-            alert("همه پاسخ‌ها با «خیلی زیاد» پر شد ✅");
-        }
-
-        let currentSection = 0;
-        let currentQuestion = 0;
-        const sections = document.querySelectorAll(".section");
-        const submitBtn = document.getElementById("submit-btn");
-        const prevBtn = document.getElementById("prev-btn");
-
-        function startQuiz() {
-            const intro = document.getElementById("intro-screen");
+    function startQuiz() {
+        document.getElementById("intro-screen").classList.add("fade-out");
+        setTimeout(() => {
+            document.getElementById("intro-screen").classList.add("hidden");
             const form = document.getElementById("quiz-form");
+            form.classList.remove("hidden");
+            form.classList.add("fade-in");
+            setTimeout(() => form.classList.remove("fade-in"), 300);
+            showQuestion();
+            updateButtons();
+        }, 300);
+    }
 
-            // شروع انیمیشن محو شدن intro
-            intro.classList.add("fade-out");
+    function showQuestion() {
+        // پنهان کردن همه سوالات
+        sections.forEach(section => {
+            section.querySelectorAll(".question").forEach(q => q.classList.add("hidden"));
+            section.classList.add("hidden");
+        });
 
-            setTimeout(() => {
-                intro.classList.add("hidden");
-                intro.classList.remove("fade-out");
+        const section = sections[currentSection];
+        const question = section.querySelectorAll(".question")[currentQuestion];
 
-                // نمایش فرم سوالات با افکت ظاهر شدن
-                form.classList.remove("hidden");
-                form.classList.add("fade-in");
+        section.classList.remove("hidden");
+        question.classList.remove("hidden");
+    }
 
-                setTimeout(() => form.classList.remove("fade-in"), 300);
-
-                updateButtons();
-            }, 300);
-        }
-
-        function nextStep() {
-            const questions = sections[currentSection].querySelectorAll(".question");
-            const current = questions[currentQuestion];
-            current.classList.add("fade-out");
-
-            setTimeout(() => {
-                current.classList.add("hidden");
-                current.classList.remove("fade-out");
-                currentQuestion++;
-
-                if (currentQuestion < questions.length) {
-                    const next = questions[currentQuestion];
-                    next.classList.remove("hidden");
-                    next.classList.add("fade-in");
-                    setTimeout(() => next.classList.remove("fade-in"), 300);
-                } else {
-                    nextSection();
-                }
-
-                updateButtons();
-                updateProgress();
-            }, 300);
-        }
-
-        function prevStep() {
-            const questions = sections[currentSection].querySelectorAll(".question");
-            const current = questions[currentQuestion];
-            current.classList.add("fade-out");
-
-            setTimeout(() => {
-                current.classList.add("hidden");
-                current.classList.remove("fade-out");
-
-                if (currentQuestion > 0) {
-                    currentQuestion--;
-                    const prev = questions[currentQuestion];
-                    prev.classList.remove("hidden");
-                    prev.classList.add("fade-in");
-                    setTimeout(() => prev.classList.remove("fade-in"), 600);
-                } else if (currentSection > 0) {
-                    sections[currentSection].classList.add("hidden");
-                    currentSection--;
-                    sections[currentSection].classList.remove("hidden");
-                    const prevList = sections[currentSection].querySelectorAll(".question");
-                    currentQuestion = prevList.length - 1;
-                    const last = prevList[currentQuestion];
-                    last.classList.remove("hidden");
-                    last.classList.add("fade-in");
-                    setTimeout(() => last.classList.remove("fade-in"), 300);
-                }
-
-                updateButtons();
-                updateProgress();
-            }, 200);
-        }
-
-        function nextSection() {
-            sections[currentSection].classList.add("hidden");
+    function nextStep() {
+        const questions = sections[currentSection].querySelectorAll(".question");
+        if (currentQuestion + 1 < questions.length) {
+            currentQuestion++;
+        } else if (currentSection + 1 < sections.length) {
             currentSection++;
-            if (currentSection < sections.length) {
-                sections[currentSection].classList.remove("hidden");
-                currentQuestion = 0;
-                const first = sections[currentSection].querySelector(".question");
-                first.classList.remove("hidden");
-                first.classList.add("fade-in");
-                setTimeout(() => first.classList.remove("fade-in"), 200);
-            }
+            currentQuestion = 0;
+        } else {
+            return; // پایان
         }
+        showQuestion();
+        updateButtons();
+        updateProgress();
+    }
 
-     function updateButtons() {
-    prevBtn.classList.toggle("hidden", currentSection === 0 && currentQuestion === 0);
-    let totalQuestions = document.querySelectorAll(".question").length;
-    let answered = document.querySelectorAll('input[type="radio"]:checked').length;  // اصلاح این خط
-    submitBtn.classList.toggle("hidden", answered < totalQuestions);
-}
+    function prevStep() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+        } else if (currentSection > 0) {
+            currentSection--;
+            currentQuestion = sections[currentSection].querySelectorAll(".question").length - 1;
+        } else {
+            return; // در اولین سؤال هستیم
+        }
+        showQuestion();
+        updateButtons();
+        updateProgress();
+    }
 
-function updateProgress() {
-    let total = document.querySelectorAll(".question").length;
-    let answered = document.querySelectorAll('input[type="radio"]:checked').length;  // اصلاح این خط
-    let percent = Math.round((answered / total) * 100);
-    document.getElementById("progress-percent").textContent = percent + "%";
-}
+    function updateButtons() {
+        prevBtn.classList.toggle("hidden", currentSection === 0 && currentQuestion === 0);
+        const total = document.querySelectorAll(".question").length;
+        const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+        submitBtn.classList.toggle("hidden", answered < total);
+    }
 
+    function updateProgress() {
+        const total = document.querySelectorAll(".question").length;
+        const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+        const percent = Math.round((answered / total) * 100);
+        document.getElementById("progress-percent").textContent = percent + "%";
+    }
 
-        function handlePulse(input) {
+let isTransitioning = false;
+
+function handlePulse(input) {
+    if (isTransitioning) return;
+    isTransitioning = true;
+
     const parent = input.closest('.answer-option');
     parent.classList.add('smoky-glow');
+
     setTimeout(() => {
         parent.classList.remove('smoky-glow');
-        nextStep();
-    }, 400); // زمان انیمیشن
-}
-document.querySelectorAll('input[type="radio"]').forEach(input => {
-    input.addEventListener('change', function() {
-        handlePulse(this);
-    });
-});
 
-document.querySelectorAll('.answer-option').forEach(option => {
-    option.addEventListener('click', function () {
-        const input = this.querySelector('input[type="radio"]');
-        if (input) {
-            input.checked = true;
-            input.dispatchEvent(new Event('change')); // برای اجرای انیمیشن و nextStep
+        const isLastSection = currentSection === sections.length - 1;
+        const questions = sections[currentSection].querySelectorAll(".question");
+        const isLastQuestion = currentQuestion === questions.length - 1;
+
+        if (isLastSection && isLastQuestion) {
+            // سوال آخره؛ فقط دکمه ارسال رو فعال کن
+            updateButtons();
+            updateProgress();
+            isTransitioning = false;
+        } else {
+            nextStep();
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 350); // صبر کن سوال بعدی بیاد بعد اجازه بده دوباره کلیک بشه
         }
-    });
-});
+    }, 400); // زمان انیمیشن انتخاب گزینه
+}
 
-    </script>
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.addEventListener('change', function () {
+                handlePulse(this);
+            });
+        });
+
+        document.querySelectorAll('.answer-option').forEach(option => {
+            option.addEventListener('click', function () {
+                const input = this.querySelector('input[type="radio"]');
+                if (input) {
+                    input.checked = true;
+                    input.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+    });
+
+    function autoFillAnswers() {
+        document.querySelectorAll('.question').forEach(question => {
+            const input = question.querySelector('input[value="4"]');
+            if (input) input.checked = true;
+        });
+        updateButtons();
+        updateProgress();
+        alert("همه پاسخ‌ها با «خیلی زیاد» پر شد ✅");
+    }
+</script>
+
 </x-app-layout>

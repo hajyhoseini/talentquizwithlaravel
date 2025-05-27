@@ -10,30 +10,35 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    public function register(Request $request)
-    {
-        // اعتبارسنجی داده‌ها
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'phone' => 'required|regex:/^09[0-9]{9}$/',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+public function register(Request $request)
+{
+    // اعتبارسنجی (phone اختیاری)
+    $request->validate([
+        'full_name'     => 'required|string|max:255',
+        'national_code' => 'required|digits:10',
+        'phone'         => 'nullable|regex:/^09[0-9]{9}$/',
+    ]);
 
-        // اگر اعتبارسنجی شکست خورد
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+    // بررسی وجود کاربر با کد ملی
+    $existingUser = User::where('national_code', $request->national_code)->first();
 
-        // ذخیره‌سازی کاربر جدید
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),  // رمزعبور با هش ذخیره می‌شود
-        ]);
-
-        // پس از ذخیره‌سازی، ریدایرکت به صفحه لاگین یا داشبورد
-        return redirect()->route('login')->with('success', 'ثبت نام با موفقیت انجام شد.');
+    if ($existingUser) {
+        // اگر وجود داشت: لاگین و ریدایرکت
+        Auth::login($existingUser);
+        return redirect()->route('quiz.show')->with('success', 'شما با موفقیت وارد شدید.');
     }
+
+    // اگر کاربر وجود نداشت: ایجاد، لاگین، ریدایرکت
+    $user = User::create([
+        'name'           => $request->full_name,
+        'national_code'  => $request->national_code,
+        'phone'          => $request->phone,
+        'password'       => Hash::make($request->national_code), // یا رمز تصادفی
+    ]);
+
+    Auth::login($user);
+
+    return redirect()->route('quiz.show')->with('success', 'ثبت‌نام با موفقیت انجام شد.');
+}
+
 }
