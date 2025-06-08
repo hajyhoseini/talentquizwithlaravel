@@ -114,7 +114,6 @@ public function getQuizById($quizId)
                             ->where('quiz_id', $quizId)
                             ->get()
                             ->all();
-
         // انتخاب استراتژی با استفاده از Factory
         $strategy = InterpretationStrategyFactory::make($quizId);
 

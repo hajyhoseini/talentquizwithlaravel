@@ -34,7 +34,7 @@ $featuredPeople = $featuredPeople ?? collect();
   class="mb-6 text-center text-white font-extrabold text-lg sm:text-2xl md:text-xl max-w-7xl mx-auto px-4 sm:px-6 bg-gradient-to-r from-[#04CCCC] to-[#1dd1a1]  rounded-3xl shadow-lg py-4 animate-pulse"
   style="animation-duration: 3s; animation-iteration-count: infinite;">
   <div class="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-12">
-    <span>نام کاربر: {{ $user->name }}</span>
+<span>نام کاربر: {{ !empty($user->name) ? $user->name : 'کاربر مهمان' }}</span>
     <span class="hidden sm:inline-block">|</span>
     <span>کد ملی: {{ $user->national_code }}</span>
   </div>
@@ -70,13 +70,18 @@ $featuredPeople = $featuredPeople ?? collect();
         return strtolower($person->related_talent) === strtolower($section);
     })->values();
 @endphp
-
+@php
+    $booksForSection = $featuredBooks->filter(function($book) use ($section) {
+        return strtolower($book->related_talent) === strtolower($section);
+    })->values();
+@endphp
 <x-score-card
     :section="$section"
     :data="$data"
     :max-scores="$maxScores"
     :description="$data['description'] ?? ''"
     :featured-people="$featuredPeople"
+    :featured-books="$booksForSection"
 />
 
 
@@ -110,7 +115,7 @@ $featuredPeople = $featuredPeople ?? collect();
        class="text-sm sm:text-base md:text-lg px-3 py-3 mx-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-[#54a0ff] transition transform hover:scale-105 shadow-lg font-medium">
        🚀 بازگشت به صفحه آزمون‌ها
     </a>
-  <a class="text-sm mx-3 sm:text-base md:text-lg px-3 py-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-[#54a0ff] transition transform hover:scale-105 shadow-lg font-medium" href="{{ route('user.results', ['quizId' => $quizId]) }}">صفحه دانلود PDF</a>
+  <a class="text-sm mx-3 sm:text-base md:text-lg px-3 py-3 bg-[#1dd1a1] text-white rounded-xl hover:bg-[#54a0ff] transition transform hover:scale-105 shadow-lg font-medium"   href="{{ route('user.results', ['userId' => $userId, 'quizId' => $quizId]) }}">صفحه دانلود PDF</a>
 
 
   </div>
@@ -120,6 +125,7 @@ $featuredPeople = $featuredPeople ?? collect();
 </button>
 <x-share-buttons :url="route('quiz.results', ['userId' => $userId, 'quizId' => $quizId])" :title="'📊 نتیجه آزمون من رو ببین!'" />
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
   document.getElementById('downloadPdfBtn').addEventListener('click', () => {
@@ -138,6 +144,8 @@ $featuredPeople = $featuredPeople ?? collect();
     <script src="js/jquery.nice-select.min.js"></script>
     <script src="js/custom.min.js"></script>
     <script src="js/deznav-init.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     {{-- 💫 انیمیشن‌ها و تعامل‌ها --}}
     <script>
             document.getElementById("downloadPdfBtn").addEventListener("click", function() {

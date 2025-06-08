@@ -80,7 +80,7 @@ return redirect()->route('quiz.results', ['userId' => $userId, 'quizId' => $quiz
     /**
      * نمایش نتایج کوییز اخیر کاربر
      */
- public function showResults($userId, $quizId)
+public function showResults($userId, $quizId)
 {
     $user = \App\Models\User::findOrFail($userId);
 
@@ -107,6 +107,9 @@ return redirect()->route('quiz.results', ['userId' => $userId, 'quizId' => $quiz
     // واکشی افراد برجسته مرتبط با این آزمون
     $featuredPeople = \App\Models\FeaturedPerson::where('quiz_id', $quizId)->get();
 
+    // ✅ واکشی کتاب‌های پیشنهادی مرتبط با این آزمون
+    $featuredBooks = \App\Models\FeaturedBook::where('quiz_id', $quizId)->get();
+
     return view('quiz.results', [
         'user' => $user,
         'results' => $results,
@@ -116,9 +119,11 @@ return redirect()->route('quiz.results', ['userId' => $userId, 'quizId' => $quiz
         'quizId' => $quizId,
         'resultLevels' => $resultLevels,
         'columns' => $columns,
-    'featuredPeople' => $featuredPeople, // ✅ این خط مهمه
+        'featuredPeople' => $featuredPeople,
+        'featuredBooks' => $featuredBooks, // ✅ اضافه به ویو
     ]);
 }
+
 
 
 
@@ -128,19 +133,60 @@ return redirect()->route('quiz.results', ['userId' => $userId, 'quizId' => $quiz
     /**
      * نمایش نتایج کوییز (نمایش متفاوت)
      */
-public function showResults2($quizId)
+public function showResults2($userId, $quizId)
 {
-    $userId = Auth::id(); // گرفتن آیدی از کاربر لاگین‌شده
     $results = $this->quizService->getQuizResults((int)$userId, (int)$quizId);
 
-    // واکشی افراد برجسته مرتبط با این آزمون
+    // گرفتن توضیحات استعداد برای هر ستون
+    $columns = \App\Models\QuizColumn::where('quiz_id', $quizId)->get()->keyBy('column_name');
+
+    foreach ($results as $section => &$data) {
+        $data['description'] = $columns[$section]->talent_description ?? null;
+    }
+    unset($data);
+
+    // گرفتن همه افراد شاخص این آزمون و گروه‌بندی براساس استعداد
     $featuredPeople = \App\Models\FeaturedPerson::where('quiz_id', $quizId)->get();
+$peopleGrouped = $featuredPeople->groupBy('related_talent');
+
+    // گرفتن کتاب‌های شاخص این آزمون و گروه‌بندی براساس استعداد
+    $featuredBooks = \App\Models\FeaturedBook::where('quiz_id', $quizId)->get();
+    $booksGrouped = $featuredBooks->groupBy('general_talent');
+
+    // گرفتن شغل‌های پیشنهادی و گروه‌بندی براساس استعداد
+    $suggestedCareers = \App\Models\SuggestedCareer::where('quiz_id', $quizId)->get();
+    $careersGrouped = $suggestedCareers->groupBy('talent_name');
+
+    // ساخت آرایه خروجی براساس نام ستون‌های نتایج
+    $featuredBySectionPeople = [];
+    $featuredBySectionBooks = [];
+    $featuredBySectionCareers = [];
+
+    foreach ($results as $section => $data) {
+        // افراد شاخص
+        $people = $peopleGrouped->get($section, collect());
+        $featuredBySectionPeople[$section] = $people->chunk(4);
+
+        // کتاب‌ها
+        $books = $booksGrouped->get($section, collect());
+        $featuredBySectionBooks[$section] = $books->chunk(2);
+
+        // شغل‌ها
+        $careers = $careersGrouped->get($section, collect());
+        $featuredBySectionCareers[$section] = $careers->chunk(6);
+    }
+
 
     return view('user.results', [
         'results' => $results,
-        'featuredPeople' => $featuredPeople, // ✅ اضافه شد
+        'featuredPeople' => $featuredBySectionPeople,
+        'featuredBooks' => $featuredBySectionBooks,
+        'featuredCareers' => $featuredBySectionCareers,
     ]);
 }
+
+
+
 
 
 

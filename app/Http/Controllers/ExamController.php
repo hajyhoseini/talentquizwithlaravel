@@ -17,24 +17,34 @@ use App\Strategies\DefaultEvaluationStrategy;
 class ExamController extends Controller
 {
     // نمایش اطلاعات آخرین آزمون تکمیل شده توسط کاربر
-    public function completedExams()
-    {
-        // گرفتن اطلاعات آزمون‌های تکمیل شده با عنوان و تصویر، به همراه تاریخ آخرین به‌روزرسانی
-        $completedExams = AllAnswer::where('user_id', auth()->id())
-                                    ->join('quizzes', 'quizzes.id', '=', 'all_answers.quiz_id')
-                                    ->select('quizzes.id', 'quizzes.title', 'quizzes.image', 'all_answers.updated_at')
-                                    ->orderBy('all_answers.updated_at', 'desc')
-                                    ->first();
-    
-        // اگر داده‌ها وجود داشتند، تاریخ را فرمت می‌کنیم
-        if ($completedExams && $completedExams->updated_at) {
-            $dateTime = Carbon::parse($completedExams->updated_at)->subHour(); // کاهش یک ساعت از تاریخ (اگر نیاز باشد)
-            $completedExams->formatted_date = Jalalian::fromCarbon($dateTime)->format('%Y/%m/%d - H:i'); // فرمت تاریخ به شمسی
+
+
+public function completedExams()
+{
+    // گرفتن آخرین زمان تکمیل هر آزمون توسط کاربر (groupBy quiz_id)
+    $completedExams = AllAnswer::where('user_id', auth()->id())
+        ->join('quizzes', 'quizzes.id', '=', 'all_answers.quiz_id')
+        ->select(
+            'quizzes.id',
+            'quizzes.title',
+            'quizzes.image',
+            DB::raw('MAX(all_answers.updated_at) as last_completed_at')  // گرفتن آخرین زمان تکمیل هر آزمون
+        )
+        ->groupBy('quizzes.id', 'quizzes.title', 'quizzes.image')
+        ->orderBy('last_completed_at', 'desc')
+        ->get();
+
+    // فرمت تاریخ شمسی برای هر آزمون
+    foreach ($completedExams as $exam) {
+        if ($exam->last_completed_at) {
+            $dateTime = Carbon::parse($exam->last_completed_at)->subHour();
+            $exam->formatted_date = Jalalian::fromCarbon($dateTime)->format('%Y/%m/%d - H:i');
         }
-    
-        // ارسال داده‌ها به ویو برای نمایش
-        return view('completed_exams', compact('completedExams'));
     }
+
+    return view('completed_exams', compact('completedExams'));
+}
+
     
   
     

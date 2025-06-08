@@ -14,7 +14,12 @@
     $sectionPeople = $featuredPeople->filter(function($person) use ($section) {
         return strtolower($person->related_talent) === strtolower($section);
     })->values();
+
+    $sectionBooks = $featuredBooks->filter(function($book) use ($section) {
+        return strtolower($book->related_talent) === strtolower($section);
+    })->values();
 @endphp
+
 
 <div x-data="{ loaded: false, percent: 0, showShimmer: true }" 
      x-init="
@@ -96,52 +101,72 @@
 @if (!empty($description))
 <div id="{{ $descriptionModalId }}" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-[999999] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
     <div class="bg-white rounded-lg w-11/12 sm:w-2/3 md:w-3/4 p-4 max-h-[80vh] overflow-y-auto">
-        <h3 class="text-sm md:text-base font-semibold text-[#54a0ff] mb-2">📘 توضیح استعداد:</h3>
-        <p class="text-sm sm:text-lg md:text-xl text-gray-700 leading-relaxed mb-4">
-           ✅ {{ $description }}
-        </p>
+        
+        <h3 class="text-sm md:text-base font-semibold text-[#54a0ff] mb-4">📘 سوالات مربوط به این استعداد:</h3>
 
-@if ($sectionPeople->isNotEmpty())
-   
-<div 
-    x-data="{
-        current: 0,
-        init() {
-            setInterval(() => {
-                this.current = (this.current + 1) % {{ $sectionPeople->count() }};
-            }, 3000);
-        }
-    }" 
-    class="relative w-full">
-        <div class="flex items-center justify-between mb-2">
-            <h4 class="text-sm font-semibold text-[#1dd1a1]">🧠 افراد شاخص با این استعداد:</h4>
-           
-        </div>
+        <div x-data="{ openDesc: false, openPeople: false }" class="space-y-4">
 
-        <div class="overflow-hidden relative h-48 sm:h-56">
-@foreach ($sectionPeople as $index => $person)
-                <div x-show="current === {{ $index }}" 
-                     x-transition:enter="transition ease-out duration-500"
-                     x-transition:enter-start="opacity-0 transform translate-x-10"
-                     x-transition:enter-end="opacity-100 transform translate-x-0"
-                     x-transition:leave="transition ease-in duration-300"
-                     x-transition:leave-start="opacity-100 transform translate-x-0"
-                     x-transition:leave-end="opacity-0 transform -translate-x-10"
-                     class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 space-y-2 bg-gray-50 rounded-lg shadow">
-                    <img src="{{ $person->image_url }}" alt="{{ $person->name }}" class="w-20 h-20 rounded-full object-cover shadow-md mb-2">
-                    <p class="font-bold text-[#54a0ff] text-sm sm:text-base">{{ $person->name }}</p>
-                    <p class="text-xs text-gray-600">🎯 {{ $person->related_talent }}</p>
-                    @if ($person->general_talent)
-                        <p class="text-xs text-gray-500">🔍 {{ $person->general_talent }}</p>
-                    @endif
+            {{-- توضیح استعداد --}}
+            <div class="border rounded-lg">
+                <button @click="openDesc = !openDesc" class="w-full flex justify-between items-center p-3 text-right text-[#3867d6] font-medium">
+                    <span>➕ توضیح این استعداد چیه؟</span>
+                    <span x-show="!openDesc">⬇️</span>
+                    <span x-show="openDesc">⬆️</span>
+                </button>
+                <div x-show="openDesc" x-transition class="p-6 text-sm text-gray-700 leading-relaxed">
+                    ✅ {{ $description }}
                 </div>
-            @endforeach
+            </div>
+
+            {{-- افراد شاخص --}}
+            @if ($sectionPeople->isNotEmpty())
+            <div class="border rounded-lg">
+                <button @click="openPeople = !openPeople" class="w-full flex justify-between items-center p-3 text-right text-[#10ac84] font-medium">
+                    <span>➕ چه افراد شاخصی این استعداد رو داشتن؟</span>
+                    <span x-show="!openPeople">⬇️</span>
+                    <span x-show="openPeople">⬆️</span>
+                </button>
+
+                <div x-show="openPeople" x-transition class="p-3">
+                    <div 
+                        x-data="{
+                            current: 0,
+                            init() {
+                                setInterval(() => {
+                                    this.current = (this.current + 1) % {{ $sectionPeople->count() }};
+                                }, 3000);
+                            }
+                        }" 
+                        class="relative w-full"
+                    >
+                        <div class="overflow-hidden relative h-48 sm:h-56">
+                            @foreach ($sectionPeople as $index => $person)
+                                <div x-show="current === {{ $index }}" 
+                                    x-transition:enter="transition ease-out duration-500"
+                                    x-transition:enter-start="opacity-0 transform translate-x-10"
+                                    x-transition:enter-end="opacity-100 transform translate-x-0"
+                                    x-transition:leave="transition ease-in duration-300"
+                                    x-transition:leave-start="opacity-100 transform translate-x-0"
+                                    x-transition:leave-end="opacity-0 transform -translate-x-10"
+                                    class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 space-y-2 bg-gray-50 rounded-lg shadow"
+                                >
+                                    <img src="{{ asset($person->image_url) }}" alt="{{ $person->name }}" class="w-20 h-20 rounded-full object-cover shadow-md mb-2">
+                                    <p class="font-bold text-[#54a0ff] text-sm sm:text-base">{{ $person->name }}</p>
+                                    <p class="text-xs text-gray-600">🎯 {{ $person->related_talent }}</p>
+                                    @if ($person->general_talent)
+                                        <p class="text-xs text-gray-500">🔍 {{ $person->general_talent }}</p>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
         </div>
-    </div>
-@endif
 
-
-        <button id="{{ $descriptionCloseId }}" class="mt-6 px-4 py-2 bg-gray-500 text-white text-sm rounded hover:bg-gray-600">
+        <button id="{{ $descriptionCloseId }}" class="mt-6 px-4 py-2 bg-gray-500 text-white text-sm rounded hover:bg-gray-600 w-full">
             بستن
         </button>
     </div>
@@ -149,22 +174,87 @@
 @endif
 
 
-{{-- مدال راهکارها --}}
-@if (!empty($data['suggestions']))
+
+@if (!empty($data['suggestions']) || $sectionBooks->isNotEmpty())
 <div id="{{ $solutionsModalId }}" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-[999999] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
-    <div class="bg-white rounded-lg w-11/12 sm:w-2/3 md:w-3/4 p-4 max-h-[70vh] overflow-y-auto">
-        <h3 class="text-sm md:text-base font-semibold text-[#1dd1a1] mb-2">💡 راهکارها:</h3>
-        <ul class="list-disc pl-5 space-y-1 text-sm sm:text-sm md:text-base text-gray-700">
-            @foreach ($data['suggestions'] as $tip)
-                <li>🚀 {{ $tip }}</li>
-            @endforeach
-        </ul>
-        <button id="{{ $solutionsCloseId }}" class="mt-4 px-4 py-2 bg-gray-500 text-white text-sm rounded hover:bg-gray-600">
+    <div class="bg-white rounded-lg w-11/12 sm:w-2/3 md:w-3/4 p-4 max-h-[80vh] overflow-y-auto">
+
+        <h3 class="text-sm md:text-base font-semibold text-[#1dd1a1] mb-4">💡 سوالات متداول مربوط به این استعداد:</h3>
+
+        <div x-data="{ open1: false, open2: false }" class="space-y-4">
+
+            {{-- سوال: راهکارها --}}
+            <div class="border rounded-lg">
+                <button @click="open1 = !open1" class="w-full flex justify-between items-center p-3 text-right text-[#10ac84] font-medium">
+                    <span>➕ راهکار برای تقویت این استعداد چیه؟</span>
+                    <span x-show="!open1">⬇️</span>
+                    <span x-show="open1">⬆️</span>
+                </button>
+                <div x-show="open1" x-transition class="p-3 text-sm text-gray-700 space-y-2">
+                    <ul class="list-disc pl-5">
+                        @foreach ($data['suggestions'] as $tip)
+                            <li>🚀 {{ $tip }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            {{-- سوال: کتاب‌ها --}}
+            @if ($sectionBooks->isNotEmpty())
+            <div class="border rounded-lg">
+                <button @click="open2 = !open2" class="w-full flex justify-between items-center p-3 text-right text-[#10ac84] font-medium">
+                    <span>➕ چه کتاب‌هایی برای والدین پیشنهاد می‌شه؟</span>
+                    <span x-show="!open2">⬇️</span>
+                    <span x-show="open2">⬆️</span>
+                </button>
+                <div x-show="open2" x-transition class="p-3">
+
+                    <div 
+                        x-data="{
+                            currentBook: 0,
+                            init() {
+                                setInterval(() => {
+                                    this.currentBook = (this.currentBook + 1) % {{ $sectionBooks->count() }};
+                                }, 3000);
+                            }
+                        }"
+                        class="relative w-full"
+                    >
+                        <div class="overflow-hidden relative h-48 sm:h-56">
+                            @foreach ($sectionBooks as $index => $book)
+                            <div x-show="currentBook === {{ $index }}" 
+                                 x-transition:enter="transition ease-out duration-500"
+                                 x-transition:enter-start="opacity-0 transform translate-x-10"
+                                 x-transition:enter-end="opacity-100 transform translate-x-0"
+                                 x-transition:leave="transition ease-in duration-300"
+                                 x-transition:leave-start="opacity-100 transform translate-x-0"
+                                 x-transition:leave-end="opacity-0 transform -translate-x-10"
+                                 class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 space-y-2 bg-gray-50 rounded-lg shadow"
+                            >
+                                <img src="{{ asset($book->image_url) }}" alt="{{ $book->name }}" class="w-24 h-32 rounded-lg object-cover shadow-md mb-2">
+                                <p class="font-bold text-[#54a0ff] text-sm sm:text-base">{{ $book->name }}</p>
+                                @if ($book->general_talent)
+                                    <p class="text-xs text-gray-600">🎯 {{ $book->general_talent }}</p>
+                                @endif
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @endif
+
+        </div>
+
+        <button id="{{ $solutionsCloseId }}" class="mt-6 px-4 py-2 bg-gray-500 text-white text-sm rounded hover:bg-gray-600 w-full">
             بستن
         </button>
     </div>
 </div>
 @endif
+
+
 
 {{-- شِیمر استایل --}}
 @once
@@ -206,14 +296,25 @@
             const close = document.getElementById(closeId);
 
             if (button && modal && close) {
-                button.addEventListener('click', () => {
+                const modalContent = modal.querySelector('.bg-white');
+
+                const openModal = () => {
                     modal.classList.remove('opacity-0', 'pointer-events-none');
                     modal.classList.add('opacity-100');
-                });
+                };
 
-                close.addEventListener('click', () => {
+                const closeModal = () => {
                     modal.classList.add('opacity-0', 'pointer-events-none');
                     modal.classList.remove('opacity-100');
+                };
+
+                button.addEventListener('click', openModal);
+                close.addEventListener('click', closeModal);
+
+                modal.addEventListener('click', (e) => {
+                    if (!modalContent.contains(e.target)) {
+                        closeModal();
+                    }
                 });
             }
         });
@@ -223,8 +324,6 @@
         const circle = document.getElementById('progressRing_' + id);
         const radius = 50;
         const circumference = 2 * Math.PI * radius;
-        let currentOffset = circumference;
-        const targetOffset = circumference - (percent / 100) * circumference;
         const duration = 800;
         const start = performance.now();
 
@@ -237,4 +336,5 @@
         requestAnimationFrame(animate);
     }
 </script>
+
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>

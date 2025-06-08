@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>سامانه استعدادیابی</title>
 
     <!-- Fonts & Styles -->
+    <link href="{{ asset('css/databaseTable.css') }}" rel="stylesheet">
+<!-- لینک CSS دیتاتیبل از CDN -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
 
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
@@ -17,8 +20,10 @@
     <link href="{{ asset('css/style1.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/databaseTable.css') }}" rel="stylesheet">
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
     <!-- <script src="//unpkg.com/alpinejs" defer></script> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Custom Style -->
     <style>
@@ -89,13 +94,28 @@
 
     <!-- Scripts -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-    <script src="{{ asset('js/global.min.js') }}"></script>
-    <script src="{{ asset('js/chart.js') }}"></script>
-    <script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
-    <script src="{{ asset('js/custom.min.js') }}"></script>
-    <script src="{{ asset('js/deznav-init.js') }}"></script>
-    <script src="{{ asset('js/loop.js') }}" defer></script>
-     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- اول jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- بعد DataTables و پلاگین‌ها -->
+<!-- <script src="{{ asset('js/datatable1.js') }}"></script>
+<script src="{{ asset('js/datatable2.js') }}"></script> -->
+
+<!-- بقیه اسکریپت‌ها -->
+<script src="{{ asset('js/global.min.js') }}"></script>
+<script src="{{ asset('js/chart.js') }}"></script>
+<script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
+<script src="{{ asset('js/custom.min.js') }}"></script>
+<script src="{{ asset('js/deznav-init.js') }}"></script>
+
+<!-- اسکریپت‌های defer (بدون مشکل) -->
+<script src="{{ asset('js/loop.js') }}" defer></script>
+<script defer src="{{ asset('js/alpine.js') }}"></script>
+
+
+<!-- jQuery (الزامی برای دیتاتیبل) -->
+
+<!-- DataTables JS -->
 
     <!-- 📊 Progress Circle Animation -->
     <script>
@@ -137,6 +157,13 @@
             }, 500); // تاخیر اولیه برای کل
         });
     </script>
+<script>
+  if (window.jQuery) {
+    console.log('jQuery loaded!');
+  } else {
+    console.log('jQuery NOT loaded!');
+  }
+</script>
 
     @stack('scripts')
 </body>

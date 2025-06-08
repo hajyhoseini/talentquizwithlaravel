@@ -10,14 +10,25 @@ use App\Models\QuizColumn;
 class AdminResultController extends Controller
 {
     // نمایش لیست کاربران آزمون‌داده
-    public function index()
-    {
-        $users = User::whereHas('answers')->with(['answers' => function ($query) {
-            $query->select('id', 'user_id', 'quiz_id', 'created_at')->distinct();
-        }])->get();
+public function index()
+{
+    $search = request()->query('search');
 
-        return view('admin.results.index', compact('users'));
+    $query = User::whereHas('answers')->with(['answers' => function ($query) {
+        $query->select('id', 'user_id', 'quiz_id', 'created_at')->distinct();
+    }]);
+
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('national_code', 'like', "%{$search}%");
+        });
     }
+
+    $users = $query->get();
+
+    return view('admin.results.index', compact('users'));
+}
 
     // نمایش نتایج یک کاربر خاص
 public function show($userId, $quizId)

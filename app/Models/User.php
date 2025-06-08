@@ -15,12 +15,14 @@ class User extends Authenticatable
     /**
      * فیلدهایی که قابل درج گروهی (mass assignable) هستند
      */
-    protected $fillable = [
-        'name',
-        'national_code',
-        'phone',
-        'password',
-    ];
+ protected $fillable = [
+    'name',
+    'national_code',
+    'phone',
+    'password',
+    'username',
+];
+
 
     /**
      * فیلدهایی که در زمان تبدیل به JSON یا آرایه پنهان می‌شن

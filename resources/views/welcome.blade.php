@@ -9,12 +9,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="{{ mix('css/app.css') }}">
   <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
     body {
       margin: 0;
       font-family: 'Vazirmatn', sans-serif;
-      background: linear-gradient(135deg, #e0f8f7, #f5ffff);
+      background-color: #E5E7EB;
       min-height: 100vh;
       color: #333;
     }
@@ -65,22 +66,17 @@
     .card-title {
       font-size: 20px;
       font-weight: 700;
-      color: #007c86;
       margin: 0 auto;
       padding: 8px 14px;
       border-radius: 12px;
-      background-color: rgba(255, 255, 255, 0.4);
       display: inline-block;
     }
 
     .card-text {
-      font-size: 15px;
-      color: #444;
+      font-size: 25px;
       margin-top: 14px;
       line-height: 1.9;
-      padding: 10px 14px;
       border-radius: 10px;
-      background-color: rgba(255, 255, 255, 0.35);
     }
 
     .footer {
@@ -148,7 +144,6 @@
     }
     .card {
   position: relative;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(240, 255, 255, 0.9));
   border: 1px solid rgba(0, 128, 128, 0.1);
   border-radius: 22px;
   padding: 26px 20px;
@@ -172,12 +167,11 @@
   right: -60px;
   width: 120px;
   height: 120px;
-  background: radial-gradient(circle, rgba(0, 200, 200, 0.12), transparent 60%);
   transform: rotate(45deg);
 }
 
 .card-icon {
-  font-size: 38px;
+  font-size: 60px;
   margin-bottom: 12px;
   color: #008080;
   opacity: 0.8;
@@ -186,15 +180,12 @@
 .card-title {
   font-size: 18px;
   font-weight: 700;
-  color: #007c86;
   margin-bottom: 8px;
 }
 
 .card-text {
   font-size: 15px;
-  color: #444;
   line-height: 1.8;
-  background-color: rgba(255, 255, 255, 0.4);
   padding: 10px 14px;
   border-radius: 12px;
 }
@@ -237,7 +228,7 @@
 }
 
 .card-text {
-  color: #666;
+
   font-size: 14px;
 }
 
@@ -264,15 +255,13 @@
 
   <div class="content-body">
     <div class="container-fluid">
-    <div class="mx-auto max-w-4xl mt-10 mb-8 text-center bg-gradient-to-br from-white/70 to-teal-50/60 backdrop-blur-xl border border-teal-200 rounded-3xl p-6 sm:p-7 shadow-xl relative overflow-hidden transition duration-300 hover:shadow-2xl text-sm sm:text-base">
-  <div class="absolute top-0 left-0 w-20 h-20 sm:w-24 sm:h-24 bg-teal-100/40 rounded-br-3xl blur-2xl -z-10"></div>
-  <div class="absolute bottom-0 right-0 w-28 h-28 sm:w-32 sm:h-32 bg-teal-200/30 rounded-tl-3xl blur-2xl -z-10"></div>
+    <div class="mx-auto bg-white  mt-10 mb-8 text-center    border border-teal-200 rounded-3xl p-6 sm:p-7 shadow-xl relative overflow-hidden transition duration-300 hover:shadow-2xl text-sm sm:text-base">
 
-  <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-teal-800 mb-3 sm:mb-4">
+  <h2 class="text-xl w-1/2 mx-auto sm:text-2xl md:text-3xl py-2 rounded-lg bg-[#E5E7EB] font-extrabold text-black mb-3 sm:mb-4">
     🌟 سامانه استعدادیابی ملل
   </h2>
 
-  <p class="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed sm:leading-loose font-medium">
+  <p class="text-sm w-full mx-auto bg-[#E5E7EB] sm:text-base rounded-lg md:text-lg text-gray-800 font-semibold py-3 leading-relaxed sm:leading-loose ">
     بنیاد ملل ، همراه شما در مسیر کشف و شکوفایی استعدادها. <br />
     با آزمون‌های دقیق، تحلیل‌های هوشمند و راهکارهای فردی‌سازی‌شده، <br />
     آینده‌ای روشن‌تر، فقط یک تصمیم با شما فاصله دارد. <br />
@@ -284,27 +273,27 @@
 
 <div class="dashboard-cards">
   <div class="card">
-    <div class="card-icon">💰</div>
-    <div class="card-title">اعتبار کیف پول</div>
-    <div class="card-text">100,000 تومان</div>
+    <div class="card-icon bg-[#969BA0] w-fit p-2 mx-auto rounded-pill">💰</div>
+    <div class="card-title bg-[#E5E7EB] z-20 w-fit p-2 mx-auto rounded-lg px-2"> اعتبار کیف پول شما</div>
+    <div class="card-text bg-[#E5E7EB] w-fit mx-auto">100,000 تومان</div>
   </div>
 
   <div class="card">
-    <div class="card-icon">📝</div>
-    <div class="card-title">آزمون‌های آماده انجام</div>
-    <div class="card-text">{{ count($exams) }} آزمون</div>
+    <div class="card-icon bg-[#969BA0] w-fit p-2 mx-auto rounded-pill">📝</div>
+    <div class="card-title bg-[#E5E7EB] z-20 w-fit p-2 mx-auto rounded-lg px-2">آزمون‌های آماده انجام</div>
+    <div class="card-text bg-[#E5E7EB] w-fit mx-auto">{{ count($exams) }} آزمون</div>
   </div>
 
   <div class="card">
-    <div class="card-icon">🛍️</div>
-    <div class="card-title">محصولات خریداری شده</div>
-    <div class="card-text">5 محصول</div>
+    <div class="card-icon bg-[#969BA0] w-fit p-2 mx-auto rounded-pill">🛍️</div>
+    <div class="card-title bg-[#E5E7EB] z-20 w-fit p-2 mx-auto rounded-lg px-2">محصولات خریداری شده</div>
+    <div class="card-text bg-[#E5E7EB] w-fit mx-auto">5 محصول</div>
   </div>
 
   <div class="card">
-    <div class="card-icon">🎓</div>
-    <div class="card-title">بسته‌های آموزشی شما</div>
-    <div class="card-text">3 بسته فعال</div>
+    <div class="card-icon bg-[#969BA0] w-fit p-2 mx-auto rounded-pill">🎓</div>
+    <div class="card-title bg-[#E5E7EB] z-20 w-fit p-2 mx-auto rounded-lg px-2">بسته‌های آموزشی شما</div>
+    <div class="card-text bg-[#E5E7EB] w-fit mx-auto">3 بسته فعال</div>
   </div>
 </div>
 
@@ -323,8 +312,12 @@
 
       <!-- کارت‌های واقعی -->
    <!-- کارت‌های واقعی آزمون -->
+     <h2 class="text-xl text-center  w-2/3   mx-auto sm:text-2xl md:text-3xl py-3 rounded-lg bg-white font-extrabold text-black mb-3 sm:mb-2 mt-3">
+    ازمون های استعداد یابی
+</h2>
    <div class="dashboard-cards-section real-cards" style="display: none;">
-        @if ($exams->isEmpty())
+     
+   @if ($exams->isEmpty())
           <p>هیچ آزمونی برای نمایش وجود ندارد.</p>
         @else
           @foreach ($exams as $exam)
@@ -347,9 +340,7 @@
 
 
 @include('layouts.components.faq')
-  <div class="footer">
-    A.H.H@81 تمامی حقوق محفوظ است © سامانه استعدادیابی
-  </div>
+
 <footer>
 <x-footer/>
 </footer>

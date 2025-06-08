@@ -1,20 +1,19 @@
 <!-- هدر -->
 
 <!-- سایدبار -->
-<div class="deznav z-10" style="background: linear-gradient(to right, #e0f7fa, #e0f7fa, #C0F8F8);">
+<div class="deznav z-10" style="background: white; box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);">
   <div class="deznav-scroll">
     <div class="dropdown header-profile">
       <div class="nav-link flex items-center p-3" style="color: #333;">
-        <img src="/images/avatar/1.png" width="32" class="rounded-full" alt="">
+        <img src="/images/avatar/1.png" width="28" class="rounded-full" alt="">
         <div class="header-info ms-3 flex flex-col items-center justify-center text-center">
           @auth
             <span class="font-w600" style="color: #333;">{{ Auth::user()->name }} <b>{{ Auth::user()->last_name }}</b></span>
             <small class="font-w400 block" style="color: #777;">{{ Auth::user()->email }}</small>
           @else
-            <span class="font-w600" style="color: #333;">کاربر مهمان</span>
             <div class="mt-2 flex flex-col items-center gap-2">
-              <button type="button" class="login-btn bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-all duration-300 text-sm font-medium">
-                لطفا وارد شوید
+              <button type="button" class="login-btn bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-indigo-600 transition-all duration-300 text-sm ">
+                 ورود 
               </button>
             </div>
           @endauth
@@ -160,6 +159,13 @@
     width: 100%;
     height: 100%;
   }
+.deznav .header-profile img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
 
 </style>
 

@@ -17,43 +17,40 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register'); // مسیر ویو فرم ثبت‌نام
+        return view('auth.register');
     }
 
     /**
-     * ذخیره کاربر جدید در دیتابیس
+     * ذخیره یا ورود کاربر فقط با نام و کد ملی
      */
-public function store(Request $request)
-{
-    // اعتبارسنجی (phone اختیاری است)
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'national_code' => ['required', 'digits:10'],
-        'phone' => ['nullable', 'regex:/^09\d{9}$/'],
-    ]);
-
-    // ابتدا کاربر رو بر اساس national_code جستجو می‌کنیم
-    $user = User::where('national_code', $request->national_code)->first();
-
-    if ($user) {
-        // اگر کاربر قبلا وجود داشت، فقط لاگینش می‌کنیم
-        Auth::login($user);
-    } else {
-        // اگر نبود، جدید می‌سازیم
-        $user = User::create([
-            'name' => $request->name,
-            'national_code' => $request->national_code,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->national_code), // رمز به صورت هش شده
+    public function store(Request $request)
+    {
+        // اعتبارسنجی فقط نام و کد ملی
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'national_code' => ['required', 'digits:10'],
         ]);
 
-        event(new Registered($user));
+        // جستجوی کاربر با کد ملی
+        $user = User::where('national_code', $request->national_code)->first();
 
+        // اگر نبود، ثبت‌نام
+        if (!$user) {
+            $user = User::create([
+                'name' => $request->name,
+                'national_code' => $request->national_code,
+                'password' => Hash::make($request->national_code), // رمز پیش‌فرض
+            ]);
+
+            event(new Registered($user));
+        }
+
+        // ورود
         Auth::login($user);
+
+        return redirect()->route('quiz.show', [
+            'quizId' => 1,
+            'userId' => $user->id
+        ])->with('success', 'خوش آمدید!');
     }
-
-    // هدایت به صفحه نتایج آزمون یا داشبورد
-return redirect()->route('quiz.show', ['quizId' => 1, 'userId' => $user->id]);
-}
-
 }

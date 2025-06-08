@@ -85,7 +85,7 @@ Route::middleware(['auth'])->get('/completed-tests', [ExamController::class, 'co
 
 
 
-Route::get('/user/results/{quizId}', [QuizController::class, 'showResults2'])->name('user.results');
+Route::get('/user/results/{userId}/{quizId}', [QuizController::class, 'showResults2'])->name('user.results');
 
 Route::get('/login', function () {
     return redirect()->route('register');

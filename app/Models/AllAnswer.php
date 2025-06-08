@@ -38,14 +38,20 @@ class AllAnswer extends Model
             ]
         );
     }
+
     public function user()
-{
-    return $this->belongsTo(User::class, 'user_id');
-}
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
-public function question()
-{
-    return $this->belongsTo(AllQuestion::class, 'question_id');
-}
+    public function question()
+    {
+        return $this->belongsTo(AllQuestion::class, 'question_id');
+    }
 
+    // رابطه با مدل آزمون
+    public function quiz()
+    {
+        return $this->belongsTo(Quiz::class, 'quiz_id');
+    }
 }

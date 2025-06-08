@@ -9436,7 +9436,7 @@ label {
 
 .hamburger {
   display: inline-block;
-  left: 0px;
+  left: -10px;
   position: relative;
   top: 0px;
   -webkit-transition: all 0.3s ease-in-out 0s;
