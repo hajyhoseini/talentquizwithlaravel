@@ -1,9 +1,6 @@
 <?php
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\AnswerController;
-// routes/api.php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AdController;
 
-Route::post('/users', [UserController::class, 'store']);
-
-Route::post('/answers', [AnswerController::class, 'store']);  // ذخیره پاسخ‌ها
+Route::get('/ads', [AdController::class, 'index']);

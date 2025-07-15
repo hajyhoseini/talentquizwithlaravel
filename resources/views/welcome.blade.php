@@ -15,7 +15,7 @@
     body {
       margin: 0;
       font-family: 'Vazirmatn', sans-serif;
-      background-color: #E5E7EB;
+      background-color:#04cccc ;
       min-height: 100vh;
       color: #333;
     }
@@ -255,66 +255,19 @@
 
   <div class="content-body">
     <div class="container-fluid">
-    <div class="mx-auto bg-white  mt-10 mb-8 text-center    border border-teal-200 rounded-3xl p-6 sm:p-7 shadow-xl relative overflow-hidden transition duration-300 hover:shadow-2xl text-sm sm:text-base">
-
-  <h2 class="text-xl w-1/2 mx-auto sm:text-2xl md:text-3xl py-2 rounded-lg bg-[#E5E7EB] font-extrabold text-black mb-3 sm:mb-4">
-    🌟 سامانه استعدادیابی ملل
-  </h2>
-
-  <p class="text-sm w-full mx-auto bg-[#E5E7EB] sm:text-base rounded-lg md:text-lg text-gray-800 font-semibold py-3 leading-relaxed sm:leading-loose ">
-    بنیاد ملل ، همراه شما در مسیر کشف و شکوفایی استعدادها. <br />
-    با آزمون‌های دقیق، تحلیل‌های هوشمند و راهکارهای فردی‌سازی‌شده، <br />
-    آینده‌ای روشن‌تر، فقط یک تصمیم با شما فاصله دارد. <br />
-    امروز شروع کن، فردا بدرخش!
-  </p>
-</div>
+  
 
 
 
-<div class="dashboard-cards">
-  <div class="card">
-    <div class="card-icon bg-[#969BA0] w-fit p-2 mx-auto rounded-pill">💰</div>
-    <div class="card-title bg-[#E5E7EB] z-20 w-fit p-2 mx-auto rounded-lg px-2"> اعتبار کیف پول شما</div>
-    <div class="card-text bg-[#E5E7EB] w-fit mx-auto">100,000 تومان</div>
-  </div>
 
-  <div class="card">
-    <div class="card-icon bg-[#969BA0] w-fit p-2 mx-auto rounded-pill">📝</div>
-    <div class="card-title bg-[#E5E7EB] z-20 w-fit p-2 mx-auto rounded-lg px-2">آزمون‌های آماده انجام</div>
-    <div class="card-text bg-[#E5E7EB] w-fit mx-auto">{{ count($exams) }} آزمون</div>
-  </div>
-
-  <div class="card">
-    <div class="card-icon bg-[#969BA0] w-fit p-2 mx-auto rounded-pill">🛍️</div>
-    <div class="card-title bg-[#E5E7EB] z-20 w-fit p-2 mx-auto rounded-lg px-2">محصولات خریداری شده</div>
-    <div class="card-text bg-[#E5E7EB] w-fit mx-auto">5 محصول</div>
-  </div>
-
-  <div class="card">
-    <div class="card-icon bg-[#969BA0] w-fit p-2 mx-auto rounded-pill">🎓</div>
-    <div class="card-title bg-[#E5E7EB] z-20 w-fit p-2 mx-auto rounded-lg px-2">بسته‌های آموزشی شما</div>
-    <div class="card-text bg-[#E5E7EB] w-fit mx-auto">3 بسته فعال</div>
-  </div>
-</div>
 
 
       <!-- اسکلت بار -->
-      <div class="dashboard-cards-section skeletons">
-        @for ($i = 0; $i < 4; $i++)
-          <div class="skeleton-card">
-            <div class="skeleton-img"></div>
-            <div class="skeleton-title"></div>
-            <div class="skeleton-text"></div>
-            <div class="skeleton-shimmer"></div>
-          </div>
-        @endfor
-      </div>
+      
 
       <!-- کارت‌های واقعی -->
    <!-- کارت‌های واقعی آزمون -->
-     <h2 class="text-xl text-center  w-2/3   mx-auto sm:text-2xl md:text-3xl py-3 rounded-lg bg-white font-extrabold text-black mb-3 sm:mb-2 mt-3">
-    ازمون های استعداد یابی
-</h2>
+   
    <div class="dashboard-cards-section real-cards" style="display: none;">
      
    @if ($exams->isEmpty())
@@ -333,13 +286,9 @@
           @endforeach
         @endif
       </div>
-      <section class="mt-16 text-center text-sm text-gray-600 px-4">
-  🧠 آیا می‌دانستید؟  
-  <span class="block mt-2 text-teal-800 font-semibold">یادگیری مستمر، تنها تفاوت پایدار میان افراد موفق و متوسط است.</span>
-</section>
+    
 
 
-@include('layouts.components.faq')
 
 <footer>
 <x-footer/>

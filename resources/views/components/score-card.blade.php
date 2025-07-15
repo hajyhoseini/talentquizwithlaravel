@@ -72,16 +72,7 @@
         </div>
     </template>
 
-    {{-- امتیاز و تفسیر --}}
-    <div class="text-xs sm:text-sm font-medium text-gray-800 text-center mt-2">
-        <p>امتیاز: <span class="font-bold text-[#1dd1a1]">{{ $data['score'] }}</span></p>
-
-        @if (!empty($data['interpretation']))
-            <p class="mt-2 font-semibold text-[#54a0ff]">تفسیر:</p>
-            <p class="text-gray-700">{{ $data['interpretation'] }}</p>
-        @endif
-    </div>
-
+  
     {{-- دکمه توضیح استعداد --}}
     @if (!empty($description))
         <button id="{{ $descriptionButtonId }}" class="mt-2 px-4 py-2 bg-[#54a0ff] text-white text-xs sm:text-sm rounded-lg hover:bg-[#1dd1a1] transition">
@@ -117,7 +108,16 @@
                     ✅ {{ $description }}
                 </div>
             </div>
-
+     <div class="border rounded-lg">
+                <button @click="openDesc = !openDesc" class="w-full flex justify-between items-center p-3 text-right text-[#3867d6] font-medium">
+                    <span>   تفسیر توانایی ها در این حوزه </span>
+                    <span x-show="!openDesc">⬇️</span>
+                    <span x-show="openDesc">⬆️</span>
+                </button>
+                <div x-show="openDesc" x-transition class="p-6 text-sm text-gray-700 leading-relaxed">
+                    ✅ {{ $description }}
+                </div>
+            </div>
             {{-- افراد شاخص --}}
             @if ($sectionPeople->isNotEmpty())
             <div class="border rounded-lg">
